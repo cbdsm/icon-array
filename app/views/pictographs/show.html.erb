@@ -1,0 +1,171 @@
+<p id="notice"><%= notice %></p>
+
+<table class='pictograph' style="border-spacing: <%=@pictograph.cell_spacing%>px;">
+  <tr class='top-row'><td>&nbsp;</td><td colspan='10' class='title'><%=@pictograph.title%></td></tr>
+	<% row = Array.new %>
+	<% all = Array.new %>
+  <% for i in 1..100 %>
+    <%
+		if i <= @off 
+			fill = 'off'
+    else
+      if @reduced_risk > 0
+        fill = 'reduced_risk'
+        @reduced_risk -= 1
+      elsif @incremental_risk > 0
+        fill = 'incremental_risk'
+        @incremental_risk -= 1
+      else
+        fill = 'risk'
+      end
+    end
+		%>
+
+		<%
+	    row << "<td style='background-color: #{@pictograph.send(fill + '_color')}; width: #{@pictograph.cell_width}px; height: #{@pictograph.cell_height}px;' ></td>"
+	    if i % 10 == 0
+	      if @pictograph.axis_labels
+	        axis_num = (100 - i) + 10
+	        if @pictograph.axis_position == 'left'
+	          row.push "<td class='picto-axis-label'><div style='font-size: #{@pictograph.axis_font_size}px; line-height: #{@pictograph.axis_line_height}px; margin-top: -#{@pictograph.axis_margin_top}px;'>#{axis_num} ---</div></td>"
+	        else
+	          row.shift "<td class='picto-axis-label'><div style='font-size: #{@pictograph.axis_font_size}px; line-height: #{@pictograph.axis_line_height}px; margin-top: -#{@pictograph.axis_margin_top}px;'> --- #{axis_num}</div></td>"
+	        end
+	      end
+	      out = "<tr>#{row.reverse.join()}</tr>".html_safe
+				row = Array.new
+			else
+				out = nil
+	    end
+		%>
+		<%= out if out %>
+	<% end %>
+  
+  <tr class='bottom-row'>
+		<% if @pictograph.axis_position == 'left' %>
+    	<td class='picto-axis-label'><div style='font-size: <%=@pictograph.axis_font_size%>px; line-height: <%=@pictograph.axis_line_height%>px; margin-top: -<%=@pictograph.bottom_axis_margin_top%>px;'>0 ---</div></td>
+    <% else %>
+      <td class='picto-axis-label'><div style='font-size: <%=@pictograph.axis_font_size%>px; line-height: <%=@pictograph.axis_line_height%>px; margin-top: -<%=@pictograph.bottom_axis_margin_top%>px;'> --- 0</div></td>
+    <% end %>
+		<td colspan='10' class='legend'>&nbsp;</td>
+	</tr>
+</table>
+
+<%
+  # if legend[:risk_text]
+  #   legend_out = "<dl class=\"legend-wrapper\">"
+  #   %w[risk reduced_risk incremental_risk off].each do |l|
+  #     ltext = legend[(l + '_text').to_sym]
+  #     limage = legend[(l + '_image').to_sym]
+  #     if !ltext.blank?
+  #       if @options['legend_risk_image'] or @options['legend_use_picto_images']
+  #         full_limage = "/surveys/#{theme_name}/images/#{limage}"
+  #       else 
+  #         full_limage = "/images/#{limage}"
+  #       end
+  #       legend_out += "<dt class=\"legend-key\"><img src=\"#{full_limage}\" /></dt>"
+  #       legend_out += "<dd class=\"legend\">#{ltext}</dd>"
+  #     end
+  #   end
+  #   legend_out += "</dl>"
+  #   out += legend_out
+  # end
+  # 
+  # return out
+%>
+
+
+
+<p>
+  <b>Title:</b>
+  <%= @pictograph.title %>
+</p>
+
+<p>
+  <b>Risk:</b>
+  <%= @pictograph.risk %>
+</p>
+
+<p>
+  <b>Incremental risk:</b>
+  <%= @pictograph.incremental_risk %>
+</p>
+
+<p>
+  <b>Reduced risk:</b>
+  <%= @pictograph.reduced_risk %>
+</p>
+
+<p>
+  <b>Risk color:</b>
+  <%= @pictograph.risk_color %>
+</p>
+
+<p>
+  <b>Incremental risk color:</b>
+  <%= @pictograph.incremental_risk_color %>
+</p>
+
+<p>
+  <b>Reduced risk color:</b>
+  <%= @pictograph.reduced_risk_color %>
+</p>
+
+<p>
+  <b>Off color:</b>
+  <%= @pictograph.off_color %>
+</p>
+
+<p>
+  <b>Cell width:</b>
+  <%= @pictograph.cell_width %>
+</p>
+
+<p>
+  <b>Cell height:</b>
+  <%= @pictograph.cell_height %>
+</p>
+
+<p>
+  <b>Cell spacing:</b>
+  <%= @pictograph.cell_spacing %>
+</p>
+
+<p>
+  <b>Cols:</b>
+  <%= @pictograph.cols %>
+</p>
+
+<p>
+  <b>Rows:</b>
+  <%= @pictograph.rows %>
+</p>
+
+<p>
+  <b>Axis labels:</b>
+  <%= @pictograph.axis_labels %>
+</p>
+
+<p>
+  <b>Axis position:</b>
+  <%= @pictograph.axis_position %>
+</p>
+
+<p>
+  <b>Axis font:</b>
+  <%= @pictograph.axis_font %>
+</p>
+
+<p>
+  <b>Axis font size:</b>
+  <%= @pictograph.axis_font_size %>
+</p>
+
+<p>
+  <b>Axis width:</b>
+  <%= @pictograph.axis_width %>
+</p>
+
+
+<%= link_to 'Edit', edit_pictograph_path(@pictograph) %> |
+<%= link_to 'Back', pictographs_path %>

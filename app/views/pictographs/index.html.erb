@@ -1,0 +1,57 @@
+<h1>Listing pictographs</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Risk</th>
+    <th>Incremental risk</th>
+    <th>Reduced risk</th>
+    <th>Risk color</th>
+    <th>Incremental risk color</th>
+    <th>Reduced risk color</th>
+    <th>Off color</th>
+    <th>Cell width</th>
+    <th>Cell height</th>
+    <th>Cell spacing</th>
+    <th>Cols</th>
+    <th>Rows</th>
+    <th>Axis labels</th>
+    <th>Axis position</th>
+    <th>Axis font</th>
+    <th>Axis font size</th>
+    <th>Axis width</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @pictographs.each do |pictograph| %>
+  <tr>
+    <td><%= pictograph.title %></td>
+    <td><%= pictograph.risk %></td>
+    <td><%= pictograph.incremental_risk %></td>
+    <td><%= pictograph.reduced_risk %></td>
+    <td><%= pictograph.risk_color %></td>
+    <td><%= pictograph.incremental_risk_color %></td>
+    <td><%= pictograph.reduced_risk_color %></td>
+    <td><%= pictograph.off_color %></td>
+    <td><%= pictograph.cell_width %></td>
+    <td><%= pictograph.cell_height %></td>
+    <td><%= pictograph.cell_spacing %></td>
+    <td><%= pictograph.cols %></td>
+    <td><%= pictograph.rows %></td>
+    <td><%= pictograph.axis_labels %></td>
+    <td><%= pictograph.axis_position %></td>
+    <td><%= pictograph.axis_font %></td>
+    <td><%= pictograph.axis_font_size %></td>
+    <td><%= pictograph.axis_width %></td>
+    <td><%= link_to 'Show', pictograph %></td>
+    <td><%= link_to 'Edit', edit_pictograph_path(pictograph) %></td>
+    <td><%= link_to 'Destroy', pictograph, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Pictograph', new_pictograph_path %>
