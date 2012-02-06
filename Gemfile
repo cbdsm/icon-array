@@ -6,7 +6,7 @@ gem 'rails', '3.2.1'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'heroku'
-# gem 'thin'
+gem 'thin'
 
 group :production do
 	gem "pg"
