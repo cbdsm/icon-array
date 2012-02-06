@@ -12,6 +12,17 @@
  *= require_tree .
 */
 
+div.content {
+	padding-top: 50px;
+}
+div.navbar-inner {
+	padding-left: 20px !important;
+}
+table.pictograph {
+	float: left;
+	margin: 20px;
+	border-collapse: separate;
+}
 td.picto-axis-label {
   text-align: right;
 }
@@ -21,4 +32,9 @@ td.picto-axis-label {
   margin-top:-20px;
   text-align:right;
   width:100%;
+}
+
+div#editor {
+	margin-top: 50px;
+	float: left;
 }

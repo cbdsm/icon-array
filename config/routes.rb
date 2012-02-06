@@ -1,5 +1,9 @@
 IconArray::Application.routes.draw do
-  resources :pictographs
+  resources :pictographs do
+    collection do
+      get 'generate'
+    end
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

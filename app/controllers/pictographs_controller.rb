@@ -63,15 +63,19 @@ class PictographsController < ApplicationController
   # PUT /pictographs/1
   # PUT /pictographs/1.json
   def update
-    @pictograph = Pictograph.find(params[:id])
+    if params[:commit] == "Preview"
+      redirect_to generate_pictographs_path(params[:pictograph])
+    else
+      @pictograph = Pictograph.find(params[:id])
 
-    respond_to do |format|
-      if @pictograph.update_attributes(params[:pictograph])
-        format.html { redirect_to @pictograph, notice: 'Pictograph was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @pictograph.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @pictograph.update_attributes(params[:pictograph])
+          format.html { redirect_to @pictograph, notice: 'Pictograph was successfully updated.' }
+          format.json { head :no_content }
+        else
+          format.html { render action: "edit" }
+          format.json { render json: @pictograph.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -87,4 +91,28 @@ class PictographsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  # GET /pictographs/generate
+  # GET /pictographs/generate.json
+  def generate
+    p = params
+    p.delete(:controller)
+    p.delete(:action)
+    p[:risk] ||= 50
+    @pictograph = Pictograph.new(p)
+    
+    # risk numbers
+    # for now, we're just doing ints
+    @risk = @pictograph.risk.to_i || 0
+    @incremental_risk = @pictograph.incremental_risk.to_i || 0
+    @reduced_risk = @pictograph.reduced_risk.to_i || 0
+    @off = 100 - @risk - @incremental_risk - @reduced_risk
+    
+    respond_to do |format|
+      format.html { render 'show' }
+      format.json { render json: @pictograph }
+      format.xml  { render :xml => @pictograph }    
+    end
+  end
+  
 end

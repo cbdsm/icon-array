@@ -13,3 +13,16 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+
+$(document).ready(function() {
+	
+	// .colorpicker will render just the square
+	$('input.color-field').miniColors({
+	    change: function(hex, rgb) {
+				$(this).val(hex);
+				var klass = $(this).attr('id').replace('pictograph_', '').replace('_color', '');
+				$('td.' + klass).css('backgroundColor', hex);
+		 }
+	});
+	
+});
