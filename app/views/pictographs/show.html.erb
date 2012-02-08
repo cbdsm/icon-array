@@ -42,11 +42,13 @@
 	<% end %>
   
   <tr class='bottom-row'>
-		<% if @pictograph.axis_position == 'left' %>
-    	<td class='picto-axis-label'><div style='font-size: <%=@pictograph.axis_font_size%>px; line-height: <%=@pictograph.axis_line_height%>px; margin-top: -<%=@pictograph.bottom_axis_margin_top%>px;'>0 ---</div></td>
-    <% else %>
-      <td class='picto-axis-label'><div style='font-size: <%=@pictograph.axis_font_size%>px; line-height: <%=@pictograph.axis_line_height%>px; margin-top: -<%=@pictograph.bottom_axis_margin_top%>px;'> --- 0</div></td>
-    <% end %>
+		<% if @pictograph.axis_labels %>
+			<% if @pictograph.axis_position == 'left' %>
+	    	<td class='picto-axis-label'><div style='font-size: <%=@pictograph.axis_font_size%>px; line-height: <%=@pictograph.axis_line_height%>px; margin-top: -<%=@pictograph.bottom_axis_margin_top%>px;'>0 ---</div></td>
+	    <% else %>
+	      <td class='picto-axis-label'><div style='font-size: <%=@pictograph.axis_font_size%>px; line-height: <%=@pictograph.axis_line_height%>px; margin-top: -<%=@pictograph.bottom_axis_margin_top%>px;'> --- 0</div></td>
+	    <% end %>
+		<% end %>
 		<td colspan='10' class='legend'>&nbsp;</td>
 	</tr>
 </table>
