@@ -1,4 +1,6 @@
 IconArray::Application.routes.draw do
+  resources :icons
+
   resources :pictographs do
     collection do
       get 'generate'

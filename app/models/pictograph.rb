@@ -1,4 +1,13 @@
 class Pictograph < ActiveRecord::Base
+  belongs_to :risk_icon, :class_name => 'Icon'
+  belongs_to :incremental_risk_icon, :class_name => 'Icon'
+  belongs_to :reduced_risk_icon, :class_name => 'Icon'
+  belongs_to :off_icon, :class_name => 'Icon'
+  
+  accepts_nested_attributes_for :risk_icon
+  accepts_nested_attributes_for :incremental_risk_icon
+  accepts_nested_attributes_for :reduced_risk_icon
+  accepts_nested_attributes_for :off_icon
   
   def axis_line_height
     (axis_font_size * 1.5).round

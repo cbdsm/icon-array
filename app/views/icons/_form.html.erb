@@ -1,0 +1,29 @@
+<%= form_for(@icon) do |f| %>
+  <% if @icon.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@icon.errors.count, "error") %> prohibited this icon from being saved:</h2>
+
+      <ul>
+      <% @icon.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :image_file_name %><br />
+    <%= f.text_field :image_file_name %>
+  </div>
+  <div class="field">
+    <%= f.label :image_file_size %><br />
+    <%= f.number_field :image_file_size %>
+  </div>
+  <div class="field">
+    <%= f.label :image_content_type %><br />
+    <%= f.text_field :image_content_type %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

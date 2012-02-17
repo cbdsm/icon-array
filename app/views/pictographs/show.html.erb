@@ -22,7 +22,14 @@
 		%>
 
 		<%
-	    row << "<td style='background-color: #{@pictograph.send(fill + '_color')}; width: #{@pictograph.cell_width}px; height: #{@pictograph.cell_height}px;' class='#{fill}'></td>"
+			if !@pictograph.risk_icon.blank?
+				# we should just default to whatever size they upload at--though this doesn't really work for print
+				# maybe the resizing is just for previewing a print icon array?
+				row << "<td><img src=\'#{@pictograph.send(fill + '_icon').url(:default)}\' class='#{fill}'></td>"
+				# also, the fill class won't work with icons
+			else
+	    	row << "<td style='background-color: #{@pictograph.send(fill + '_color')}; width: #{@pictograph.cell_width}px; height: #{@pictograph.cell_height}px;' class='#{fill}'></td>"
+			end
 	    if i % 10 == 0
 	      if @pictograph.axis_labels
 	        axis_num = (100 - i) + 10

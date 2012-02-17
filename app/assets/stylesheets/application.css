@@ -78,3 +78,15 @@ div#editor {
 	margin-top: 50px;
 	float: left;
 }
+
+div#risk input {
+	font-size: 24px;
+	height: 28px;
+	width: 60px;
+}
+
+/* Bootstrap Overrides */
+.radio label,
+.checkbox label {
+	display: inline;
+}
