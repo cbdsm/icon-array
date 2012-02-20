@@ -68,7 +68,7 @@
 				<% end %>
 				<%= f.fields_for icon do |ri| %>
 				  <div class="field">
-						<%= img %>
+						<%= img.html_safe %>
 				    <%= ri.label :image, icon.titleize %>
 				    <%= ri.file_field :image %>
 				  </div>
