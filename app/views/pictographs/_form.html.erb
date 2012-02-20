@@ -1,4 +1,4 @@
-<%= form_for(@pictograph, :html => {:class => '.form-horizontal'}) do |f| %>
+<%= form_for(@pictograph, :html => {:class => '.form-horizontal', :multipart => true}) do |f| %>
   <% if @pictograph.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@pictograph.errors.count, "error") %> prohibited this pictograph from being saved:</h2>
@@ -59,22 +59,21 @@
 		</div>
 	
 		<div class="tab-pane" id="icons">
-		  <div class="field">
-		    <%= f.label :risk_icon %>
-		    <%= f.file_field :risk_icon %>
-		  </div>
-		  <div class="field">
-		    <%= f.label :off_icon %>
-		    <%= f.file_field :off_icon %>
-		  </div>
-		  <div class="field">
-		    <%= f.label :incremental_risk_icon %>
-		    <%= f.file_field :incremental_risk_icon %>
-		  </div>
-		  <div class="field">
-		    <%= f.label :reduced_risk_icon %>
-		    <%= f.file_field :reduced_risk_icon %>
-		  </div>
+			<% for icon in %w[risk_icon off_icon incremental_risk_icon reduced_risk_icon] %>
+				<% if @pictograph.send(icon).nil? %>
+					<% @pictograph.send('build_' + icon) %> 
+					<% img = '' %>
+				<% else %>
+					<% img = '<div class="field-icon">' + image_tag(@pictograph.send(icon).image.url(:default), :alt => @pictograph.send(icon).image_file_name) + '</div>' %>
+				<% end %>
+				<%= f.fields_for icon do |ri| %>
+				  <div class="field">
+						<%= img %>
+				    <%= ri.label :image, icon.titleize %>
+				    <%= ri.file_field :image %>
+				  </div>
+				<% end %>
+	   <% end %>
 		</div>
 	
 		<div class="tab-pane" id="fine-tuning">

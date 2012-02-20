@@ -47,15 +47,19 @@ class PictographsController < ApplicationController
   # POST /pictographs
   # POST /pictographs.json
   def create
-    @pictograph = Pictograph.new(params[:pictograph])
+    if params[:commit] == "Preview"
+      redirect_to generate_pictographs_path(params[:pictograph])
+    else
+      @pictograph = Pictograph.new(params[:pictograph])
 
-    respond_to do |format|
-      if @pictograph.save
-        format.html { redirect_to @pictograph, notice: 'Pictograph was successfully created.' }
-        format.json { render json: @pictograph, status: :created, location: @pictograph }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @pictograph.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @pictograph.save
+          format.html { redirect_to @pictograph, notice: 'Pictograph was successfully created.' }
+          format.json { render json: @pictograph, status: :created, location: @pictograph }
+        else
+          format.html { render action: "new" }
+          format.json { render json: @pictograph.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -99,6 +103,14 @@ class PictographsController < ApplicationController
     p.delete(:controller)
     p.delete(:action)
     p[:risk] ||= 50
+    
+    for icon in %w[risk_icon off_icon incremental_risk_icon reduced_risk_icon]
+      if params[icon + '_attributes']
+        params[icon + '_id'] = params[icon + '_attributes']['id'] if !params[icon + '_attributes']['id'].blank?
+        params.delete(icon + '_attributes')
+      end
+    end  
+      
     @pictograph = Pictograph.new(p)
     
     # risk numbers

@@ -1,20 +1,5 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Image file name:</b>
-  <%= @icon.image_file_name %>
-</p>
+<%=image_tag @icon.image.url, :alt => @icon.image_file_name %>
 
-<p>
-  <b>Image file size:</b>
-  <%= @icon.image_file_size %>
-</p>
-
-<p>
-  <b>Image content type:</b>
-  <%= @icon.image_content_type %>
-</p>
-
-
-<%= link_to 'Edit', edit_icon_path(@icon) %> |
-<%= link_to 'Back', icons_path %>
+<%= link_to 'Edit', edit_icon_path(@icon) %> | <%= link_to 'Back', icons_path %>
