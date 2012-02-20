@@ -1,26 +1,10 @@
 <h1>Listing icons</h1>
 
-<table>
-  <tr>
-    <th>Image file name</th>
-    <th>Image file size</th>
-    <th>Image content type</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
+<ul>
 <% @icons.each do |icon| %>
-  <tr>
-    <td><%= icon.image_file_name %></td>
-    <td><%= icon.image_file_size %></td>
-    <td><%= icon.image_content_type %></td>
-    <td><%= link_to 'Show', icon %></td>
-    <td><%= link_to 'Edit', edit_icon_path(icon) %></td>
-    <td><%= link_to 'Destroy', icon, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
+	<li><%=image_tag icon.image.url(:large), :alt => icon.image_file_name %> <%= link_to 'X', icon, confirm: 'Are you sure?', method: :delete %></li>
 <% end %>
-</table>
+</ul>
 
 <br />
 

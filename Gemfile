@@ -7,7 +7,8 @@ gem 'rails', '3.2.1'
 
 gem 'heroku'
 gem 'thin'
-# gem 'paperclip'
+gem "aws-sdk"
+gem 'paperclip'
 
 group :production do
 	gem "pg"

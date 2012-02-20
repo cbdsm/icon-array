@@ -85,6 +85,13 @@ div#risk input {
 	width: 60px;
 }
 
+div.field div.field-icon {
+	float: left;
+	display: block;
+	margin-right: 15px;
+	height: 45px;
+}
+
 /* Bootstrap Overrides */
 .radio label,
 .checkbox label {
