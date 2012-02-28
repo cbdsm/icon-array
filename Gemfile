@@ -9,6 +9,7 @@ gem 'heroku'
 gem 'thin'
 gem "aws-sdk"
 gem 'paperclip'
+gem 'acts_as_list'
 
 group :production do
 	gem "pg"

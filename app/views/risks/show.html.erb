@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Pictograph:</b>
+  <%= @risk.pictograph_id %>
+</p>
+
+<p>
+  <b>Hex:</b>
+  <%= @risk.hex %>
+</p>
+
+<p>
+  <b>Value:</b>
+  <%= @risk.value %>
+</p>
+
+<p>
+  <b>Icon file name:</b>
+  <%= @risk.icon_file_name %>
+</p>
+
+<p>
+  <b>Icon file size:</b>
+  <%= @risk.icon_file_size %>
+</p>
+
+<p>
+  <b>Icon content type:</b>
+  <%= @risk.icon_content_type %>
+</p>
+
+<p>
+  <b>Icon updated at:</b>
+  <%= @risk.icon_updated_at %>
+</p>
+
+<p>
+  <b>Position:</b>
+  <%= @risk.position %>
+</p>
+
+
+<%= link_to 'Edit', edit_risk_path(@risk) %> |
+<%= link_to 'Back', risks_path %>

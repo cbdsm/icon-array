@@ -1,0 +1,37 @@
+<h1>Listing risks</h1>
+
+<table>
+  <tr>
+    <th>Pictograph</th>
+    <th>Hex</th>
+    <th>Value</th>
+    <th>Icon file name</th>
+    <th>Icon file size</th>
+    <th>Icon content type</th>
+    <th>Icon updated at</th>
+    <th>Position</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @risks.each do |risk| %>
+  <tr>
+    <td><%= risk.pictograph_id %></td>
+    <td><%= risk.hex %></td>
+    <td><%= risk.value %></td>
+    <td><%= risk.icon_file_name %></td>
+    <td><%= risk.icon_file_size %></td>
+    <td><%= risk.icon_content_type %></td>
+    <td><%= risk.icon_updated_at %></td>
+    <td><%= risk.position %></td>
+    <td><%= link_to 'Show', risk %></td>
+    <td><%= link_to 'Edit', edit_risk_path(risk) %></td>
+    <td><%= link_to 'Destroy', risk, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Risk', new_risk_path %>
