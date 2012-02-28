@@ -1,7 +1,7 @@
 class Pictograph < ActiveRecord::Base
-  has_many :colors, :dependent => :destroy, :order => "position ASC"
-  has_many :picto_icons, :dependent => :destroy, :order => "position ASC"
-  has_many :icons, :through => :picto_icons
+  has_many :risks, :dependent => :destroy, :order => "position ASC"
+  
+  accepts_nested_attributes_for :risks
   
   # belongs_to :risk_icon, :class_name => 'Icon'
   # belongs_to :incremental_risk_icon, :class_name => 'Icon'
@@ -23,6 +23,11 @@ class Pictograph < ActiveRecord::Base
   
   def bottom_axis_margin_top
     (cell_spacing + axis_line_height).round
+  end
+  
+  def off_value
+    # we can't use the 'on' scope yet--because these often haven't been saved
+    100 - risks.collect{|r| r.value.to_f }.sum.to_i
   end
   
 end

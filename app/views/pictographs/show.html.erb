@@ -4,26 +4,31 @@
   <tr class='top-row'><td>&nbsp;</td><td colspan='10' class='title'><%=@pictograph.title%></td></tr>
 	<% row = Array.new %>
 	<% all = Array.new %>
-	<% fill_index = 0 # which color/icon we're on %>
-	<% current_fill_index = 0 # the index of the current fill color/icon %>
+	<%# we always set the off color to 0 %>
+	<% fill_index = 0 %>
+	<% current_fill_index = 0 %>
   <% for i in 1..100 %>
     <%
-		if i <= @off 
-			fill = 'off'
-    else
-			fill = @pictograph.colors[index]
-			current_fill
-    end
+			val = fill_index == 0 ? @pictograph.off_value : @pictograph.risks[fill_index]
+			# increment if we've hit our mark
+			if current_fill_index == val
+				fill_index += 1
+				current_fill_index = 0
+			end
+			fill_color = @pictograph.risks[fill_index].hex
+			current_fill_index += 1
+			
+			fill_icon = false
 		%>
 
 		<%
-			if !@pictograph.send(fill + '_icon').blank?
+			if fill_icon
 				# we should just default to whatever size they upload at--though this doesn't really work for print
 				# maybe the resizing is just for previewing a print icon array?
 				row << "<td><img src=\'#{@pictograph.send(fill + '_icon').image.url(:default)}\' class='#{fill}'></td>"
 				# also, the fill class won't work with icons
 			else
-	    	row << "<td style='background-color: #{@pictograph.send(fill + '_color')}; width: #{@pictograph.cell_width}px; height: #{@pictograph.cell_height}px;' class='#{fill}'></td>"
+	    	row << "<td style='background-color: ##{fill_color}; width: #{@pictograph.cell_width}px; height: #{@pictograph.cell_height}px;' class='fill#{fill_index}'></td>"
 			end
 	    if i % 10 == 0
 	      if @pictograph.axis_labels

@@ -17,64 +17,34 @@
   </div>
 
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="#risk" data-toggle="tab">Risk</a></li>
-		<li><a href="#colors" data-toggle="tab">Colors</a></li>
-		<li><a href="#icons" data-toggle="tab">Icons</a></li>
-		<li><a href="#fine-tuning" data-toggle="tab">Fine-tuning</a></li>
+		<li><a href="#color0" data-toggle="tab"style="background-color: #<%=@pictograph.risks[0].hex%>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+		<li class="active"><a href="#color1" data-toggle="tab" style="background-color: #<%=@pictograph.risks[1].hex%>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
 	</ul>
 
 	<div class="tab-content">
-		<div class="tab-pane active" id="risk">
-		  <div class="field">
-		    <%= f.label :risk %>
-		    <%= f.number_field :risk, {:class => 'span1'} %>
-		  </div>
-		  <div class="field">
-		    <%= f.label :incremental_risk %>
-		    <%= f.number_field :incremental_risk, {:class => 'span1'} %>
-		  </div>
-		  <div class="field">
-		    <%= f.label :reduced_risk %>
-		    <%= f.number_field :reduced_risk, {:class => 'span1'} %>
-		  </div>
-		</div>
-	
-		<div class="tab-pane" id="colors">
-		  <div class="field">
-		    <%= f.label :risk_color %>
-		    <%= f.text_field :risk_color, {:class => 'color-field'} %>
-		  </div>
-		  <div class="field">
-		    <%= f.label :incremental_risk_color %>
-		    <%= f.text_field :incremental_risk_color, {:class => 'color-field'} %>
-		  </div>
-		  <div class="field">
-		    <%= f.label :reduced_risk_color %>
-		    <%= f.text_field :reduced_risk_color, {:class => 'color-field'} %>
-		  </div>
-		  <div class="field">
-		    <%= f.label :off_color %>
-		    <%= f.text_field :off_color, {:class => 'color-field'} %>
-		  </div>
-		</div>
-	
-		<div class="tab-pane" id="icons">
-			<% for icon in %w[risk_icon off_icon incremental_risk_icon reduced_risk_icon] %>
-				<% if @pictograph.send(icon).nil? %>
-					<% @pictograph.send('build_' + icon) %> 
-					<% img = '' %>
-				<% else %>
-					<% img = '<div class="field-icon">' + image_tag(@pictograph.send(icon).image.url(:default), :alt => @pictograph.send(icon).image_file_name) + '</div>' %>
-				<% end %>
-				<%= f.fields_for icon do |ri| %>
-				  <div class="field">
-						<%= img.html_safe %>
-				    <%= ri.label :image, icon.titleize %>
-				    <%= ri.file_field :image %>
+		<% i = 0 %>	  
+		<%= f.fields_for :risks do |r| %>
+			<div class="tab-pane <%= 'active' if i == 1%>" id="color<%=i%>">
+				<% if i != 0 %>
+					<div class="field">
+					  <%= r.label :value, 'Risk' %>
+				    <%= r.number_field :value, {:class => 'span1'} %>
 				  </div>
 				<% end %>
-	   <% end %>
-		</div>
+		
+			  <div class="field">
+			    <%= r.label :hex, 'Color' %>
+			    <%= r.text_field :hex, {:class => 'color-field'} %>
+			  </div>
+		
+			  <div class="field">
+					<%=image_tag(r.object.icon.url(:default)) if r.object.icon? %>
+			    <%= r.label :icon %>
+			    <%= r.file_field :icon %>
+			  </div>
+			</div>
+			<% i += 1 %>
+		<% end %>
 	
 		<div class="tab-pane" id="fine-tuning">
 		  <div class="field">

@@ -104,13 +104,11 @@ class PictographsController < ApplicationController
     p.delete(:action)
     p[:risk] ||= 50
     
-    for icon in %w[risk_icon off_icon incremental_risk_icon reduced_risk_icon]
-      if params[icon + '_attributes']
-        params[icon + '_id'] = params[icon + '_attributes']['id'] if !params[icon + '_attributes']['id'].blank?
-        params.delete(icon + '_attributes')
-      end
-    end  
-      
+    if p[:risks_attributes].empty?
+      p[:risks_attributes] = {0 => {:hex => 'DCDCDC'}, 1 => {:hex => '0000FF', :value => 32}}
+    end
+  logger.info p.inspect
+   logger.info p[:risks_attributes].inspect
     @pictograph = Pictograph.new(p)
     
     # risk numbers

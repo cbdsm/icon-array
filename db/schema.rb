@@ -11,41 +11,42 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120217193447) do
-
-  create_table "icons", :force => true do |t|
-    t.string   "image_file_name"
-    t.integer  "image_file_size"
-    t.string   "image_content_type"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
-  end
+ActiveRecord::Schema.define(:version => 20120228221809) do
 
   create_table "pictographs", :force => true do |t|
     t.string   "title"
-    t.decimal  "risk",                     :precision => 10, :scale => 0
-    t.decimal  "incremental_risk",         :precision => 10, :scale => 0, :default => 0
-    t.decimal  "reduced_risk",             :precision => 10, :scale => 0, :default => 0
-    t.string   "risk_color",                                              :default => "#0000FF"
-    t.string   "incremental_risk_color",                                  :default => "#64beff"
-    t.string   "reduced_risk_color",                                      :default => "#0000FF"
-    t.string   "off_color",                                               :default => "#DCDCDC"
-    t.integer  "cell_width",                                              :default => 25
-    t.integer  "cell_height",                                             :default => 45
-    t.integer  "cell_spacing",                                            :default => 5
-    t.integer  "cols",                                                    :default => 10
-    t.integer  "rows",                                                    :default => 10
-    t.boolean  "axis_labels",                                             :default => true
-    t.string   "axis_position",                                           :default => "left"
-    t.string   "axis_font",                                               :default => "Arial"
-    t.integer  "axis_font_size",                                          :default => 12
-    t.integer  "axis_width",                                              :default => 50
-    t.datetime "created_at",                                                                     :null => false
-    t.datetime "updated_at",                                                                     :null => false
-    t.integer  "risk_icon_id"
-    t.integer  "incremental_risk_icon_id"
-    t.integer  "reduced_risk_icon_id"
-    t.integer  "off_icon_id"
+    t.decimal  "risk",                   :precision => 10, :scale => 0
+    t.decimal  "incremental_risk",       :precision => 10, :scale => 0, :default => 0
+    t.decimal  "reduced_risk",           :precision => 10, :scale => 0, :default => 0
+    t.string   "risk_color",                                            :default => "#0000FF"
+    t.string   "incremental_risk_color",                                :default => "#64beff"
+    t.string   "reduced_risk_color",                                    :default => "#0000FF"
+    t.string   "off_color",                                             :default => "#DCDCDC"
+    t.integer  "cell_width",                                            :default => 25
+    t.integer  "cell_height",                                           :default => 45
+    t.integer  "cell_spacing",                                          :default => 5
+    t.integer  "cols",                                                  :default => 10
+    t.integer  "rows",                                                  :default => 10
+    t.boolean  "axis_labels",                                           :default => true
+    t.string   "axis_position",                                         :default => "left"
+    t.string   "axis_font",                                             :default => "Arial"
+    t.integer  "axis_font_size",                                        :default => 12
+    t.integer  "axis_width",                                            :default => 50
+    t.datetime "created_at",                                                                   :null => false
+    t.datetime "updated_at",                                                                   :null => false
+  end
+
+  create_table "risks", :force => true do |t|
+    t.integer  "pictograph_id"
+    t.string   "hex"
+    t.decimal  "value",             :precision => 10, :scale => 0
+    t.string   "icon_file_name"
+    t.integer  "icon_file_size"
+    t.string   "icon_content_type"
+    t.datetime "icon_updated_at"
+    t.integer  "position"
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
   end
 
 end
