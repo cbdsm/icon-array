@@ -1,4 +1,6 @@
 IconArray::Application.routes.draw do
+  resources :risks
+
   resources :icons
 
   resources :pictographs do

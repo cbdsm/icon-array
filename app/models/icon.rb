@@ -1,5 +1,7 @@
 class Icon < ActiveRecord::Base
-  has_many :pictographs
+  # has_many :pictographs
+  has_many :picto_icons
+  has_many :pictographs, :through => :picto_icons
   
   has_attached_file :image, 
                     # :path => ":rails_root/public/system/icons/:id/:style_:basename.:extension",

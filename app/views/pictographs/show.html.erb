@@ -4,20 +4,15 @@
   <tr class='top-row'><td>&nbsp;</td><td colspan='10' class='title'><%=@pictograph.title%></td></tr>
 	<% row = Array.new %>
 	<% all = Array.new %>
+	<% fill_index = 0 # which color/icon we're on %>
+	<% current_fill_index = 0 # the index of the current fill color/icon %>
   <% for i in 1..100 %>
     <%
 		if i <= @off 
 			fill = 'off'
     else
-      if @reduced_risk > 0
-        fill = 'reduced_risk'
-        @reduced_risk -= 1
-      elsif @incremental_risk > 0
-        fill = 'incremental_risk'
-        @incremental_risk -= 1
-      else
-        fill = 'risk'
-      end
+			fill = @pictograph.colors[index]
+			current_fill
     end
 		%>
 

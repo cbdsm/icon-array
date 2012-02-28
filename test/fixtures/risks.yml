@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  pictograph_id: 1
+  hex: MyString
+  value: 9.99
+  icon_file_name: MyString
+  icon_file_size: 1
+  icon_content_type: MyString
+  icon_updated_at: 2012-02-28 17:16:20
+  position: 1
+
+two:
+  pictograph_id: 1
+  hex: MyString
+  value: 9.99
+  icon_file_name: MyString
+  icon_file_size: 1
+  icon_content_type: MyString
+  icon_updated_at: 2012-02-28 17:16:20
+  position: 1

@@ -1,0 +1,49 @@
+<%= form_for(@risk) do |f| %>
+  <% if @risk.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@risk.errors.count, "error") %> prohibited this risk from being saved:</h2>
+
+      <ul>
+      <% @risk.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :pictograph_id %><br />
+    <%= f.number_field :pictograph_id %>
+  </div>
+  <div class="field">
+    <%= f.label :hex %><br />
+    <%= f.text_field :hex %>
+  </div>
+  <div class="field">
+    <%= f.label :value %><br />
+    <%= f.text_field :value %>
+  </div>
+  <div class="field">
+    <%= f.label :icon_file_name %><br />
+    <%= f.text_field :icon_file_name %>
+  </div>
+  <div class="field">
+    <%= f.label :icon_file_size %><br />
+    <%= f.number_field :icon_file_size %>
+  </div>
+  <div class="field">
+    <%= f.label :icon_content_type %><br />
+    <%= f.text_field :icon_content_type %>
+  </div>
+  <div class="field">
+    <%= f.label :icon_updated_at %><br />
+    <%= f.datetime_select :icon_updated_at %>
+  </div>
+  <div class="field">
+    <%= f.label :position %><br />
+    <%= f.number_field :position %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
