@@ -104,13 +104,12 @@ class PictographsController < ApplicationController
     p.delete(:action)
     p[:risk] ||= 50
     
-    if p[:risks_attributes].empty?
-      p[:risks_attributes] = {0 => {:hex => 'DCDCDC'}, 1 => {:hex => '0000FF', :value => 32}}
+    if p[:risks_attributes].nil? or p[:risks_attributes].empty?
+      p[:risks_attributes] = {0 => {:hex => '#DCDCDC'}, 1 => {:hex => '#0000FF', :value => 32}}
     end
-  logger.info p.inspect
-   logger.info p[:risks_attributes].inspect
+
     @pictograph = Pictograph.new(p)
-    
+
     # risk numbers
     # for now, we're just doing ints
     @risk = @pictograph.risk.to_i || 0

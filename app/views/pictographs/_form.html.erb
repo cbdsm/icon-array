@@ -17,8 +17,8 @@
   </div>
 
 	<ul class="nav nav-tabs">
-		<li><a href="#color0" data-toggle="tab"style="background-color: #<%=@pictograph.risks[0].hex%>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
-		<li class="active"><a href="#color1" data-toggle="tab" style="background-color: #<%=@pictograph.risks[1].hex%>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+		<li><a href="#color0" data-toggle="tab"style="background-color: <%=@pictograph.risks[0].hex%>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+		<li class="active"><a href="#color1" data-toggle="tab" style="background-color: <%=@pictograph.risks[1].hex%>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
 	</ul>
 
 	<div class="tab-content">
@@ -28,7 +28,7 @@
 				<% if i != 0 %>
 					<div class="field">
 					  <%= r.label :value, 'Risk' %>
-				    <%= r.number_field :value, {:class => 'span1'} %>
+				    <%= r.number_field :value, {:class => 'span1 risk-field'} %>
 				  </div>
 				<% end %>
 		
@@ -40,7 +40,7 @@
 			  <div class="field">
 					<%=image_tag(r.object.icon.url(:default)) if r.object.icon? %>
 			    <%= r.label :icon %>
-			    <%= r.file_field :icon %>
+			    <%= r.file_field :icon, {:class => 'image-field'} %>
 			  </div>
 			</div>
 			<% i += 1 %>
