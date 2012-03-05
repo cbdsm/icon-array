@@ -38,7 +38,7 @@
 			  </div>
 		
 			  <div class="field">
-					<%=image_tag(r.object.icon.url(:default)) if r.object.icon? %>
+					<%=image_tag(r.object.icon.url(:default), {:id => "icon#{i}", :class => "form-icon"}) if r.object.icon? %>
 			    <%= r.label :icon %>
 			    <%= r.file_field :icon, {:class => 'image-field'} %>
 			  </div>
