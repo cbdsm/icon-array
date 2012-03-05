@@ -17,17 +17,20 @@
 				fill_index += 1
 				current_fill_index = 0
 			end
-			fill_color = @pictograph.risks[fill_index].hex
+			if @pictograph.risks[fill_index].icon?
+				fill_icon = @pictograph.risks[fill_index].icon.url(:default) # NOTE: we may want to default to upload size
+			else
+				fill_color = @pictograph.risks[fill_index].hex
+				fill_icon = false
+			end
 			current_fill_index += 1
-			
-			fill_icon = false
 		%>
 
 		<%
 			if fill_icon
 				# we should just default to whatever size they upload at--though this doesn't really work for print
 				# maybe the resizing is just for previewing a print icon array?
-				row << "<td id='cell#{100 - i}' class='picto-cell fill#{fill_index}' data-icon='#{fill_icon}'><img src=\'#{@pictograph.send(fill + '_icon').image.url(:default)}\'></td>"
+				row << "<td id='cell#{100 - i}' class='picto-cell fill#{fill_index}' data-icon='#{fill_icon}'><img src=\'#{fill_icon}\' alt=\'risk #{fill_index} icon\'></td>"
 				# also, the fill class won't work with icons
 			else
 	    	row << "<td id='cell#{100 - i}' style='background-color: #{fill_color}; width: #{@pictograph.cell_width}px; height: #{@pictograph.cell_height}px;' class='picto-cell fill#{fill_index}' data-color='#{fill_color}'></td>"

@@ -62,20 +62,34 @@ $(document).ready(function() {
 			// Form values
 			var thisRisk = $(this).attr('id').replace('cell', ''); // value of the cell we're on
 			
-			if (thisRisk > curRisk) {
+			if ($(this).attr('data-icon') != undefined) {
+				if (thisRisk > curRisk) {
+					var icon = $('form .tab-content div.active').find('img.form-icon').attr('src');
+				} else {
+					var icon = $('form .tab-content div.active').prev().find('img.form-icon').attr('src');
+				}
+				$(this).children('img').attr('src', icon);			
+			} else {
 				// This should be on the tab callback, really
 				// var el = $('form ul.nav li.active a');
 				// var colorIndex = el.attr('href').replace('#color', '');
-				var color = $('form ul.nav li.active a').css('background-color');
-			} else {
-				var color = $('form .tab-content div.active').prev().find('input.color-field').val();
+				if (thisRisk > curRisk) {
+					var color = $('form ul.nav li.active a').css('background-color');
+				} else {
+					var color = $('form .tab-content div.active').prev().find('input.color-field').val();
+				}
+				$(this).css('background-color', color);
 			}
-			$(this).css('background-color', color);
 		},
 		// out
 		function(){
-			var curColor = $(this).attr('data-color');
-			$(this).css('background-color', curColor);
+			if ($(this).attr('data-icon') != undefined) {
+				var curIcon = $(this).attr('data-icon');
+				$(this).children('img').attr('src', curIcon);		
+			} else {
+				var curColor = $(this).attr('data-color');
+				$(this).css('background-color', curColor);
+			}
 		}
 	);
 	
@@ -113,56 +127,97 @@ $(document).ready(function() {
 		
 		// If we're moving up
 		if (thisRisk > curRisk) {
-			// get the color
-			var color = $('form .tab-content div.active input.color-field').val();
-					
 			// Upper adjustment
 			var high2 = val + 1;
 			var high1 = val - (val % cols);
-
-			$('table.pictograph td.picto-cell').slice(high1, high2).css('background-color', color);
-			$('table.pictograph td.picto-cell').slice(high1, high2).attr('data-color', color);
-			$('table.pictograph td.picto-cell').slice(high1, high2).removeClass().addClass('picto-cell fill' + colorIndex);			
-		
+			
 			// Lower adjustment
 			var low1 = curVal;
 			var low2 = curVal - (curVal % cols) + cols;
-		
-			$('table.pictograph td.picto-cell').slice(low1, low2).css('background-color', color);
-			$('table.pictograph td.picto-cell').slice(low1, low2).attr('data-color', color);
-			$('table.pictograph td.picto-cell').slice(low1, low2).removeClass().addClass('picto-cell fill' + colorIndex);
+			
+			if (el2.attr('data-icon') != undefined) {
+				// Get the icon
+				var icon = $('form .tab-content div.active').find('img.form-icon').attr('src');
 
-			// The rest
-			$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).css('background-color', color);
-			$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).attr('data-color', color);
+				// Upper
+				$('table.pictograph td.picto-cell').slice(high1, high2).children('img').attr('src', icon);
+				$('table.pictograph td.picto-cell').slice(high1, high2).attr('data-icon', icon);
+		
+				// Lower
+				$('table.pictograph td.picto-cell').slice(low1, low2).children('img').attr('src', icon);
+				$('table.pictograph td.picto-cell').slice(low1, low2).attr('data-icon', icon);
+
+				// The rest
+				$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).children('img').attr('src', icon);
+				$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).attr('data-icon', icon);
+			} else {
+				// get the color
+				var color = $('form .tab-content div.active input.color-field').val();
+					
+				// Upper
+				$('table.pictograph td.picto-cell').slice(high1, high2).css('background-color', color);
+				$('table.pictograph td.picto-cell').slice(high1, high2).attr('data-color', color);
+		
+				// Lower
+				$('table.pictograph td.picto-cell').slice(low1, low2).css('background-color', color);
+				$('table.pictograph td.picto-cell').slice(low1, low2).attr('data-color', color);
+
+				// The rest
+				$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).css('background-color', color);
+				$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).attr('data-color', color);
+			}
+			// Update the fill index
+			$('table.pictograph td.picto-cell').slice(high1, high2).removeClass().addClass('picto-cell fill' + colorIndex);			
+			$('table.pictograph td.picto-cell').slice(low1, low2).removeClass().addClass('picto-cell fill' + colorIndex);
 			$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).removeClass().addClass('picto-cell fill' + colorIndex);
 		} else { // Otherwise, we're decreasing
 			// TODO: this should actually suss out separate colors!!!
 			// Right now, it just uses the color from the previous tab
 			// Or perhaps just stop where the color ends (find min)
 			colorIndex--;
-			var color = $('form .tab-content div.active').prev().find('input.color-field').val();
 			
 			// Upper adjustment
 			var high2 = curVal + 1;
 			var high1 = curVal - (curVal % cols);
-
-			$('table.pictograph td.picto-cell').slice(high1, high2).css('background-color', color);
-			$('table.pictograph td.picto-cell').slice(high1, high2).attr('data-color', color);
-			$('table.pictograph td.picto-cell').slice(high1, high2).removeClass().addClass('picto-cell fill' + colorIndex);
-	
+			
 			// Lower adjustment
 			var el = $('table.pictograph td#cell' + curRisk)
 			var low1 = val;
 			var low2 = val - (val % cols) + cols;
-
-			$('table.pictograph td.picto-cell').slice(low1, low2).css('background-color', color);
-			$('table.pictograph td.picto-cell').slice(low1, low2).attr('data-color', color);
-			$('table.pictograph td.picto-cell').slice(low1, low2).removeClass().addClass('picto-cell fill' + colorIndex);
 			
-			// The rest
-			$('table.pictograph td.picto-cell').slice(high1, low2 - cols).css('background-color', color);
-			$('table.pictograph td.picto-cell').slice(high1, low2 - cols).attr('data-color', color);	
+			if (el2.attr('data-icon') != undefined) {
+				// Get the icon
+				var icon = $('form .tab-content div.active').find('img.form-icon').attr('src');
+				
+				// Upper
+				$('table.pictograph td.picto-cell').slice(high1, high2).children('img').attr('src', icon);
+				$('table.pictograph td.picto-cell').slice(high1, high2).attr('data-icon', icon);
+	
+				// Lower
+				$('table.pictograph td.picto-cell').slice(low1, low2).children('img').attr('src', icon);
+				$('table.pictograph td.picto-cell').slice(low1, low2).attr('data-icon', icon);
+			
+				// The rest
+				$('table.pictograph td.picto-cell').slice(high1, low2 - cols).children('img').attr('src', icon);
+				$('table.pictograph td.picto-cell').slice(high1, low2 - cols).attr('data-icon', icon);
+				
+			} else {
+				var color = $('form .tab-content div.active').prev().find('input.color-field').val();
+
+				// Upper
+				$('table.pictograph td.picto-cell').slice(high1, high2).css('background-color', color);
+				$('table.pictograph td.picto-cell').slice(high1, high2).attr('data-color', color);
+	
+				// Lower
+				$('table.pictograph td.picto-cell').slice(low1, low2).css('background-color', color);
+				$('table.pictograph td.picto-cell').slice(low1, low2).attr('data-color', color);
+			
+				// The rest
+				$('table.pictograph td.picto-cell').slice(high1, low2 - cols).css('background-color', color);
+				$('table.pictograph td.picto-cell').slice(high1, low2 - cols).attr('data-color', color);	
+			}
+			$('table.pictograph td.picto-cell').slice(high1, high2).removeClass().addClass('picto-cell fill' + colorIndex);
+			$('table.pictograph td.picto-cell').slice(low1, low2).removeClass().addClass('picto-cell fill' + colorIndex);
 			$('table.pictograph td.picto-cell').slice(high1, low2 - cols).removeClass().addClass('picto-cell fill' + colorIndex);
 		}
 		
