@@ -1,0 +1,18 @@
+<div class="tab-pane <%= 'active' if i == 1%>" id="color<%=i%>">
+	<% if i != 0 %>
+		<div class="field">
+		  <%= label_tag "pictograph[risks_attributes][#{i}][value]", 'Risk' %>
+	    <%= number_field_tag "pictograph[risks_attributes][#{i}][value]", value, {:class => 'span1 risk-field'} %>
+	  </div>
+	<% end %>
+
+  <div class="field">
+    <%= label_tag "pictograph[risks_attributes][#{i}][hex]", 'Color' %>
+    <%= text_field_tag "pictograph[risks_attributes][#{i}][hex]", hex, {:class => 'color-field'} %>
+  </div>
+
+  <div class="field">
+    <%= label_tag "pictograph[risks_attributes][#{i}][icon]", 'Icon' %>
+    <%= file_field_tag "pictograph[risks_attributes][#{i}][icon]", {:class => 'image-field'} %>
+  </div>
+</div>

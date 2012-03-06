@@ -17,7 +17,6 @@
 //= require bootstrap-tooltip
 //= require bootstrap-popover
 //= require jquery.miniColors.min
-
 	
 $(document).ready(function() {
 	// semi-globals
@@ -54,6 +53,8 @@ $(document).ready(function() {
 				$('form ul.nav li.active a').css('background-color', hex);
 		 }
 	});
+
+	// TODO: minicolors needs to load on load event
 	
 	// This gives us the cell hover effect for choosing a value
 	$('table.pictograph td.picto-cell').hover(
