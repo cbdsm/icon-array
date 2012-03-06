@@ -20,4 +20,12 @@ class Risk < ActiveRecord::Base
   validates_attachment_size :icon, :less_than => 5.megabytes
   validates_attachment_content_type :icon, :content_type => ['image/jpeg', 'image/png', 'image/gif']
     # should we also accept SVGs? Probably yes! 
+    
+  def self.random_hex
+    r = rand(255)
+    g = rand(255)
+    b = rand(255)
+    return '#' + r.to_s(16) + g.to_s(16) + b.to_s(16)
+  end
+  
 end

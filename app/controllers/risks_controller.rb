@@ -24,11 +24,14 @@ class RisksController < ApplicationController
   # GET /risks/new
   # GET /risks/new.json
   def new
-    @risk = Risk.new
+    # we _may_ want to check against existing colors
+    # @risk = Risk.new(:value => 0, :hex => Risk.random_hex)
+    @pictograph = Pictograph.new(:risks_attributes => {0 => {:value => 0, :hex => Risk.random_hex}})
 
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @risk }
+      format.js {}
     end
   end
 

@@ -1,4 +1,4 @@
-<%= form_for(@pictograph, :html => {:class => '.form-horizontal', :multipart => true}) do |f| %>
+<%= form_for(@pictograph, :html => {:class => 'form-horizontal', :multipart => true}) do |f| %>
   <% if @pictograph.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@pictograph.errors.count, "error") %> prohibited this pictograph from being saved:</h2>
@@ -17,77 +17,63 @@
   </div>
 
 	<ul class="nav nav-tabs">
+		<%# TODO: this needs to be dynamic!!! %>
 		<li><a href="#color0" data-toggle="tab"style="background-color: <%=@pictograph.risks[0].hex%>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
 		<li class="active"><a href="#color1" data-toggle="tab" style="background-color: <%=@pictograph.risks[1].hex%>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+		<li id="new-risk"><%=link_to '+', new_risk_path(), {:remote => true}%></li>
 	</ul>
 
 	<div class="tab-content">
 		<% i = 0 %>	  
 		<%= f.fields_for :risks do |r| %>
-			<div class="tab-pane <%= 'active' if i == 1%>" id="color<%=i%>">
-				<% if i != 0 %>
-					<div class="field">
-					  <%= r.label :value, 'Risk' %>
-				    <%= r.number_field :value, {:class => 'span1 risk-field'} %>
-				  </div>
-				<% end %>
-		
-			  <div class="field">
-			    <%= r.label :hex, 'Color' %>
-			    <%= r.text_field :hex, {:class => 'color-field'} %>
-			  </div>
-		
-			  <div class="field">
-					<%=image_tag(r.object.icon.url(:default), {:id => "icon#{i}", :class => "form-icon"}) if r.object.icon? %>
-			    <%= r.label :icon %>
-			    <%= r.file_field :icon, {:class => 'image-field'} %>
-			  </div>
-			</div>
+			<%= render '/risks/form', :r => r, :i => i %>
 			<% i += 1 %>
 		<% end %>
-	
-		<div class="tab-pane" id="fine-tuning">
-		  <div class="field">
-		    <%= f.label :cell_width %>
-		    <%= f.number_field :cell_width, {:class => 'span1'} %>
-		  </div>
-		  <div class="field">
-		    <%= f.label :cell_height %>
-		    <%= f.number_field :cell_height, {:class => 'span1'} %>
-		  </div>
-		  <div class="field">
-		    <%= f.label :cell_spacing %>
-		    <%= f.number_field :cell_spacing, {:class => 'span1'} %>
-		  </div>
-		  <div class="field">
-		    <%= f.label :cols %>
-		    <%= f.number_field :cols, {:class => 'span1'} %>
-		  </div>
-		  <div class="field">
-		    <%= f.label :rows %>
-		    <%= f.number_field :rows, {:class => 'span1'} %>
-		  </div>
-		  <div class="field checkbox">
-		    <%= f.check_box :axis_labels %> <%= f.label :axis_labels %> 
-		  </div>
-		  <div class="field radio">
-		    <%= f.label :axis_position_left, 'left' %><%= f.radio_button :axis_position, 'left' %><br />
-				<%= f.label :axis_position_right, 'right' %><%= f.radio_button :axis_position, 'right' %>
-		  </div>
-		  <div class="field">
-		    <%= f.label :axis_font %>
-		    <%= f.text_field :axis_font %>
-		  </div>
-		  <div class="field">
-		    <%= f.label :axis_font_size %>
-		    <%= f.number_field :axis_font_size, {:class => 'span1'} %>px
-		  </div>
-		  <div class="field">
-		    <%= f.label :axis_width %>
-		    <%= f.number_field :axis_width, {:class => 'span1'} %>px
-		  </div>
-		</div>
 	</div><!-- End tab content -->
+	
+	<!--
+	<div class="tab-pane" id="fine-tuning">
+	  <div class="field">
+	    <%= f.label :cell_width %>
+	    <%= f.number_field :cell_width, {:class => 'span1'} %>
+	  </div>
+	  <div class="field">
+	    <%= f.label :cell_height %>
+	    <%= f.number_field :cell_height, {:class => 'span1'} %>
+	  </div>
+	  <div class="field">
+	    <%= f.label :cell_spacing %>
+	    <%= f.number_field :cell_spacing, {:class => 'span1'} %>
+	  </div>
+	  <div class="field">
+	    <%= f.label :cols %>
+	    <%= f.number_field :cols, {:class => 'span1'} %>
+	  </div>
+	  <div class="field">
+	    <%= f.label :rows %>
+	    <%= f.number_field :rows, {:class => 'span1'} %>
+	  </div>
+	  <div class="field checkbox">
+	    <%= f.check_box :axis_labels %> <%= f.label :axis_labels %> 
+	  </div>
+	  <div class="field radio">
+	    <%= f.label :axis_position_left, 'left' %><%= f.radio_button :axis_position, 'left' %><br />
+			<%= f.label :axis_position_right, 'right' %><%= f.radio_button :axis_position, 'right' %>
+	  </div>
+	  <div class="field">
+	    <%= f.label :axis_font %>
+	    <%= f.text_field :axis_font %>
+	  </div>
+	  <div class="field">
+	    <%= f.label :axis_font_size %>
+	    <%= f.number_field :axis_font_size, {:class => 'span1'} %>px
+	  </div>
+	  <div class="field">
+	    <%= f.label :axis_width %>
+	    <%= f.number_field :axis_width, {:class => 'span1'} %>px
+	  </div>
+	</div>
+	-->
   <div class="actions">
     <%= f.submit "Save" %> <%= f.submit 'Preview' %>
   </div>
