@@ -17,12 +17,18 @@
 //= require bootstrap-tooltip
 //= require bootstrap-popover
 //= require jquery.miniColors.min
+//= require jquery.livequery
 	
 $(document).ready(function() {
 	// semi-globals
 	var curRisk = $('form .tab-content div.active input.risk-field').val();
 	var colorIndex = $('form ul.nav li.active a').attr('href').replace('#color', '');
 	var cols = 10;
+	
+	$('form ul.nav-tabs li a').live('click', function(){
+		colorIndex = $(this).attr('href').replace('#color', '');
+		curRisk = $('form .tab-content div.active input.risk-field').val();
+	});
 	
 	$('form .tab-content div.active input.risk-field').click(function(){
 		var val = $(this).val();
@@ -44,7 +50,9 @@ $(document).ready(function() {
 	
 	// .colorpicker will render just the square
 	// this is the id we get: pictograph_risks_attributes_1_hex
-	$('input.color-field').miniColors({
+	// We're using livequery here because the 'load' event doesn't seem to work with on/live
+	$('input.color-field').livequery(function(){
+		$(this).miniColors({
 	    change: function(hex, rgb) {
 				$(this).val(hex);
 				var klass = $(this).attr('id').replace('pictograph_risks_attributes_', '').replace('_hex', '');
@@ -52,9 +60,8 @@ $(document).ready(function() {
 				$('td.fill' + klass).attr('data-color', hex);
 				$('form ul.nav li.active a').css('background-color', hex);
 		 }
+		});
 	});
-
-	// TODO: minicolors needs to load on load event
 	
 	// This gives us the cell hover effect for choosing a value
 	$('table.pictograph td.picto-cell').hover(

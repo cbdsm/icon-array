@@ -1,5 +1,9 @@
-<% i = 2 %>
+<% i = @tab %>
 <% hex = @pictograph.risks[0].hex %>
 <% value = @pictograph.risks[0].value %>
 $("form div.tab-content").append("<%= escape_javascript render('/risks/new_form', :i => i, :hex => hex, :value => value) %>");
 $('form ul li#new-risk').before("<li><a href='#color<%=i%>' data-toggle='tab' style='background-color: <%=@pictograph.risks[0].hex%>;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>");
+var tab = $('li#new-risk a').attr('href');
+var new_tab = tab.replace(/tab=\d+/, 'tab=<%=@tab.to_i + 1%>');
+$('li#new-risk a').attr('href', new_tab);
+$("a[href='#color<%=i%>']").click();
