@@ -17,10 +17,10 @@
   </div>
 
 	<ul class="nav nav-tabs">
-		<%# TODO: this needs to be dynamic!!! %>
-		<li><a href="#color0" data-toggle="tab"style="background-color: <%=@pictograph.risks[0].hex%>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
-		<li class="active"><a href="#color1" data-toggle="tab" style="background-color: <%=@pictograph.risks[1].hex%>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
-		<li id="new-risk"><%=link_to '+', new_risk_path(), {:remote => true}%></li>
+		<% @pictograph.risks.each_with_index do |risk, i| %>
+			<li class='<%="active" if i == 1 %>'><a href="#color<%=i%>" data-toggle="tab" style="background-color: <%=@pictograph.risks[i].hex%>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+		<% end %>
+		<li id="new-risk"><%=link_to '+', new_risk_path(:tab => @pictograph.risks.length), {:remote => true}%></li>
 	</ul>
 
 	<div class="tab-content">
