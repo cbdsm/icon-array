@@ -8,8 +8,8 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- *= require_self
  *= require_tree .
+ *= require_self
 */
 
 div.content {
@@ -58,6 +58,10 @@ div#branding img {
 	width: 150px;
 }
 
+input.hide {
+	display: none;
+}
+
 table.pictograph {
 	float: left;
 	margin: 20px;
@@ -77,6 +81,7 @@ td.picto-axis-label {
 div#editor {
 	margin-top: 50px;
 	float: left;
+	width: 400px;
 }
 
 div#risk input {
@@ -90,6 +95,25 @@ div.field div.field-icon {
 	display: block;
 	margin-right: 15px;
 	height: 45px;
+}
+
+/* Legend */
+dl, dt, dd {
+	margin: 15px 0 0 0 !important;
+	padding: 0;
+}
+dl {
+  width:100%;
+  overflow:hidden;
+}
+dt {
+	clear: left;
+  float:left;
+  width:20%; /* adjust the width; make sure the total of both is 100% */
+}
+dd {
+  float:left;
+  width:80%; /* adjust the width; make sure the total of both is 100% */
 }
 
 /* Bootstrap Overrides */

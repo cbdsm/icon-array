@@ -18,12 +18,43 @@
 //= require bootstrap-popover
 //= require jquery.miniColors.min
 //= require jquery.livequery
+//= require jquery.jeditable.min
 	
 $(document).ready(function() {
 	// semi-globals
-	var curRisk = $('form .tab-content div.active input.risk-field').val();
-	var colorIndex = $('form ul.nav li.active a').attr('href').replace('#color', '');
+	var curRisk = 32; //$('form .tab-content div.active input.risk-field').val();
+	var colorIndex = 1; //$('form ul.nav li.active a').attr('href').replace('#color', '');
 	var cols = 10;
+	
+	$('.edit').editable('/risks', {
+		method: 'put'
+	});
+	
+	$('a.editable').click(function(){
+		$(this).hide();
+		var edit = $(this).attr('href');
+		var edit_submit = edit + '_submit';
+		$(edit).show();
+		$(edit_submit).show();
+		return false;
+	});
+	
+	$('a.submittable').click(function(){
+		var edit = '#' + $(this).attr('id').replace('_submit', '');
+		var editable = $('a[href="' + edit + '"]');
+		var val = $(edit).val()
+		var color = $(this).parent().prev('dt').children('div.legend-icon').attr('data-color');
+		
+		$(this).hide();
+		$(edit).hide();
+		$(editable).html(val);
+		$(editable).show();
+		
+		if ($(edit).hasClass('risk-val')) {
+			updateMultiple(val, color);
+		}
+		return false;
+	});
 	
 	$('form ul.nav-tabs li a').live('click', function(){
 		colorIndex = $(this).attr('href').replace('#color', '');
@@ -126,15 +157,29 @@ $(document).ready(function() {
 		curRisk = val;
 	};
 	
-	var updateMultiple = function(thisRisk) {
+	var updateMultiple = function(thisRisk, thisFill) {
 		// Table index values
 		var el = $('table.pictograph td#cell' + curRisk)
 		var curVal = $('table.pictograph td.picto-cell').index(el);
 		var el2 = $('table.pictograph td#cell' + thisRisk)
-		var val = $('table.pictograph td.picto-cell').index(el2) - 1;
+		var val = $('table.pictograph td.picto-cell').index(el2);
+		var parts = thisFill.split('.');
 		
+		var prevRisk = $('div[data-color="' + thisFill + '"]').parent().prevAll('dt:last');
+		var diff = thisRisk - curRisk;
+		// This is usually the case
+		if (prevRisk.next('dd').children('input.risk-val').length > 0) {
+			var prevLeg = prevRisk.next('dd').children('input.risk-val');
+			var prevVal = prevLeg.val();
+			prevLeg.val(prevVal - diff);
+		} else { // This is for the off value
+			var prevLeg = prevRisk.next('dd').children('span.risk-val');
+			var prevVal = prevLeg.html();
+			prevLeg.html(prevVal - diff);
+		}
+				
 		// If we're moving up
-		if (thisRisk > curRisk) {
+		if (diff > 0) {
 			// Upper adjustment
 			var high2 = val + 1;
 			var high1 = val - (val % cols);
@@ -143,7 +188,8 @@ $(document).ready(function() {
 			var low1 = curVal;
 			var low2 = curVal - (curVal % cols) + cols;
 			
-			if (el2.attr('data-icon') != undefined) {
+			// If we have a file extension, this is an icon
+			if (parts.length > 1) {
 				// Get the icon
 				var icon = $('form .tab-content div.active').find('img.form-icon').attr('src');
 
@@ -160,7 +206,7 @@ $(document).ready(function() {
 				$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).attr('data-icon', icon);
 			} else {
 				// get the color
-				var color = $('form .tab-content div.active input.color-field').val();
+				var color = thisFill;
 					
 				// Upper
 				$('table.pictograph td.picto-cell').slice(high1, high2).css('background-color', color);
@@ -190,10 +236,10 @@ $(document).ready(function() {
 			
 			// Lower adjustment
 			var el = $('table.pictograph td#cell' + curRisk)
-			var low1 = val;
+			var low1 = val + 1;
 			var low2 = val - (val % cols) + cols;
 			
-			if (el2.attr('data-icon') != undefined) {
+			if (parts.length > 1) {
 				// Get the icon
 				var icon = $('form .tab-content div.active').find('img.form-icon').attr('src');
 				
@@ -210,8 +256,9 @@ $(document).ready(function() {
 				$('table.pictograph td.picto-cell').slice(high1, low2 - cols).attr('data-icon', icon);
 				
 			} else {
-				var color = $('form .tab-content div.active').prev().find('input.color-field').val();
-
+				// var color = $('form .tab-content div.active').prev().find('input.color-field').val();
+				var color = prevRisk.children('div.legend-icon').attr('data-color');
+				
 				// Upper
 				$('table.pictograph td.picto-cell').slice(high1, high2).css('background-color', color);
 				$('table.pictograph td.picto-cell').slice(high1, high2).attr('data-color', color);
