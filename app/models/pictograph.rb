@@ -13,6 +13,10 @@ class Pictograph < ActiveRecord::Base
   # accepts_nested_attributes_for :reduced_risk_icon
   # accepts_nested_attributes_for :off_icon
   
+  def cells
+    rows * cols
+  end
+  
   def axis_line_height
     (axis_font_size * 1.5).round
   end
@@ -27,7 +31,7 @@ class Pictograph < ActiveRecord::Base
   
   def off_value
     # we can't use the 'on' scope yet--because these often haven't been saved
-    100 - risks.collect{|r| r.value.to_f }.sum.to_i
+    cells - risks.collect{|r| r.value.to_f }.sum.to_i
   end
   
 end

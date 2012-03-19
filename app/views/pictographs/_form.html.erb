@@ -11,25 +11,43 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :title %> 
-		<%= f.text_field :title %>
-  </div>
+  <h3>
+		<%= f.text_field :title, {:placeholder => 'Click to edit title', :class => 'hide', :id => "pictograph_title"} %><%=link_to 'ok', "#", {:id => "pictograph_title_submit", :class => 'btn hide submittable'}%><%=link_to @pictograph.title || 'Click to edit title', "#pictograph_title", {:class => "editable"} %>
+  </h2>
 
-	<ul class="nav nav-tabs">
+	<dl id="risk-legend">
+		<% i = 0 %>	  
+		<%= f.fields_for :risks do |r| %>
+			<dt id="risky<%=i%>">
+				<div class="legend-icon" style="width: 35px; height: 55px; background-color: <%=@pictograph.risks[i].hex%>;" data-color="<%=@pictograph.risks[i].hex%>"></div>
+			</dt>
+			<dd id="frisky<%=i%>">
+				<% if i > 0 %>
+					<%= r.number_field :value, {:class => 'span1 risk-field hide risk-val', :id => "risks_#{i}_value"} %><%=link_to 'ok', "#", {:id => "risks_#{i}_value_submit", :class => 'btn hide submittable'}%><%=link_to @pictograph.risks[i].value, "#risks_#{i}_value", {:class => "editable"} %>
+				<% else%>
+					<span id="#risks_<%=i%>_value" class="risk-val"><%= @pictograph.off_value %></span>
+				<% end %>
+				 out of <%=@pictograph.cells%> <%= r.text_field :description, {:placeholder => 'population members exhibit this property', :class => 'span4 hide', :id => "risks_#{i}_description"} %><%=link_to 'ok', "#", {:id => "risks_#{i}_description_submit", :class => 'btn hide submittable'}%><%=link_to @pictograph.risks[i].description || 'population members exhibit this property', "#risks_#{i}_description", {:class => "editable"} %>
+			</dd>
+			<% i += 1 %>
+		<% end %>
+	</dl>
+	<%=link_to '+', new_risk_path(:tab => @pictograph.risks.length), {:remote => true}%>
+
+	<!-- <ul class="nav nav-tabs">
 		<% @pictograph.risks.each_with_index do |risk, i| %>
 			<li class='<%="active" if i == 1 %>'><a href="#color<%=i%>" data-toggle="tab" style="background-color: <%=@pictograph.risks[i].hex%>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
 		<% end %>
 		<li id="new-risk"><%=link_to '+', new_risk_path(:tab => @pictograph.risks.length), {:remote => true}%></li>
-	</ul>
+	</ul> -->
 
-	<div class="tab-content">
+	<!-- <div class="tab-content">
 		<% i = 0 %>	  
 		<%= f.fields_for :risks do |r| %>
 			<%= render '/risks/form', :r => r, :i => i %>
 			<% i += 1 %>
 		<% end %>
-	</div><!-- End tab content -->
+	</div> --><!-- End tab content -->
 	
 	<!--
 	<div class="tab-pane" id="fine-tuning">
