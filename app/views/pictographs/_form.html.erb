@@ -12,22 +12,23 @@
   <% end %>
 
   <h3>
-		<%= f.text_field :title, {:placeholder => 'Click to edit title', :class => 'hide', :id => "pictograph_title"} %><%=link_to 'ok', "#", {:id => "pictograph_title_submit", :class => 'btn hide submittable'}%><%=link_to @pictograph.title || 'Click to edit title', "#pictograph_title", {:class => "editable"} %>
+		<%= f.text_field :title, {:placeholder => 'Click to edit title', :class => 'hide edit', :id => "pictograph_title"} %><%=link_to 'ok', "#", {:id => "pictograph_title_submit", :class => 'btn hide submittable'}%><%=link_to @pictograph.title || 'Click to edit title', "#pictograph_title", {:class => "editable"} %>
   </h2>
 
 	<dl id="risk-legend">
 		<% i = 0 %>	  
 		<%= f.fields_for :risks do |r| %>
-			<dt id="risky<%=i%>">
-				<div class="legend-icon" style="width: 35px; height: 55px; background-color: <%=@pictograph.risks[i].hex%>;" data-color="<%=@pictograph.risks[i].hex%>"></div>
+			<dt id="risky<%=i%>" style="width: <%=@pictograph.cell_width + 20%>px;">
+				<div class="legend-icon" id="test<%=i%>" style="width: <%=@pictograph.cell_width%>px; height: <%=@pictograph.cell_height%>px; background-color: <%=@pictograph.risks[i].hex%>;" data-color="<%=@pictograph.risks[i].hex%>"></div>
+		    <div class="risk-fill hide" id="risk-fill_<%=i%>"><%= r.text_field :hex, {:class => 'color-field'} %></div>
 			</dt>
-			<dd id="frisky<%=i%>">
+			<dd id="frisky<%=i%>" style="width: <%=400 - (@pictograph.cell_width + 20)%>px;">
 				<% if i > 0 %>
-					<%= r.number_field :value, {:class => 'span1 risk-field hide risk-val', :id => "risks_#{i}_value"} %><%=link_to 'ok', "#", {:id => "risks_#{i}_value_submit", :class => 'btn hide submittable'}%><%=link_to @pictograph.risks[i].value, "#risks_#{i}_value", {:class => "editable"} %>
+					<%= r.number_field :value, {:class => 'span1 risk-field hide risk-val', :id => "risks_#{i}_value"} %><%=link_to 'ok', "#", {:id => "risks_#{i}_value_submit", :class => 'btn hide submittable edit'}%><%=link_to @pictograph.risks[i].value, "#risks_#{i}_value", {:class => "editable"} %>
 				<% else%>
 					<span id="#risks_<%=i%>_value" class="risk-val"><%= @pictograph.off_value %></span>
 				<% end %>
-				 out of <%=@pictograph.cells%> <%= r.text_field :description, {:placeholder => 'population members exhibit this property', :class => 'span4 hide', :id => "risks_#{i}_description"} %><%=link_to 'ok', "#", {:id => "risks_#{i}_description_submit", :class => 'btn hide submittable'}%><%=link_to @pictograph.risks[i].description || 'population members exhibit this property', "#risks_#{i}_description", {:class => "editable"} %>
+				 out of <%=@pictograph.cells%> <%= r.text_field :description, {:placeholder => 'population members exhibit this property', :class => 'span4 hide edit', :id => "risks_#{i}_description"} %><%=link_to 'ok', "#", {:id => "risks_#{i}_description_submit", :class => 'btn hide submittable'}%><%=link_to @pictograph.risks[i].description.blank? ? 'population members exhibit this property' : @pictograph.risks[i].description, "#risks_#{i}_description", {:class => "editable"} %>
 			</dd>
 			<% i += 1 %>
 		<% end %>
