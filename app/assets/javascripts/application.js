@@ -22,38 +22,52 @@
 	
 $(document).ready(function() {
 	// semi-globals
-	var curRisk = 32; //$('form .tab-content div.active input.risk-field').val();
+	var curRisk; //$('form .tab-content div.active input.risk-field').val();
 	var colorIndex = 1; //$('form ul.nav li.active a').attr('href').replace('#color', '');
 	var cols = 10;
-	
-	$('.edit').editable('/risks', {
-		method: 'put'
+
+	$('div.legend-icon').on('click', function(event){
+		$(this).next('div.risk-fill').toggle();
 	});
 	
 	$('a.editable').click(function(){
+		$('a.editable:hidden').show();
 		$(this).hide();
+		$('input.edit:visible').hide();
+		$('a.submittable:visible').hide();
 		var edit = $(this).attr('href');
 		var edit_submit = edit + '_submit';
 		$(edit).show();
+		$(edit).focus();
 		$(edit_submit).show();
+		curRisk = $(edit).val();
 		return false;
 	});
 	
 	$('a.submittable').click(function(){
 		var edit = '#' + $(this).attr('id').replace('_submit', '');
 		var editable = $('a[href="' + edit + '"]');
-		var val = $(edit).val()
+		var val = $(edit).val();
 		var color = $(this).parent().prev('dt').children('div.legend-icon').attr('data-color');
 		
 		$(this).hide();
 		$(edit).hide();
-		$(editable).html(val);
+		if (val != '') {
+			$(editable).html(val);
+		}
 		$(editable).show();
-		
 		if ($(edit).hasClass('risk-val')) {
 			updateMultiple(val, color);
 		}
 		return false;
+	});
+	
+	$('body').keypress(function(e){
+		if(e.which == 13){
+			e.preventDefault();
+			$('a.submittable:visible:last').click();
+			return false;
+		}
 	});
 	
 	$('form ul.nav-tabs li a').live('click', function(){
@@ -89,7 +103,8 @@ $(document).ready(function() {
 				var klass = $(this).attr('id').replace('pictograph_risks_attributes_', '').replace('_hex', '');
 				$('td.fill' + klass).css('backgroundColor', hex);
 				$('td.fill' + klass).attr('data-color', hex);
-				$('form ul.nav li.active a').css('background-color', hex);
+				$(this).parent().prev('div.legend-icon').css('background-color', hex);
+				// $('form ul.nav li.active a').css('background-color', hex);
 		 }
 		});
 	});
