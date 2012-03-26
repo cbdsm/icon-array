@@ -16,13 +16,25 @@
 //= require bootstrap-tab
 //= require bootstrap-tooltip
 //= require bootstrap-popover
+//= require bootstrap-alert
+//= require bootstrap-modal
 //= require jquery.miniColors.min
 //= require jquery.livequery
 //= require jquery.jeditable.min
 	
 $(document).ready(function() {
+	// globals
+	var host = window.location.hostname;
+	var port = window.location.port;
+	var url;
+	if (port != 80) {
+		url = host + ':' + port;
+	} else {
+		url = host;
+	}
+	
 	// semi-globals
-	var curRisk; //$('form .tab-content div.active input.risk-field').val();
+	var curRisk = $('input#risks_1_value').val(); //$('form .tab-content div.active input.risk-field').val();
 	var colorIndex = 1; //$('form ul.nav li.active a').attr('href').replace('#color', '');
 	var cols = 10;
 
@@ -43,7 +55,7 @@ $(document).ready(function() {
 		curRisk = $(edit).val();
 		return false;
 	});
-	
+			
 	$('a.submittable').click(function(){
 		var edit = '#' + $(this).attr('id').replace('_submit', '');
 		var editable = $('a[href="' + edit + '"]');
@@ -66,8 +78,34 @@ $(document).ready(function() {
 		if(e.which == 13){
 			e.preventDefault();
 			$('a.submittable:visible:last').click();
-			return false;
-		}
+			// var edit = '#' + $(this).attr('id').replace('_submit', '');
+			// var editable = $('a[href="' + edit + '"]');
+			// var val = $(edit).val();
+			// var color = $(this).parent().prev('dt').children('div.legend-icon').attr('data-color');
+			// 
+			// $(this).hide();
+			// $(edit).hide();
+			// if (val != '') {
+			// 	$(editable).html(val);
+			// }
+			// $(editable).show();
+			// if ($(edit).hasClass('risk-val')) {
+			// 	updateMultiple(val, color);
+			// }
+			return false;		}
+	});
+	
+	$(".alert").alert();
+	
+	$('a[href="#save-share"]').click(function(){
+		var formvars = decodeURIComponent($(this).parents("form").serialize());
+		formvars = formvars.replace(/utf8=./, '');
+		formvars = formvars.replace(/&authenticity_token=/, '');
+		formvars = formvars.replace(AUTH_TOKEN + '&', '');
+		formvars = formvars.replace(/pictograph\[(\w+)\]/gi, "$1");
+		formvars = formvars.replace(/\#/gi, "%23");
+		$('#save-share div.modal-body p').html(url + '/pictographs/generate?' + formvars);
+		$('#save-share').modal('show');
 	});
 	
 	$('form ul.nav-tabs li a').live('click', function(){

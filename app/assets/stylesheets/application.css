@@ -62,6 +62,10 @@ input.hide {
 	display: none;
 }
 
+.modal {
+	display: none;
+}
+
 div.risk-fill {
 	z-index: 999999;
 	position: relative;
@@ -149,8 +153,9 @@ dd {
 /* Actions */
 div.actions {
 	border-top: solid 1px #666;
-	margin-top: 40px;
 	padding-top: 10px;
+	width: 310px;
+	margin-left: 80px;
 }
 
 /* Bootstrap Overrides */
