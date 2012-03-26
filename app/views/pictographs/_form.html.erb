@@ -1,3 +1,5 @@
+<p id="notice"><%= notice %></p>
+
 <%= form_for(@pictograph, :html => {:class => 'form-horizontal', :multipart => true}) do |f| %>
   <% if @pictograph.errors.any? %>
     <div id="error_explanation">
@@ -15,87 +17,122 @@
 		<%= f.text_field :title, {:placeholder => 'Click to edit title', :class => 'hide edit', :id => "pictograph_title"} %><%=link_to 'ok', "#", {:id => "pictograph_title_submit", :class => 'btn hide submittable'}%><%=link_to @pictograph.title || 'Click to edit title', "#pictograph_title", {:class => "editable"} %>
   </h3>
 
-	<dl id="risk-legend">
-		<% i = 0 %>	  
-		<%= f.fields_for :risks do |r| %>
-			<dt id="risky<%=i%>" style="width: <%=@pictograph.cell_width + 20%>px;">
-				<div class="legend-icon" id="test<%=i%>" style="width: <%=@pictograph.cell_width%>px; height: <%=@pictograph.cell_height%>px; background-color: <%=@pictograph.risks[i].hex%>;" data-color="<%=@pictograph.risks[i].hex%>"></div>
-		    <div class="risk-fill hide" id="risk-fill_<%=i%>"><%= r.text_field :hex, {:class => 'color-field'} %></div>
-			</dt>
-			<dd id="frisky<%=i%>" style="width: <%=400 - (@pictograph.cell_width + 20)%>px;">
-				<% if i == 1 %>
-					<%= r.number_field :value, {:class => 'span1 risk-field risk-val', :id => "risks_#{i}_value"} %><%=link_to 'ok', "#", {:id => "risks_#{i}_value_submit", :class => 'btn submittable edit'}%><%=link_to @pictograph.risks[i].value, "#risks_#{i}_value", {:class => " hide editable"} %>
-				<% elsif i > 1 %>
-					<%= r.number_field :value, {:class => 'span1 risk-field hide risk-val', :id => "risks_#{i}_value"} %><%=link_to 'ok', "#", {:id => "risks_#{i}_value_submit", :class => 'btn hide submittable edit'}%><%=link_to @pictograph.risks[i].value, "#risks_#{i}_value", {:class => "editable"} %>
-				<% else%>
-					<span id="#risks_<%=i%>_value" class="risk-val"><%= @pictograph.off_value %></span>
+	<%= render 'graph' %>
+
+	<div id="editor">
+			<dl id="risk-legend">
+				<% i = 0 %>	  
+				<%= f.fields_for :risks do |r| %>
+					<dt id="risky<%=i%>" style="width: <%=@pictograph.cell_width + 20%>px;">
+						<div class="legend-icon" id="test<%=i%>" style="width: <%=@pictograph.cell_width%>px; height: <%=@pictograph.cell_height%>px; background-color: <%=@pictograph.risks[i].hex%>;" data-color="<%=@pictograph.risks[i].hex%>"></div>
+				    <div class="risk-fill hide" id="risk-fill_<%=i%>"><%= r.text_field :hex, {:class => 'color-field'} %></div>
+					</dt>
+					<dd id="frisky<%=i%>" style="width: <%=400 - (@pictograph.cell_width + 20)%>px;">
+						<% if i == 1 %>
+							<%= r.number_field :value, {:class => 'span1 risk-field risk-val', :id => "risks_#{i}_value", :autofocus => true} %><%=link_to 'ok', "#", {:id => "risks_#{i}_value_submit", :class => 'btn submittable edit'}%><%=link_to @pictograph.risks[i].value, "#risks_#{i}_value", {:class => " hide editable"} %>
+						<% elsif i > 1 %>
+							<%= r.number_field :value, {:class => 'span1 risk-field hide risk-val', :id => "risks_#{i}_value"} %><%=link_to 'ok', "#", {:id => "risks_#{i}_value_submit", :class => 'btn hide submittable edit'}%><%=link_to @pictograph.risks[i].value, "#risks_#{i}_value", {:class => "editable"} %>
+						<% else%>
+							<span id="#risks_<%=i%>_value" class="risk-val"><%= @pictograph.off_value %></span>
+						<% end %>
+						 <%= r.text_field :description, {:placeholder => "out of #{@pictograph.cells} population members exhibit this property", :class => 'span4 hide edit', :id => "risks_#{i}_description"} %><%=link_to 'ok', "#", {:id => "risks_#{i}_description_submit", :class => 'btn hide submittable'}%><%=link_to @pictograph.risks[i].description.blank? ? "out of #{@pictograph.cells} population members exhibit this property" : @pictograph.risks[i].description, "#risks_#{i}_description", {:class => "editable"} %>
+					</dd>
+					<% i += 1 %>
 				<% end %>
-				 <%= r.text_field :description, {:placeholder => "out of #{@pictograph.cells} population members exhibit this property", :class => 'span4 hide edit', :id => "risks_#{i}_description"} %><%=link_to 'ok', "#", {:id => "risks_#{i}_description_submit", :class => 'btn hide submittable'}%><%=link_to @pictograph.risks[i].description.blank? ? "out of #{@pictograph.cells} population members exhibit this property" : @pictograph.risks[i].description, "#risks_#{i}_description", {:class => "editable"} %>
-			</dd>
-			<% i += 1 %>
-		<% end %>
-	</dl>
-	<%=link_to '+', new_risk_path(:tab => @pictograph.risks.length), {:remote => true}%>
+			</dl>
+			<!-- <%=link_to '+', new_risk_path(:tab => @pictograph.risks.length), {:remote => true}%> -->
 
-	<!-- <ul class="nav nav-tabs">
-		<% @pictograph.risks.each_with_index do |risk, i| %>
-			<li class='<%="active" if i == 1 %>'><a href="#color<%=i%>" data-toggle="tab" style="background-color: <%=@pictograph.risks[i].hex%>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
-		<% end %>
-		<li id="new-risk"><%=link_to '+', new_risk_path(:tab => @pictograph.risks.length), {:remote => true}%></li>
-	</ul> -->
+			<!-- <ul class="nav nav-tabs">
+				<% @pictograph.risks.each_with_index do |risk, i| %>
+					<li class='<%="active" if i == 1 %>'><a href="#color<%=i%>" data-toggle="tab" style="background-color: <%=@pictograph.risks[i].hex%>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+				<% end %>
+				<li id="new-risk"><%=link_to '+', new_risk_path(:tab => @pictograph.risks.length), {:remote => true}%></li>
+			</ul> -->
 
-	<!-- <div class="tab-content">
-		<% i = 0 %>	  
-		<%= f.fields_for :risks do |r| %>
-			<%= render '/risks/form', :r => r, :i => i %>
-			<% i += 1 %>
-		<% end %>
-	</div> --><!-- End tab content -->
+			<!-- <div class="tab-content">
+				<% i = 0 %>	  
+				<%= f.fields_for :risks do |r| %>
+					<%= render '/risks/form', :r => r, :i => i %>
+					<% i += 1 %>
+				<% end %>
+			</div> --><!-- End tab content -->
+
+			<!--
+			<div class="tab-pane" id="fine-tuning">
+			  <div class="field">
+			    <%= f.label :cell_width %>
+			    <%= f.number_field :cell_width, {:class => 'span1'} %>
+			  </div>
+			  <div class="field">
+			    <%= f.label :cell_height %>
+			    <%= f.number_field :cell_height, {:class => 'span1'} %>
+			  </div>
+			  <div class="field">
+			    <%= f.label :cell_spacing %>
+			    <%= f.number_field :cell_spacing, {:class => 'span1'} %>
+			  </div>
+			  <div class="field">
+			    <%= f.label :cols %>
+			    <%= f.number_field :cols, {:class => 'span1'} %>
+			  </div>
+			  <div class="field">
+			    <%= f.label :rows %>
+			    <%= f.number_field :rows, {:class => 'span1'} %>
+			  </div>
+			  <div class="field checkbox">
+			    <%= f.check_box :axis_labels %> <%= f.label :axis_labels %> 
+			  </div>
+			  <div class="field radio">
+			    <%= f.label :axis_position_left, 'left' %><%= f.radio_button :axis_position, 'left' %><br />
+					<%= f.label :axis_position_right, 'right' %><%= f.radio_button :axis_position, 'right' %>
+			  </div>
+			  <div class="field">
+			    <%= f.label :axis_font %>
+			    <%= f.text_field :axis_font %>
+			  </div>
+			  <div class="field">
+			    <%= f.label :axis_font_size %>
+			    <%= f.number_field :axis_font_size, {:class => 'span1'} %>px
+			  </div>
+			  <div class="field">
+			    <%= f.label :axis_width %>
+			    <%= f.number_field :axis_width, {:class => 'span1'} %>px
+			  </div>
+			</div>
+			-->
+	</div>
+
+	<br clear="left" />
 	
-	<!--
-	<div class="tab-pane" id="fine-tuning">
-	  <div class="field">
-	    <%= f.label :cell_width %>
-	    <%= f.number_field :cell_width, {:class => 'span1'} %>
+  <div class="actions">
+    <!-- <%= f.submit "Save" %> <%= f.submit 'Preview' %> -->
+		<%=link_to 'save/share', '#save-share', {:class => 'btn'} %> <%=link_to 'embed', '#embed', {:class => 'btn'} %> <%=link_to 'download image', '#', {:class => 'btn'} %>
+  </div>
+
+	<div class="modal" id="save-share">
+	  <div class="modal-header">
+	    <a class="close" data-dismiss="modal">×</a>
+	    <h3>Save/Share this Icon Array</h3>
 	  </div>
-	  <div class="field">
-	    <%= f.label :cell_height %>
-	    <%= f.number_field :cell_height, {:class => 'span1'} %>
+	  <div class="modal-body">
+	    <p>Here is the URL <%=request.url%></p>
 	  </div>
-	  <div class="field">
-	    <%= f.label :cell_spacing %>
-	    <%= f.number_field :cell_spacing, {:class => 'span1'} %>
-	  </div>
-	  <div class="field">
-	    <%= f.label :cols %>
-	    <%= f.number_field :cols, {:class => 'span1'} %>
-	  </div>
-	  <div class="field">
-	    <%= f.label :rows %>
-	    <%= f.number_field :rows, {:class => 'span1'} %>
-	  </div>
-	  <div class="field checkbox">
-	    <%= f.check_box :axis_labels %> <%= f.label :axis_labels %> 
-	  </div>
-	  <div class="field radio">
-	    <%= f.label :axis_position_left, 'left' %><%= f.radio_button :axis_position, 'left' %><br />
-			<%= f.label :axis_position_right, 'right' %><%= f.radio_button :axis_position, 'right' %>
-	  </div>
-	  <div class="field">
-	    <%= f.label :axis_font %>
-	    <%= f.text_field :axis_font %>
-	  </div>
-	  <div class="field">
-	    <%= f.label :axis_font_size %>
-	    <%= f.number_field :axis_font_size, {:class => 'span1'} %>px
-	  </div>
-	  <div class="field">
-	    <%= f.label :axis_width %>
-	    <%= f.number_field :axis_width, {:class => 'span1'} %>px
+	  <div class="modal-footer">
+	    <a href="#" data-dismiss="modal" class="btn">Close</a>
 	  </div>
 	</div>
-	-->
-  <div class="actions">
-    <%= f.submit "Save" %> <%= f.submit 'Preview' %>
-  </div>
+	
+	<div class="modal" id="embed">
+	  <div class="modal-header">
+	    <a class="close" data-dismiss="modal">×</a>
+	    <h3>Embed this Icon Array</h3>
+	  </div>
+	  <div class="modal-body">
+	    <p></p>
+	  </div>
+	  <div class="modal-footer">
+	    <a href="#" data-dismiss="modal" class="btn">Close</a>
+	  </div>
+	</div>
+
 <% end %>

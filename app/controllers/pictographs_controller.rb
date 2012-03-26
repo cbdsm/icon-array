@@ -1,4 +1,6 @@
 class PictographsController < ApplicationController
+  before_filter :set_params, :only => [:new, :generate]
+  
   # GET /pictographs
   # GET /pictographs.json
   def index
@@ -13,7 +15,11 @@ class PictographsController < ApplicationController
   # GET /pictographs/1
   # GET /pictographs/1.json
   def show
-    @pictograph = Pictograph.find(params[:id])
+    if params[:id]
+      @pictograph = Pictograph.find(params[:id])
+    else
+      @pictograph = Pictograph.new(@p)
+    end
     
     # risk numbers
     # for now, we're just doing ints
@@ -31,10 +37,11 @@ class PictographsController < ApplicationController
   # GET /pictographs/new
   # GET /pictographs/new.json
   def new
-    @pictograph = Pictograph.new
+    @pictograph = Pictograph.new(@p)
 
     respond_to do |format|
       format.html # new.html.erb
+      format.xml  { render :xml => @pictograph }
       format.json { render json: @pictograph }
     end
   end
@@ -99,23 +106,7 @@ class PictographsController < ApplicationController
   # GET /pictographs/generate
   # GET /pictographs/generate.json
   def generate
-    p = params
-    p.delete(:controller)
-    p.delete(:action)
-    p[:risk] ||= 50
-    
-    if p[:risks_attributes].nil? or p[:risks_attributes].empty?
-      p[:risks_attributes] = {0 => {:hex => '#DCDCDC'}, 1 => {:hex => '#0000FF', :value => 32}}
-    end
-
-    @pictograph = Pictograph.new(p)
-
-    # risk numbers
-    # for now, we're just doing ints
-    @risk = @pictograph.risk.to_i || 0
-    @incremental_risk = @pictograph.incremental_risk.to_i || 0
-    @reduced_risk = @pictograph.reduced_risk.to_i || 0
-    @off = 100 - @risk - @incremental_risk - @reduced_risk
+    @pictograph = Pictograph.new(@p)
     
     respond_to do |format|
       format.html { render 'show' }
@@ -123,5 +114,29 @@ class PictographsController < ApplicationController
       format.xml  { render :xml => @pictograph }    
     end
   end
+  
+  # GET /pictographs/generate
+  # GET /pictographs/generate.json
+  def embed
+    @pictograph = Pictograph.new(@p)
+    
+    respond_to do |format|
+      format.html { render 'show' }
+      format.json { render json: @pictograph }
+      format.xml  { render :xml => @pictograph }    
+    end
+  end
+  
+  private
+    def set_params
+      @p = params
+      @p.delete(:controller)
+      @p.delete(:action)
+      @p[:risk] ||= 50
+
+      if @p[:risks_attributes].nil? or @p[:risks_attributes].empty?
+        @p[:risks_attributes] = {0 => {:hex => '#DCDCDC'}, 1 => {:hex => '#0000FF', :value => 32}}
+      end
+    end
   
 end
