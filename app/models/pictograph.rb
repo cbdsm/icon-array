@@ -12,7 +12,7 @@ class Pictograph < ActiveRecord::Base
   # accepts_nested_attributes_for :incremental_risk_icon
   # accepts_nested_attributes_for :reduced_risk_icon
   # accepts_nested_attributes_for :off_icon
-  
+    
   def cells
     rows * cols
   end
