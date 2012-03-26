@@ -108,6 +108,17 @@ $(document).ready(function() {
 		$('#save-share').modal('show');
 	});
 	
+	$('a[href="#embed"]').click(function(){
+		var formvars = decodeURIComponent($(this).parents("form").serialize());
+		formvars = formvars.replace(/utf8=./, '');
+		formvars = formvars.replace(/&authenticity_token=/, '');
+		formvars = formvars.replace(AUTH_TOKEN + '&', '');
+		formvars = formvars.replace(/pictograph\[(\w+)\]/gi, "$1");
+		formvars = formvars.replace(/\#/gi, "%23");
+		$('#embed div.modal-body p').html('<pre><iframe data="' + url + '/pictographs/generate?' + formvars + '" type="text/html" width="600" height="500"></iframe></pre>');
+		$('#embed').modal('show');
+	});
+	
 	$('form ul.nav-tabs li a').live('click', function(){
 		colorIndex = $(this).attr('href').replace('#color', '');
 		curRisk = $('form .tab-content div.active input.risk-field').val();
