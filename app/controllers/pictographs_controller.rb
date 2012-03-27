@@ -1,5 +1,5 @@
 class PictographsController < ApplicationController
-  before_filter :set_params, :only => [:new, :generate]
+  before_filter :set_params, :only => [:new, :view, :embed]
   
   # GET /pictographs
   # GET /pictographs.json
@@ -103,9 +103,9 @@ class PictographsController < ApplicationController
     end
   end
   
-  # GET /pictographs/generate
-  # GET /pictographs/generate.json
-  def generate
+  # GET /pictographs/view
+  # GET /pictographs/view.json
+  def view
     @pictograph = Pictograph.new(@p)
     
     respond_to do |format|
@@ -115,13 +115,13 @@ class PictographsController < ApplicationController
     end
   end
   
-  # GET /pictographs/generate
-  # GET /pictographs/generate.json
+  # GET /pictographs/embed
+  # GET /pictographs/embed.json
   def embed
     @pictograph = Pictograph.new(@p)
     
     respond_to do |format|
-      format.html { render 'show' }
+      format.html { render 'show', :layout => false }
       format.json { render json: @pictograph }
       format.xml  { render :xml => @pictograph }    
     end

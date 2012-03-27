@@ -115,7 +115,9 @@ $(document).ready(function() {
 		formvars = formvars.replace(AUTH_TOKEN + '&', '');
 		formvars = formvars.replace(/pictograph\[(\w+)\]/gi, "$1");
 		formvars = formvars.replace(/\#/gi, "%23");
-		$('#embed div.modal-body p').html('<pre><iframe data="' + url + '/pictographs/generate?' + formvars + '" type="text/html" width="600" height="500"></iframe></pre>');
+		// NOTE: width and height need to be calculated
+		// and to depend on whether there is a legend or not (i.e. whether there are risk descriptions)
+		$('#embed div.modal-body p').text('<iframe src="http://' + url + '/pictographs/embed?' + formvars + '" type="text/html" width="380" height="550" scrolling="no" frameborder="0"></iframe>');
 		$('#embed').modal('show');
 	});
 	
