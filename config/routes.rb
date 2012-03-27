@@ -5,7 +5,8 @@ IconArray::Application.routes.draw do
 
   resources :pictographs do
     collection do
-      get 'generate'
+      get 'view'
+      get 'embed'
     end
   end
 
