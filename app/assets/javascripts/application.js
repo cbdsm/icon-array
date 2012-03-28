@@ -104,7 +104,7 @@ $(document).ready(function() {
 		formvars = formvars.replace(AUTH_TOKEN + '&', '');
 		formvars = formvars.replace(/pictograph\[(\w+)\]/gi, "$1");
 		formvars = formvars.replace(/\#/gi, "%23");
-		$('#save-share div.modal-body p').html(url + '/pictographs/generate?' + formvars);
+		$('#save-share div.modal-body p').html(url + '/pictographs/view?' + formvars);
 		$('#save-share').modal('show');
 	});
 	

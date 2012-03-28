@@ -10,6 +10,7 @@ gem 'thin'
 gem "aws-sdk"
 gem 'paperclip'
 gem 'acts_as_list'
+gem 'imgkit'
 
 group :production do
 	gem "pg"

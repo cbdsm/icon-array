@@ -54,8 +54,10 @@ class PictographsController < ApplicationController
   # POST /pictographs
   # POST /pictographs.json
   def create
-    if params[:commit] == "Preview"
-      redirect_to generate_pictographs_path(params[:pictograph])
+    if params[:commit] == "save for print"
+      redirect_to view_pictographs_path(params[:pictograph].merge(:format => :tif))
+    elsif params[:commit] == "save for web"
+     redirect_to view_pictographs_path(params[:pictograph].merge(:format => :jpg))
     else
       @pictograph = Pictograph.new(params[:pictograph])
 
@@ -111,7 +113,22 @@ class PictographsController < ApplicationController
     respond_to do |format|
       format.html { render 'show' }
       format.json { render json: @pictograph }
-      format.xml  { render :xml => @pictograph }    
+      format.xml  { render :xml => @pictograph }   
+
+      format.jpg {
+        @kit = IMGKit.new(render_to_string('show'))
+        send_data(@kit.to_jpg, :type => "image/jpeg", :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.jpg")
+      }
+      format.tif {
+        @pictograph.cell_width = @pictograph.cell_width * 5
+        @pictograph.cell_height = @pictograph.cell_height * 5
+        @pictograph.cell_spacing = @pictograph.cell_spacing * 5
+        @pictograph.axis_font_size = @pictograph.axis_font_size * 5
+        
+        @kit = IMGKit.new(render_to_string('show.jpg.erb'))
+        send_data(@kit.to_png, :type => "image/tiff", :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.tif")
+      }
+      
     end
   end
   
@@ -129,7 +146,8 @@ class PictographsController < ApplicationController
   
   private
     def set_params
-      @p = params
+      @p = params.clone
+      @p.delete(:format)
       @p.delete(:controller)
       @p.delete(:action)
       @p[:risk] ||= 50
