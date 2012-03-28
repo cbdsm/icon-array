@@ -106,7 +106,7 @@
 	
   <div class="actions">
     <!-- <%= f.submit "Save" %> <%= f.submit 'Preview' %> -->
-		<%=link_to 'save/share', '#save-share', {:class => 'btn'} %> <%=link_to 'embed', '#embed', {:class => 'btn'} %> <%=link_to 'download image', '#', {:class => 'btn'} %>
+		<%=link_to 'save/share', '#save-share', {:class => 'btn'} %> <%=link_to 'embed', '#embed', {:class => 'btn'} %> <%= f.submit 'save for web' %> <%= f.submit 'save for print' %>
   </div>
 
 	<div class="modal" id="save-share">
