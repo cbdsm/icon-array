@@ -12,7 +12,7 @@ class Pictograph < ActiveRecord::Base
   end
   
   def axis_width
-    axis_font_size * 3
+    axis_font_size * 4
   end
   
   def table_width
