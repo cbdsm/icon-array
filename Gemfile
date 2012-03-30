@@ -11,6 +11,7 @@ gem "aws-sdk"
 gem 'paperclip'
 gem 'acts_as_list'
 gem 'imgkit'
+gem 'mini_magick'
 
 group :production do
 	gem "pg"

@@ -116,8 +116,13 @@ class PictographsController < ApplicationController
       format.xml  { render :xml => @pictograph }   
 
       format.jpg {
-        @kit = IMGKit.new(render_to_string('show'))
-        send_data(@kit.to_jpg, :type => "image/jpeg", :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.jpg")
+        @kit = IMGKit.new(render_to_string('show', :layout => 'embed'))
+        @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/application.css'
+        image = MiniMagick::Image.read(@kit.to_jpg)
+        image.resize "100x100"
+        image.write  "tmp/output.jpg"
+        # TODO: Not sure how to crop this on the fly!
+        send_data(image, :type => "image/jpeg", :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.jpg")
       }
       format.tif {
         @pictograph.cell_width = @pictograph.cell_width * 5
@@ -138,7 +143,7 @@ class PictographsController < ApplicationController
     @pictograph = Pictograph.new(@p)
     
     respond_to do |format|
-      format.html { render 'show', :layout => false }
+      format.html { render 'show', :layout => 'embed' }
       format.json { render json: @pictograph }
       format.xml  { render :xml => @pictograph }    
     end
