@@ -2,16 +2,6 @@ class Pictograph < ActiveRecord::Base
   has_many :risks, :dependent => :destroy, :order => "position ASC"
   
   accepts_nested_attributes_for :risks
-  
-  # belongs_to :risk_icon, :class_name => 'Icon'
-  # belongs_to :incremental_risk_icon, :class_name => 'Icon'
-  # belongs_to :reduced_risk_icon, :class_name => 'Icon'
-  # belongs_to :off_icon, :class_name => 'Icon'
-  # 
-  # accepts_nested_attributes_for :risk_icon
-  # accepts_nested_attributes_for :incremental_risk_icon
-  # accepts_nested_attributes_for :reduced_risk_icon
-  # accepts_nested_attributes_for :off_icon
     
   def cells
     rows * cols
@@ -19,6 +9,14 @@ class Pictograph < ActiveRecord::Base
   
   def axis_line_height
     (axis_font_size * 1.5).round
+  end
+  
+  def axis_width
+    axis_font_size * 3
+  end
+  
+  def table_width
+    (cell_width  * cols) + (cell_spacing * (cols - 1)) + axis_width
   end
   
   def axis_margin_top
