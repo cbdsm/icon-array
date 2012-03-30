@@ -40,7 +40,7 @@ class PictographsController < ApplicationController
     @pictograph = Pictograph.new(@p)
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html # new.html.erb 
       format.xml  { render :xml => @pictograph }
       format.json { render json: @pictograph }
     end
@@ -126,7 +126,7 @@ class PictographsController < ApplicationController
         @pictograph.axis_font_size = @pictograph.axis_font_size * 5
         
         @kit = IMGKit.new(render_to_string('show.jpg.erb'))
-        send_data(@kit.to_png, :type => "image/tiff", :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.tif")
+        send_data(@kit.to_tiff, :type => "image/tiff", :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.tiff")
       }
       
     end
@@ -150,7 +150,6 @@ class PictographsController < ApplicationController
       @p.delete(:format)
       @p.delete(:controller)
       @p.delete(:action)
-      @p[:risk] ||= 50
 
       if @p[:risks_attributes].nil? or @p[:risks_attributes].empty?
         @p[:risks_attributes] = {0 => {:hex => '#DCDCDC'}, 1 => {:hex => '#0000FF', :value => 32}}

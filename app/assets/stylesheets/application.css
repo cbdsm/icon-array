@@ -95,6 +95,9 @@ table.pictograph {
 	margin: 20px;
 	border-collapse: separate;
 }
+table.pictograph td {
+/*	display: block;*/
+}
 td.picto-axis-label {
   text-align: right;
 }
