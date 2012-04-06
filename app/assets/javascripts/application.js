@@ -62,11 +62,20 @@ $(document).ready(function() {
 	// Show/hide OK button on focus/blur
 	$('input.editable').focus(function(){
 		$('a.submittable:visible').hide();
+		
+		if ($(this).hasClass('value-field')) {
+			$('table.pictograph').addClass('active');
+			$(this).siblings('.help').show();
+		} else {
+			$('table.pictograph').removeClass('active');
+			$('.help:visible').hide();
+		}
 		var submit = $(this).next('a.submittable');
 		$(submit).show();
 	});
 	$('input.color-field').focus(function(){
 		$('a.submittable:visible').hide();
+		$('table.pictograph').removeClass('active');
 	});
 	
 	// focus on first risk
@@ -78,6 +87,7 @@ $(document).ready(function() {
 		var val = $(edit).val();
 		//var color = $(this).parent().prev('dt').children('div.legend-icon').attr('data-color');
 		var color = $('div.tab-content div.active').find('input.color-field').val();
+		$('.help:visible').hide();
 		
 		// $(this).hide();
 		// $(edit).hide();
@@ -91,26 +101,27 @@ $(document).ready(function() {
 		return false;
 	});
 	
-	// $('body').keypress(function(e){
-	// 	if(e.which == 13){
-	// 		e.preventDefault();
-	// 		$('a.submittable:visible:last').click();
-	// 		// var edit = '#' + $(this).attr('id').replace('_submit', '');
-	// 		// var editable = $('a[href="' + edit + '"]');
-	// 		// var val = $(edit).val();
-	// 		// var color = $(this).parent().prev('dt').children('div.legend-icon').attr('data-color');
-	// 		// 
-	// 		// $(this).hide();
-	// 		// $(edit).hide();
-	// 		// if (val != '') {
-	// 		// 	$(editable).html(val);
-	// 		// }
-	// 		// $(editable).show();
-	// 		// if ($(edit).hasClass('risk-val')) {
-	// 		// 	updateMultiple(val, color);
-	// 		// }
-	// 		return false;		}
-	// });
+	// We want enter to submit on the OK buttons
+	$('body').keypress(function(e){
+		if(e.which == 13){
+			e.preventDefault();
+			$('a.submittable:visible:last').click().hide();
+			// var edit = '#' + $(this).attr('id').replace('_submit', '');
+			// var editable = $('a[href="' + edit + '"]');
+			// var val = $(edit).val();
+			// var color = $(this).parent().prev('dt').children('div.legend-icon').attr('data-color');
+			// 
+			// $(this).hide();
+			// $(edit).hide();
+			// if (val != '') {
+			// 	$(editable).html(val);
+			// }
+			// $(editable).show();
+			// if ($(edit).hasClass('risk-val')) {
+			// 	updateMultiple(val, color);
+			// }
+			return false;		}
+	});
 		
 	$('a[href="#save-share"]').click(function(){
 		var formvars = decodeURIComponent($(this).parents("form").serialize());
@@ -188,9 +199,9 @@ $(document).ready(function() {
 	});
 	
 	// This gives us the cell hover effect for choosing a value
-	$('table.pictograph td.picto-cell').hover(
+	$('body').delegate('table.pictograph.active td.picto-cell', 'hover', function( event ) {
 		// in
-		function() {			
+		if ( event.type === 'mouseenter' ) {
 			// Form values
 			var thisRisk = $(this).attr('id').replace('cell', ''); // value of the cell we're on
 			
@@ -211,11 +222,9 @@ $(document).ready(function() {
 					var color = $('form .tab-content div.active').prev().find('input.color-field').val();
 				}
 				$(this).css('background-color', color);
-			}
-		},
-		// out
-		function(){
-			if ($(this).attr('data-icon') != undefined) {
+			}	   
+		} else {
+    	if ($(this).attr('data-icon') != undefined) {
 				var curIcon = $(this).attr('data-icon');
 				$(this).children('img').attr('src', curIcon);		
 			} else {
@@ -223,12 +232,14 @@ $(document).ready(function() {
 				$(this).css('background-color', curColor);
 			}
 		}
-	);
+	});
 	
 	// This actually sets the value
-	$('table.pictograph td.picto-cell').click(function(){
+	$('body').delegate('table.pictograph.active td.picto-cell', 'click', function( event ) {
 		var thisRisk = Number($(this).attr('id').replace('cell', '')) + 1; // value of the cell we're on
-		updateMultiple(thisRisk);
+		updateMultiple(thisRisk - 1, $('div.tab-content div.active').find('input.color-field').val());
+		$('a.submittable:visible').hide();
+		$('table.pictograph').removeClass('active');
 	});
 	
 	
@@ -318,10 +329,6 @@ $(document).ready(function() {
 			$('table.pictograph td.picto-cell').slice(low1, low2).removeClass().addClass('picto-cell fill' + colorIndex);
 			$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).removeClass().addClass('picto-cell fill' + colorIndex);
 		} else { // Otherwise, we're decreasing
-			// TODO: this should actually suss out separate colors!!!
-			// Right now, it just uses the color from the previous tab
-			// Or perhaps just stop where the color ends (find min)
-			colorIndex--;
 			
 			// Upper adjustment
 			var high2 = curVal + 1;
@@ -349,8 +356,8 @@ $(document).ready(function() {
 				$('table.pictograph td.picto-cell').slice(high1, low2 - cols).attr('data-icon', icon);
 				
 			} else {
-				// var color = $('form .tab-content div.active').prev().find('input.color-field').val();
-				var color = prevRisk.children('div.legend-icon').attr('data-color');
+				var color = $('form .tab-content div.active').prev().find('input.color-field').val();
+				//var color = prevRisk.children('div.legend-icon').attr('data-color');
 				
 				// Upper
 				$('table.pictograph td.picto-cell').slice(high1, high2).css('background-color', color);
@@ -372,6 +379,7 @@ $(document).ready(function() {
 		// Set the form val
 		$('form .tab-content div.active input.risk-field').val(thisRisk);
 		curRisk = thisRisk;
+		$('.help:visible').hide();
 	};
 	
 });
