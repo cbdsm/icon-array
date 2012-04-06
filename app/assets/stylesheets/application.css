@@ -186,3 +186,7 @@ p#value-help {
 	width: 280px;
 	margin-top: -50px;
 }
+
+div.page-content {
+	width: 85%;
+}
