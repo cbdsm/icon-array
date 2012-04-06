@@ -2,7 +2,10 @@
 	<% if i != 0 %>
 		<div class="field">
 		  <%= r.label :value, 'Risk' %>
-	    <%= r.number_field :value, {:class => 'span1 risk-field'} %>
+	    <%= r.number_field :value, {:step => '.01', :class => 'span1 risk-field editable', :id => "risks_#{i}_value", :autofocus => (i == 1)} %>
+			<%=link_to 'ok', "#", {:id => "risks_#{i}_value_submit", :class => 'btn submittable hide'}%>
+			<%= r.text_field :description, {:placeholder => "out of #{@pictograph.cells} population members exhibit this property", :class => 'span4 editable', :id => "risks_#{i}_description"} %>
+			<%=link_to 'ok', "#", {:id => "risks_#{i}_value_submit", :class => 'btn submittable hide'}%>
 	  </div>
 	<% end %>
 
@@ -11,9 +14,9 @@
     <%= r.text_field :hex, {:class => 'color-field'} %>
   </div>
 
-  <div class="field">
+  <!-- <div class="field">
 		<%=image_tag(r.object.icon.url(:default), {:id => "icon#{i}", :class => "form-icon"}) if r.object.icon? %>
     <%= r.label :icon %>
     <%= r.file_field :icon, {:class => 'image-field'} %>
-  </div>
+  </div> -->
 </div>

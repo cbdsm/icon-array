@@ -24,6 +24,7 @@
 	
 $(document).ready(function() {
 	// globals
+	// This stuff is mostly for embedding/linking
 	var host = window.location.hostname;
 	var port = window.location.port;
 	var url;
@@ -37,66 +38,80 @@ $(document).ready(function() {
 	var curRisk = $('input#risks_1_value').val(); //$('form .tab-content div.active input.risk-field').val();
 	var colorIndex = 1; //$('form ul.nav li.active a').attr('href').replace('#color', '');
 	var cols = 10;
+	
+
 
 	$('div.legend-icon').on('click', function(event){
 		$(this).next('div.risk-fill').toggle();
 	});
 	
-	$('a.editable').click(function(){
-		$('a.editable:hidden').show();
-		$(this).hide();
-		$('input.edit:visible').hide();
+	// $('a.editable').click(function(){
+	// 	$('a.editable:hidden').show();
+	// 	$(this).hide();
+	// 	$('input.edit:visible').hide();
+	// 	$('a.submittable:visible').hide();
+	// 	var edit = $(this).attr('href');
+	// 	var edit_submit = edit + '_submit';
+	// 	$(edit).show();
+	// 	$(edit).focus();
+	// 	$(edit_submit).show();
+	// 	curRisk = $(edit).val();
+	// 	return false;
+	// });
+	
+	// Show/hide OK button on focus/blur
+	$('input.editable').focus(function(){
 		$('a.submittable:visible').hide();
-		var edit = $(this).attr('href');
-		var edit_submit = edit + '_submit';
-		$(edit).show();
-		$(edit).focus();
-		$(edit_submit).show();
-		curRisk = $(edit).val();
-		return false;
+		var submit = $(this).next('a.submittable');
+		$(submit).show();
 	});
+	$('input.color-field').focus(function(){
+		$('a.submittable:visible').hide();
+	});
+	
+	// focus on first risk
+	$('input#risks_1_value').focus();
 			
 	$('a.submittable').click(function(){
 		var edit = '#' + $(this).attr('id').replace('_submit', '');
-		var editable = $('a[href="' + edit + '"]');
+		// var editable = $('a[href="' + edit + '"]');
 		var val = $(edit).val();
-		var color = $(this).parent().prev('dt').children('div.legend-icon').attr('data-color');
+		//var color = $(this).parent().prev('dt').children('div.legend-icon').attr('data-color');
+		var color = $('div.tab-content div.active').find('input.color-field').val();
 		
-		$(this).hide();
-		$(edit).hide();
-		if (val != '') {
-			$(editable).html(val);
-		}
-		$(editable).show();
-		if ($(edit).hasClass('risk-val')) {
+		// $(this).hide();
+		// $(edit).hide();
+		// if (val != '') {
+		// 	$(editable).html(val);
+		// }
+		// $(editable).show();
+		// if ($(edit).hasClass('risk-val')) {
 			updateMultiple(val, color);
-		}
+		// }
 		return false;
 	});
 	
-	$('body').keypress(function(e){
-		if(e.which == 13){
-			e.preventDefault();
-			$('a.submittable:visible:last').click();
-			// var edit = '#' + $(this).attr('id').replace('_submit', '');
-			// var editable = $('a[href="' + edit + '"]');
-			// var val = $(edit).val();
-			// var color = $(this).parent().prev('dt').children('div.legend-icon').attr('data-color');
-			// 
-			// $(this).hide();
-			// $(edit).hide();
-			// if (val != '') {
-			// 	$(editable).html(val);
-			// }
-			// $(editable).show();
-			// if ($(edit).hasClass('risk-val')) {
-			// 	updateMultiple(val, color);
-			// }
-			return false;		}
-	});
-	
-	$(".alert").alert();
-	
+	// $('body').keypress(function(e){
+	// 	if(e.which == 13){
+	// 		e.preventDefault();
+	// 		$('a.submittable:visible:last').click();
+	// 		// var edit = '#' + $(this).attr('id').replace('_submit', '');
+	// 		// var editable = $('a[href="' + edit + '"]');
+	// 		// var val = $(edit).val();
+	// 		// var color = $(this).parent().prev('dt').children('div.legend-icon').attr('data-color');
+	// 		// 
+	// 		// $(this).hide();
+	// 		// $(edit).hide();
+	// 		// if (val != '') {
+	// 		// 	$(editable).html(val);
+	// 		// }
+	// 		// $(editable).show();
+	// 		// if ($(edit).hasClass('risk-val')) {
+	// 		// 	updateMultiple(val, color);
+	// 		// }
+	// 		return false;		}
+	// });
+		
 	$('a[href="#save-share"]').click(function(){
 		var formvars = decodeURIComponent($(this).parents("form").serialize());
 		formvars = formvars.replace(/utf8=./, '');
@@ -134,23 +149,27 @@ $(document).ready(function() {
 		curRisk = $('form .tab-content div.active input.risk-field').val();
 	});
 	
-	$('form .tab-content div.active input.risk-field').click(function(){
-		var val = $(this).val();
-		updateSingle(val);
-	});
-
-	$('form .tab-content div.active input.risk-field').change(function(){
-	   updateMultiple($(this).val());
-	});
-	
-	$('form .tab-content div.active input.risk-field').keyup(function(){
-	   updateMultiple($(this).val());
-	});
-	
-	$('form .tab-content div.active input.risk-field').mousewheel(function(){
-		var val = $(this).val();
-		updateSingle(val);
-	});
+	// These are all ways of automatically updating the picto risk number
+	// They're not well supported across browsers, undfortunately
+	// $('form .tab-content div.active input.risk-field').click(function(){
+	// 	var val = $(this).val();
+	// 	var color = $('div.tab-content div.active').find('input.color-field').val();
+	// 	updateSingle(val, color);
+	// });
+	// 
+	// $('form .tab-content div.active input.risk-field').change(function(){
+	//    updateMultiple($(this).val(), $('div.tab-content div.active').find('input.color-field').val());
+	// });
+	// 
+	// $('form .tab-content div.active input.risk-field').keyup(function(){
+	//    updateMultiple($(this).val(), $('div.tab-content div.active').find('input.color-field').val());
+	// });
+	// 
+	// $('form .tab-content div.active input.risk-field').mousewheel(function(){
+	// 	var val = $(this).val();
+	// 	var color = $('div.tab-content div.active').find('input.color-field').val();
+	// 	updateSingle(val, color);
+	// });
 	
 	// .colorpicker will render just the square
 	// this is the id we get: pictograph_risks_attributes_1_hex
@@ -162,8 +181,8 @@ $(document).ready(function() {
 				var klass = $(this).attr('id').replace('pictograph_risks_attributes_', '').replace('_hex', '');
 				$('td.fill' + klass).css('backgroundColor', hex);
 				$('td.fill' + klass).attr('data-color', hex);
-				$(this).parent().prev('div.legend-icon').css('background-color', hex);
-				// $('form ul.nav li.active a').css('background-color', hex);
+				//$(this).parent().prev('div.legend-icon').css('background-color', hex);
+				$('form ul.nav li.active a').css('background-color', hex);
 		 }
 		});
 	});
