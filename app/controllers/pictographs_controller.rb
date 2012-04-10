@@ -58,6 +58,9 @@ class PictographsController < ApplicationController
       redirect_to view_pictographs_path(params[:pictograph].merge(:format => :tif))
     elsif params[:commit] == "export for web"
      redirect_to view_pictographs_path(params[:pictograph].merge(:format => :jpg))
+    elsif params[:commit] == "preview"
+      redirect_to view_pictographs_path(params[:pictograph])
+    # NOTE: at this point, we never actually save a picto
     else
       @pictograph = Pictograph.new(params[:pictograph])
 
