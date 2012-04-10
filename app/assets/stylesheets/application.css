@@ -145,6 +145,13 @@ a.editable {
 	cursor: help;
 }
 
+fieldset {
+	width: 180px;
+}
+fieldset#cells {
+	float: left;
+}
+
 /* Legend */
 dl, dt, dd {
 	margin: 15px 0 0 0 !important;
@@ -181,10 +188,10 @@ div.actions {
 
 p#value-help {
 	display: block;
-	float: left;
-	margin-left: 120px;
 	width: 280px;
-	margin-top: -50px;
+/*	float: left;
+	margin-left: 120px;
+	margin-top: -50px;*/
 }
 
 div.page-content {

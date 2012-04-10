@@ -1,8 +1,10 @@
 <% i = @tab %>
 <% hex = @pictograph.risks[0].hex %>
 <% value = @pictograph.risks[0].value %>
-$("form div.tab-content").append("<%= escape_javascript render('/risks/new_form', :i => i, :hex => hex, :value => value) %>");
-$('form ul li#new-risk').before("<li><a href='#color<%=i%>' data-toggle='tab' style='background-color: <%=@pictograph.risks[0].hex%>;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>");
+<% description = @pictograph.risks[0].description %>
+<% population = @pictograph.risks[0].population %>
+$("form div.tab-content").append("<%= escape_javascript render('/risks/new_form', :i => i, :hex => hex, :value => value, :description => description, :population => population) %>");
+$('form ul li#new-risk').before("<li class='color-tab'><a href='#color<%=i%>' data-toggle='tab' style='background-color: <%=@pictograph.risks[0].hex%>;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>");
 var tab = $('li#new-risk a').attr('href');
 var new_tab = tab.replace(/tab=\d+/, 'tab=<%=@tab.to_i + 1%>');
 $('li#new-risk a').attr('href', new_tab);

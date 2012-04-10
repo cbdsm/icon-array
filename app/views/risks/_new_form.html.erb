@@ -1,8 +1,15 @@
-<div class="tab-pane <%= 'active' if i == 1%>" id="color<%=i%>">
+<div class="tab-pane active" id="color<%=i%>">
 	<% if i != 0 %>
 		<div class="field">
-		  <%= label_tag "pictograph[risks_attributes][#{i}][value]", 'Risk' %>
-	    <%= number_field_tag "pictograph[risks_attributes][#{i}][value]", value, {:class => 'span1 risk-field'} %>
+	    <%= number_field_tag "pictograph[risks_attributes][#{i}][value]", value, {:step => '.01', :class => 'span1 risk-field editable value-field', :id => "risks_#{i}_value", :autofocus => true} %>
+			<%=link_to 'ok', "#", {:id => "risks_#{i}_value_submit", :class => 'btn submittable hide description-field'}%>
+	
+			<%= text_field_tag "pictograph[risks_attributes][#{i}][population]", population, {:class => 'span2 editable population-field', :id => "risks_#{i}_population", :placeholder => "out of #{@pictograph.cells}"} %>
+			<%=link_to 'ok', "#", {:id => "risks_#{i}_population_submit", :class => 'btn submittable hide'}%>
+			<%# , :readonly => !@advanced %>
+	
+			<%= text_field_tag "pictograph[risks_attributes][#{i}][description]", description, {:class => 'span4 editable description-field', :id => "risks_#{i}_description", :placeholder => "population members exhibit this property"} %>
+			<%=link_to 'ok', "#", {:id => "risks_#{i}_description_submit", :class => 'btn submittable hide'}%>
 	  </div>
 	<% end %>
 
@@ -11,8 +18,8 @@
     <%= text_field_tag "pictograph[risks_attributes][#{i}][hex]", hex, {:class => 'color-field'} %>
   </div>
 
-  <div class="field">
+  <!-- <div class="field">
     <%= label_tag "pictograph[risks_attributes][#{i}][icon]", 'Icon' %>
     <%= file_field_tag "pictograph[risks_attributes][#{i}][icon]", {:class => 'image-field'} %>
-  </div>
+  </div> -->
 </div>

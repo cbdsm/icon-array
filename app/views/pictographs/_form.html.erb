@@ -22,9 +22,12 @@
 	<div id="editor">
 			<ul class="nav nav-tabs">
 				<% @pictograph.risks.each_with_index do |risk, i| %>
-					<li class='<%="active" if i == 1 %>'><a href="#color<%=i%>" data-toggle="tab" style="background-color: <%=@pictograph.risks[i].hex%>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+					<li class='<%="active" if i == 1 %> color-tab'><a href="#color<%=i%>" data-toggle="tab" style="background-color: <%=@pictograph.risks[i].hex%>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
 				<% end %>
-				<li id="new-risk"><%=link_to '+', new_risk_path(:tab => @pictograph.risks.length), {:remote => true}%></li>
+				<% if @advanced %>
+					<li id="new-risk"><%=link_to '+', new_risk_path(:tab => @pictograph.risks.length), {:remote => true}%></li>
+					<li><a href="#fine-tuning" data-toggle="tab" style="border-color: #ddd; border-width: 1px 1px 0px 1px;">fine-tuning</a></li>
+				<% end %>
 			</ul>
 
 			<div class="tab-content">
@@ -33,51 +36,63 @@
 					<%= render '/risks/form', :r => r, :i => i %>
 					<% i += 1 %>
 				<% end %>
-			</div><!-- End tab content -->
 
-			<!--
+			
 			<div class="tab-pane" id="fine-tuning">
-			  <div class="field">
-			    <%= f.label :cell_width %>
-			    <%= f.number_field :cell_width, {:class => 'span1'} %>
-			  </div>
-			  <div class="field">
-			    <%= f.label :cell_height %>
-			    <%= f.number_field :cell_height, {:class => 'span1'} %>
-			  </div>
-			  <div class="field">
-			    <%= f.label :cell_spacing %>
-			    <%= f.number_field :cell_spacing, {:class => 'span1'} %>
-			  </div>
-			  <div class="field">
-			    <%= f.label :cols %>
-			    <%= f.number_field :cols, {:class => 'span1'} %>
-			  </div>
-			  <div class="field">
-			    <%= f.label :rows %>
-			    <%= f.number_field :rows, {:class => 'span1'} %>
-			  </div>
-			  <div class="field checkbox">
-			    <%= f.check_box :axis_labels %> <%= f.label :axis_labels %> 
-			  </div>
-			  <div class="field radio">
-			    <%= f.label :axis_position_left, 'left' %><%= f.radio_button :axis_position, 'left' %><br />
-					<%= f.label :axis_position_right, 'right' %><%= f.radio_button :axis_position, 'right' %>
-			  </div>
-			  <div class="field">
-			    <%= f.label :axis_font %>
-			    <%= f.text_field :axis_font %>
-			  </div>
-			  <div class="field">
-			    <%= f.label :axis_font_size %>
-			    <%= f.number_field :axis_font_size, {:class => 'span1'} %>px
-			  </div>
-			  <div class="field">
-			    <%= f.label :axis_width %>
-			    <%= f.number_field :axis_width, {:class => 'span1'} %>px
-			  </div>
+				<fieldset id="cells">
+					<legend>Cells</legend>
+				  <div class="field">
+				    <%= f.label :cell_width %>
+				    <%= f.number_field :cell_width, {:class => 'span1'} %>
+				  </div>
+				  <div class="field">
+				    <%= f.label :cell_height %>
+				    <%= f.number_field :cell_height, {:class => 'span1'} %>
+				  </div>
+				  <div class="field">
+				    <%= f.label :cell_spacing %>
+				    <%= f.number_field :cell_spacing, {:class => 'span1'} %>
+				  </div>
+				  <div class="field">
+				    <%= f.label :cols %>
+				    <%= f.number_field :cols, {:class => 'span1'} %>
+				  </div>
+				  <div class="field">
+				    <%= f.label :rows %>
+				    <%= f.number_field :rows, {:class => 'span1'} %>
+				  </div>
+				</fieldset>
+				
+				<fieldset id="axis">
+					<legend>Axis</legend>
+				  <div class="field checkbox">
+				    <%= f.check_box :axis_labels %> <%= f.label :axis_labels %> 
+				  </div>
+				  <div class="field radio">
+				    <%= f.label :axis_position_left, 'left' %><%= f.radio_button :axis_position, 'left' %><br />
+						<%= f.label :axis_position_right, 'right' %><%= f.radio_button :axis_position, 'right' %>
+				  </div>
+				  <div class="field">
+				    <%= f.label :axis_font %>
+				    <%= f.text_field :axis_font %>
+				  </div>
+				  <div class="field">
+				    <%= f.label :axis_font_size %>
+				    <%= f.number_field :axis_font_size, {:class => 'span1'} %>px
+				  </div>
+				  <div class="field">
+				    <%= f.label :axis_width %>
+				    <%= f.number_field :axis_width, {:class => 'span1'} %>px
+				  </div>
+				</fieldset>
 			</div>
-			-->
+			
+			
+		</div><!-- End tab content -->
+		<p class="help hide" id="value-help">
+		  Click on any square/icon in the array to set the risk, or just set the number here.
+		</p>
+		
 	</div>
 
 	<br clear="left" />
