@@ -119,7 +119,7 @@ class PictographsController < ApplicationController
       format.xml  { render :xml => @pictograph }   
 
       format.jpg {
-        @kit = IMGKit.new(render_to_string('show', :layout => 'embed'))
+        @kit = IMGKit.new(render_to_string('show', :layout => 'embed'), 'crop-w' => @pictograph.export_width)
         @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/application.css'
         image = @kit.to_jpg
         # image = MiniMagick::Image.read(@kit.to_jpg)
