@@ -13,8 +13,8 @@
     </div>
   <% end %>
 
-  <h3>
-		<%= f.text_field :title, {:placeholder => 'Click to edit title', :class => 'hide edit', :id => "pictograph_title"} %><%=link_to 'ok', "#", {:id => "pictograph_title_submit", :class => 'btn hide submittable'}%><%=link_to @pictograph.title || 'Click to edit title', "#pictograph_title", {:class => "editable"} %>
+  <h3 style="width: <%=@pictograph.table_width%>px; margin-left: <%=@pictograph.axis_width + 25 %>px; margin-bottom: -30px;">
+		<%= f.text_field :title, {:placeholder => 'Click to edit title', :class => 'hide editor', :id => "pictograph_title"} %><%=link_to 'ok', "#", {:id => "pictograph_title_submit", :class => 'btn hide submittable'}%><%=link_to @pictograph.title || 'Click to edit title', "#pictograph_title", {:class => "editable"} %>
   </h3>
 
 	<%= render 'graph' %>

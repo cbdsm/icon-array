@@ -39,25 +39,26 @@ $(document).ready(function() {
 	var colorIndex = 1; //$('form ul.nav li.active a').attr('href').replace('#color', '');
 	var cols = 10;
 	
-
+	// This allows us to set the li active for any active a tag
+	$('.nav a.active').parent('li').addClass('active');
 
 	$('div.legend-icon').on('click', function(event){
 		$(this).next('div.risk-fill').toggle();
 	});
 	
-	// $('a.editable').click(function(){
-	// 	$('a.editable:hidden').show();
-	// 	$(this).hide();
-	// 	$('input.edit:visible').hide();
-	// 	$('a.submittable:visible').hide();
-	// 	var edit = $(this).attr('href');
-	// 	var edit_submit = edit + '_submit';
-	// 	$(edit).show();
-	// 	$(edit).focus();
-	// 	$(edit_submit).show();
-	// 	curRisk = $(edit).val();
-	// 	return false;
-	// });
+	$('a.editable').click(function(){
+		$(this).hide();
+		$('.help:visible').hide();
+		$('a.submittable:visible').hide();
+		$('table.pictograph').removeClass('active');
+		
+		var edit = $(this).attr('href');
+		var edit_submit = edit + '_submit';
+		$('input#pictograph_title').show();
+		$(edit).focus();
+		$(edit_submit).show();
+		return false;
+	});
 	
 	// Show/hide OK button on focus/blur
 	$('input.editable').focus(function(){
@@ -70,9 +71,16 @@ $(document).ready(function() {
 			$('table.pictograph').removeClass('active');
 			$('.help:visible').hide();
 		}
+		
+		// If there's an open "click to edit field"
+		$('input.editor').hide();
+		$('input.editor').siblings('a.editable').show();
+		
 		var submit = $(this).next('a.submittable');
 		$(submit).show();
 	});
+	
+	// Same for color picker
 	$('input.color-field').focus(function(){
 		$('a.submittable:visible').hide();
 		$('table.pictograph').removeClass('active');
@@ -81,23 +89,32 @@ $(document).ready(function() {
 	// focus on first risk
 	$('input#risks_1_value').focus();
 			
+	// After updating a form field		
 	$('a.submittable').click(function(){
+		// get input & value
 		var edit = '#' + $(this).attr('id').replace('_submit', '');
-		// var editable = $('a[href="' + edit + '"]');
 		var val = $(edit).val();
-		//var color = $(this).parent().prev('dt').children('div.legend-icon').attr('data-color');
-		var color = $('div.tab-content div.active').find('input.color-field').val();
-		$('.help:visible').hide();
 		
-		// $(this).hide();
-		// $(edit).hide();
-		// if (val != '') {
-		// 	$(editable).html(val);
-		// }
-		// $(editable).show();
-		// if ($(edit).hasClass('risk-val')) {
+		// hide stuff
+		$('.help:visible').hide();
+		$(this).hide();
+		
+		// If this is a "click to edit field"
+		if ($('a[href="' + edit + '"]').length > 0) {
+			var editable = $('a[href="' + edit + '"]');
+			$(edit).hide();
+			if (val != '') {
+				$(editable).html(val);
+			}
+			$(editable).show();
+		}
+		
+		// If this is the risk field, we've got a bit more work to do
+		if ($(edit).hasClass('value-field')) {
+			//var color = $(this).parent().prev('dt').children('div.legend-icon').attr('data-color'); // old legend style
+			var color = $('div.tab-content div.active').find('input.color-field').val();
 			updateMultiple(val, color);
-		// }
+		}
 		return false;
 	});
 	
