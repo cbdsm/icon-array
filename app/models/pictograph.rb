@@ -23,8 +23,18 @@ class Pictograph < ActiveRecord::Base
     ((cell_height + axis_line_height + cell_spacing) / 2).round
   end
   
+  def export_width
+    out = table_width + axis_width
+    out += 400 if show_legend?
+    return out
+  end
+  
   def bottom_axis_margin_top
     (cell_spacing + axis_line_height).round
+  end
+  
+  def show_legend?
+    !self.risks[1].description.blank?
   end
   
   def off_value
