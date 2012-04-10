@@ -80,10 +80,6 @@
 				    <%= f.label :axis_font_size %>
 				    <%= f.number_field :axis_font_size, {:class => 'span1'} %>px
 				  </div>
-				  <div class="field">
-				    <%= f.label :axis_width %>
-				    <%= f.number_field :axis_width, {:class => 'span1'} %>px
-				  </div>
 				</fieldset>
 			</div>
 			
@@ -92,6 +88,8 @@
 		<p class="help hide" id="value-help">
 		  Click on any square/icon in the array to set the risk, or just set the number here.
 		</p>
+		
+		<%= f.submit 'preview', {:class => 'btn-large btn-primary'} %>
 		
 	</div>
 

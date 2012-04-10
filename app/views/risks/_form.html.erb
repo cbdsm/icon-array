@@ -1,19 +1,17 @@
 <div class="tab-pane <%= 'active' if i == 1%> color-pane" id="color<%=i%>">
-	<% if i != 0 %>
-		<div class="field">
-			<!-- Risk field -->
-	    <%= r.number_field :value, {:step => '.01', :class => 'span1 risk-field editable value-field', :id => "risks_#{i}_value", :autofocus => (i == 1)} %>
-			<%=link_to 'ok', "#", {:id => "risks_#{i}_value_submit", :class => 'btn submittable hide description-field'}%>
-			
-			<!-- Population field (i.e. 'out of 100' )-->
-			<%= r.text_field :population, {:placeholder => "out of #{@pictograph.cells}", :class => "span2 #{'editable' if @advanced}", :id => "risks_#{i}_population", :readonly => !@advanced} %>
-			<%=link_to 'ok', "#", {:id => "risks_#{i}_population_submit", :class => 'btn submittable hide'}%>
-			
-			<!-- Description/Legend field -->
-			<%= r.text_field :description, {:placeholder => "population members exhibit this property", :class => 'span4 editable', :id => "risks_#{i}_description"} %>
-			<%=link_to 'ok', "#", {:id => "risks_#{i}_description_submit", :class => 'btn submittable hide'}%>
-	  </div>
-	<% end %>
+	<div class="field">
+		<!-- Risk field -->
+    <%= r.number_field :value, {:step => '.01', :class => 'span1 risk-field editable value-field', :id => "risks_#{i}_value", :autofocus => (i == 1), :disabled => i == 0, :value => (i == 0 ? @pictograph.off_value : r.object.value )  } %>
+		<%=link_to 'ok', "#", {:id => "risks_#{i}_value_submit", :class => 'btn submittable hide description-field'}%>
+		
+		<!-- Population field (i.e. 'out of 100' )-->
+		<%= r.text_field :population, {:value => r.object.population || "out of #{@pictograph.cells} people", :class => "span3 #{'editable' if @advanced}", :id => "risks_#{i}_population", :readonly => (!@advanced or i == 0)} %>
+		<%=link_to 'ok', "#", {:id => "risks_#{i}_population_submit", :class => 'btn submittable hide'}%>
+		
+		<!-- Description/Legend field -->
+		<%= r.text_field :description, {:placeholder => (i == 0 ? "don't exhibit this property": "exhibit this property"), :class => 'span3 editable', :id => "risks_#{i}_description", :readonly => i == 0} %>
+		<%=link_to 'ok', "#", {:id => "risks_#{i}_description_submit", :class => 'btn submittable hide'}%>
+  </div>
 
   <div class="field">
     <%= r.label :hex, 'Color' %>
