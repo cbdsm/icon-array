@@ -6,6 +6,8 @@ class Risk < ActiveRecord::Base
   scope :on, where("position != 0")
   scope :off, where("position = 0")
   
+  # after_initialize :init
+  
   has_attached_file :icon, 
                     # :path => ":rails_root/public/system/icons/:id/:style_:basename.:extension",
                     # :url => "/system/icons/:id/:style_:basename.:extension",
@@ -27,5 +29,10 @@ class Risk < ActiveRecord::Base
     b = rand(255)
     return '#' + r.to_s(16) + g.to_s(16) + b.to_s(16)
   end
+
+  # private
+  #   def init
+  #     self.population ||= "out of #{self.pictograph.cells}"
+  #   end
 
 end

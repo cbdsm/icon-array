@@ -46,7 +46,27 @@ $(document).ready(function() {
 		$(this).next('div.risk-fill').toggle();
 	});
 	
-	$('a.editable').click(function(){
+	// $('a[data-toggle="tab"]').on('shown', function (e) {
+	$("body").on("shown", 'a[data-toggle="tab"]', function(e){
+		$('a.submittable:visible').hide();
+		// If this is a risk/color tab
+	  if ($(e.target).parent().hasClass('color-tab')) {
+			var href = $(e.target).attr('href');
+			var tab = $(href);
+			if (href != '#color0') { // If this isn't the 'off' tab
+				tab.find('input.value-field').focus();
+			} else {
+				tab.find('input.color-field').focus();
+				$('.help:visible').hide();
+			}
+		} else {
+			$('.help:visible').hide();
+		}
+	  // e.relatedTarget // previous tab
+	})
+	
+	// $('a.editable').click(function(){
+	$("body").on("click", "a.editable", function(event){
 		$(this).hide();
 		$('.help:visible').hide();
 		$('a.submittable:visible').hide();
@@ -61,12 +81,12 @@ $(document).ready(function() {
 	});
 	
 	// Show/hide OK button on focus/blur
-	$('input.editable').focus(function(){
+	$("body").on("focus", "input.editable", function(event){
 		$('a.submittable:visible').hide();
 		
 		if ($(this).hasClass('value-field')) {
 			$('table.pictograph').addClass('active');
-			$(this).siblings('.help').show();
+			$('p#value-help').show();
 		} else {
 			$('table.pictograph').removeClass('active');
 			$('.help:visible').hide();
@@ -81,7 +101,7 @@ $(document).ready(function() {
 	});
 	
 	// Same for color picker
-	$('input.color-field').focus(function(){
+	$("body").on("focus", "input.color-field", function(event){
 		$('a.submittable:visible').hide();
 		$('table.pictograph').removeClass('active');
 	});
@@ -90,7 +110,7 @@ $(document).ready(function() {
 	$('input#risks_1_value').focus();
 			
 	// After updating a form field		
-	$('a.submittable').click(function(){
+	$("body").on("click", "a.submittable", function(event){
 		// get input & value
 		var edit = '#' + $(this).attr('id').replace('_submit', '');
 		var val = $(edit).val();
@@ -172,10 +192,10 @@ $(document).ready(function() {
 		$('#embed').modal('show');
 	});
 	
-	$('form ul.nav-tabs li a').live('click', function(){
-		colorIndex = $(this).attr('href').replace('#color', '');
-		curRisk = $('form .tab-content div.active input.risk-field').val();
-	});
+	// $('form ul.nav-tabs li a').live('click', function(){
+	// 	colorIndex = $(this).attr('href').replace('#color', '');
+	// 	curRisk = $('form .tab-content div.active input.risk-field').val();
+	// });
 	
 	// These are all ways of automatically updating the picto risk number
 	// They're not well supported across browsers, undfortunately
@@ -216,7 +236,7 @@ $(document).ready(function() {
 	});
 	
 	// This gives us the cell hover effect for choosing a value
-	$('body').delegate('table.pictograph.active td.picto-cell', 'hover', function( event ) {
+	$('body').on('hover', 'table.pictograph.active td.picto-cell', function( event ) {
 		// in
 		if ( event.type === 'mouseenter' ) {
 			// Form values
@@ -252,7 +272,7 @@ $(document).ready(function() {
 	});
 	
 	// This actually sets the value
-	$('body').delegate('table.pictograph.active td.picto-cell', 'click', function( event ) {
+	$('body').on('click', 'table.pictograph.active td.picto-cell', function( event ) {
 		var thisRisk = Number($(this).attr('id').replace('cell', '')) + 1; // value of the cell we're on
 		updateMultiple(thisRisk - 1, $('div.tab-content div.active').find('input.color-field').val());
 		$('a.submittable:visible').hide();

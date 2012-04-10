@@ -1,14 +1,17 @@
-<div class="tab-pane <%= 'active' if i == 1%>" id="color<%=i%>">
+<div class="tab-pane <%= 'active' if i == 1%> color-pane" id="color<%=i%>">
 	<% if i != 0 %>
 		<div class="field">
-		  <%= r.label :value, 'Risk' %>
+			<!-- Risk field -->
 	    <%= r.number_field :value, {:step => '.01', :class => 'span1 risk-field editable value-field', :id => "risks_#{i}_value", :autofocus => (i == 1)} %>
 			<%=link_to 'ok', "#", {:id => "risks_#{i}_value_submit", :class => 'btn submittable hide description-field'}%>
-			<p class="help hide" id="value-help">
-			  Click on any square/icon in the array to set the risk, or just set the number here.
-			</p>
-			<%= r.text_field :description, {:placeholder => "out of #{@pictograph.cells} population members exhibit this property", :class => 'span4 editable', :id => "risks_#{i}_description"} %>
-			<%=link_to 'ok', "#", {:id => "risks_#{i}_value_submit", :class => 'btn submittable hide'}%>
+			
+			<!-- Population field (i.e. 'out of 100' )-->
+			<%= r.text_field :population, {:placeholder => "out of #{@pictograph.cells}", :class => "span2 #{'editable' if @advanced}", :id => "risks_#{i}_population", :readonly => !@advanced} %>
+			<%=link_to 'ok', "#", {:id => "risks_#{i}_population_submit", :class => 'btn submittable hide'}%>
+			
+			<!-- Description/Legend field -->
+			<%= r.text_field :description, {:placeholder => "population members exhibit this property", :class => 'span4 editable', :id => "risks_#{i}_description"} %>
+			<%=link_to 'ok', "#", {:id => "risks_#{i}_description_submit", :class => 'btn submittable hide'}%>
 	  </div>
 	<% end %>
 

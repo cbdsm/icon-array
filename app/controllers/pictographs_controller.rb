@@ -54,9 +54,9 @@ class PictographsController < ApplicationController
   # POST /pictographs
   # POST /pictographs.json
   def create
-    if params[:commit] == "save for print"
+    if params[:commit] == "export for print"
       redirect_to view_pictographs_path(params[:pictograph].merge(:format => :tif))
-    elsif params[:commit] == "save for web"
+    elsif params[:commit] == "export for web"
      redirect_to view_pictographs_path(params[:pictograph].merge(:format => :jpg))
     else
       @pictograph = Pictograph.new(params[:pictograph])
@@ -118,9 +118,10 @@ class PictographsController < ApplicationController
       format.jpg {
         @kit = IMGKit.new(render_to_string('show', :layout => 'embed'))
         @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/application.css'
-        image = MiniMagick::Image.read(@kit.to_jpg)
-        image.resize "100x100"
-        image.write  "tmp/output.jpg"
+        image = @kit.to_jpg
+        # image = MiniMagick::Image.read(@kit.to_jpg)
+        # image.resize "100x100"
+        # image.write  "tmp/output.jpg"
         # TODO: Not sure how to crop this on the fly!
         send_data(image, :type => "image/jpeg", :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.jpg")
       }
@@ -155,6 +156,12 @@ class PictographsController < ApplicationController
       @p.delete(:format)
       @p.delete(:controller)
       @p.delete(:action)
+      @p.delete(:advanced)
+      if !params[:advanced].blank? and params[:advanced] == true
+        @advanced = true 
+      else
+        @advanced = false
+      end
 
       if @p[:risks_attributes].nil? or @p[:risks_attributes].empty?
         @p[:risks_attributes] = {0 => {:hex => '#DCDCDC'}, 1 => {:hex => '#0000FF', :value => 32}}

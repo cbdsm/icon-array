@@ -12,6 +12,7 @@ IconArray::Application.routes.draw do
   
   match '/about' => 'contents#about', :as => :about
   match '/why' => 'contents#why', :as => :why
+  match '/advanced' => 'pictographs#new', :advanced => true, :as => :advanced
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
