@@ -134,8 +134,10 @@ class PictographsController < ApplicationController
         inpath = "#{Rails.root.to_s}/tmp/tiff_#{Time.now.to_i}.html"
         outpath = "#{Rails.root.to_s}/tmp/tiff_#{Time.now.to_i}.tiff"
         infile = File.open(inpath,'w:ASCII-8BIT') {|file| file << render_to_string('show.jpg.erb')}
+        
+        bin = ENV['RACK_ENV'] == 'production' ? Rails.root.join('bin', 'wkhtmltoimage-amd64').to_s : 'wkhtmltoimage'       
                 
-        `wkhtmltoimage --format tiff #{inpath} #{outpath}`
+        `#{bin} --format tiff #{inpath} #{outpath}`
 
         send_file outpath, :type => 'image/tiff', :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.tiff", :stream => false
         File.unlink(inpath)
