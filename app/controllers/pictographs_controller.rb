@@ -122,10 +122,6 @@ class PictographsController < ApplicationController
         @kit = IMGKit.new(render_to_string('show', :layout => 'embed'), 'crop-w' => @pictograph.export_width)
         @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/application.css'
         image = @kit.to_jpg
-        # image = MiniMagick::Image.read(@kit.to_jpg)
-        # image.resize "100x100"
-        # image.write  "tmp/output.jpg"
-        # TODO: Not sure how to crop this on the fly!
         send_data(image, :type => "image/jpeg", :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.jpg")
       }
       format.tif {
@@ -134,17 +130,16 @@ class PictographsController < ApplicationController
         @pictograph.cell_spacing = @pictograph.cell_spacing * 5
         @pictograph.axis_font_size = @pictograph.axis_font_size * 5
         
-        # kit = IMGKit.new(render_to_string('show.jpg.erb'))
-        path = "tmp/tiff_#{Time.now.to_i}.tiff"
-        # kit.to_img(:jpg)
-        # f = File.open(path,'w:ASCII-8BIT') {|file| file << kit.to_img(:tiff)}
-        url = 'icon-array.herokuapp.com:/pictographs/view?title=My+Favorite+Picto!&risks_attributes[0][population]=out+of+100+people&risks_attributes[0][description]=&risks_attributes[0][hex]=%23DCDCDC&risks_attributes[1][value]=32.0&risks_attributes[1][population]=out+of+100+people&risks_attributes[1][description]=will+get+cancer&risks_attributes[1][hex]=%230000FF&cell_width=25&cell_height=45&cell_spacing=5&cols=10&rows=10&axis_labels=0&axis_labels=1&axis_position=left&axis_font=Arial&axis_font_size=12'.gsub('=', '%3D').gsub('&', '%26')
-        `wkhtmltoimage --format tiff #{url} #{path}`
-        # output = `#{makefile_path}`
-        # output = Kernel.send(:`, makefile_path)
+        # We have to do all of this with files, since stdin/stdout don't seem to work with wkhtmltoimage
+        inpath = "tmp/tiff_#{Time.now.to_i}.html"
+        outpath = "tmp/tiff_#{Time.now.to_i}.tiff"
+        infile = File.open(inpath,'w:ASCII-8BIT') {|file| file << render_to_string('show.jpg.erb')}
+                
+        `wkhtmltoimage --format tiff #{inpath} #{outpath}`
 
-        send_file path, :type => 'image/tiff', :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.tiff"
-        # send_data(f.read, :type => "image/tiff", :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.tiff")
+        send_file outpath, :type => 'image/tiff', :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.tiff", :stream => false
+        File.unlink(inpath)
+        File.unlink(outpath)
       }
       
     end
