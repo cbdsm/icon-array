@@ -131,8 +131,8 @@ class PictographsController < ApplicationController
         @pictograph.axis_font_size = @pictograph.axis_font_size * 5
         
         # We have to do all of this with files, since stdin/stdout don't seem to work with wkhtmltoimage
-        inpath = "tmp/tiff_#{Time.now.to_i}.html"
-        outpath = "tmp/tiff_#{Time.now.to_i}.tiff"
+        inpath = "#{Rails.root.to_s}/tmp/tiff_#{Time.now.to_i}.html"
+        outpath = "#{Rails.root.to_s}/tmp/tiff_#{Time.now.to_i}.tiff"
         infile = File.open(inpath,'w:ASCII-8BIT') {|file| file << render_to_string('show.jpg.erb')}
                 
         `wkhtmltoimage --format tiff #{inpath} #{outpath}`
