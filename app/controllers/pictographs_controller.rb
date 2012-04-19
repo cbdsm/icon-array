@@ -161,11 +161,16 @@ class PictographsController < ApplicationController
   
   private
     def set_params
-      @p = params.clone
-      @p.delete(:format)
-      @p.delete(:controller)
-      @p.delete(:action)
-      @p.delete(:advanced)
+      if !params[:pictograph].blank?
+        @p = params[:pictograph]
+      else
+        @p = params.clone
+        @p.delete(:format)
+        @p.delete(:controller)
+        @p.delete(:action)
+        @p.delete(:advanced)
+      end
+      
       if !params[:advanced].blank? and params[:advanced] == true
         @advanced = true 
       else

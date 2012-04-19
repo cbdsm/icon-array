@@ -170,7 +170,23 @@ $(document).ready(function() {
 			// }
 			return false;		}
 	});
+	
+	// Advanced Tab
+	$('a[href="/advanced"]').click(function(){
+		var formvars = decodeURIComponent($("form.picto-form").serialize());
+		formvars = formvars.replace(/utf8=./, '');
+		formvars = formvars.replace(/&authenticity_token=/, '');
+		formvars = formvars.replace(AUTH_TOKEN + '&', '');
+		// formvars = formvars.replace(/pictograph\[(\w+)\]/gi, "$1");
+		formvars = formvars.replace(/\#/gi, "%23");
+		// $('#save-share div.modal-body p').html(url + '/pictographs/view?' + formvars);
+		// $('#save-share').modal('show');
 		
+		$(this).attr('href', '/advanced?' + formvars);
+		alert($(this).attr('href'));
+	});
+		
+	// Save/Share
 	$('a[href="#save-share"]').click(function(){
 		var formvars = decodeURIComponent($(this).parents("form").serialize());
 		formvars = formvars.replace(/utf8=./, '');
@@ -182,6 +198,7 @@ $(document).ready(function() {
 		$('#save-share').modal('show');
 	});
 	
+	// Embed
 	$('a[href="#embed"]').click(function(){
 		var formvars = decodeURIComponent($(this).parents("form").serialize());
 		formvars = formvars.replace(/utf8=./, '');
@@ -444,6 +461,7 @@ $(document).ready(function() {
 		
 		// Set the form val
 		$('form .tab-content div.active input.risk-field').val(thisRisk);
+		$('input#risks_0_value').val(100 - thisRisk);
 		curRisk = thisRisk;
 		$('.help:visible').hide();
 	};
