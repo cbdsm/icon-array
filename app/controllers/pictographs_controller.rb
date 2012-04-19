@@ -114,7 +114,10 @@ class PictographsController < ApplicationController
     @pictograph = Pictograph.new(@p)
     
     respond_to do |format|
-      format.html { render 'show' }
+      format.html { 
+        @url = request.url
+        render 'show' 
+      }
       format.json { render json: @pictograph }
       format.xml  { render :xml => @pictograph }   
 
@@ -178,7 +181,7 @@ class PictographsController < ApplicationController
       end
 
       if @p[:risks_attributes].nil? or @p[:risks_attributes].empty?
-        @p[:risks_attributes] = {0 => {:hex => '#DCDCDC'}, 1 => {:hex => '#0000FF', :value => 32}}
+        @p[:risks_attributes] = {0 => {:hex => '#DCDCDC', :population => 'out of 100', :description => "don't exhibit this property"}, 1 => {:hex => '#0000FF', :value => 32, :population => 'out of 100', :description => 'exhibit this property'}}
       end
     end
   

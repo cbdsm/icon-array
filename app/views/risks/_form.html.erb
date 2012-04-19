@@ -18,6 +18,14 @@
     <%= r.text_field :hex, {:class => 'color-field'} %>
   </div>
 
+	<% if @advanced %>
+		<label class="checkbox">
+	    <%= r.check_box :display %> show this legend
+	  </label>
+	<% else %>
+		<%= r.hidden_field :display %>
+	<% end %>
+
   <!-- <div class="field">
 		<%=image_tag(r.object.icon.url(:default), {:id => "icon#{i}", :class => "form-icon"}) if r.object.icon? %>
     <%= r.label :icon %>

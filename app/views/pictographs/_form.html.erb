@@ -89,15 +89,14 @@
 		  Click on any square/icon in the array to set the risk, or just set the number here.
 		</p>
 		
-		<%= f.submit 'preview', {:class => 'btn-large btn-primary'} %>
-		
 	</div>
 
 	<br clear="left" />
 	
   <div class="actions">
-    <!-- <%= f.submit "Save" %> <%= f.submit 'Preview' %> -->
-		<%=link_to 'save as link', '#save-share', {:class => 'btn'} %> <%=link_to 'embed', '#embed', {:class => 'btn'} %> <%= f.submit 'export for web' %> <%= f.submit 'export for print' %>
+    <!-- <%= f.submit "Save" %>-->
+		<%= f.submit 'preview', {:class => 'btn btn-primary'} %>
+		<%=link_to 'save as link', '#save-share', {:class => 'btn'} %> <%=link_to 'embed', '#embed', {:class => 'btn'} %> <%= f.submit 'export for web', {:class => 'btn'} %> <%= f.submit 'export for print', {:class => 'btn'} %>
   </div>
 
 	<div class="modal" id="save-share">
