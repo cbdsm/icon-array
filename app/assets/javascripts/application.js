@@ -25,6 +25,7 @@
 $(document).ready(function() {
 	// globals
 	// This stuff is mostly for embedding/linking
+	var debug = false;
 	var host = window.location.hostname;
 	var port = window.location.port;
 	var url;
@@ -38,6 +39,12 @@ $(document).ready(function() {
 	var curRisk = $('input#risks_1_value').val(); //$('form .tab-content div.active input.risk-field').val();
 	var colorIndex = 1; //$('form ul.nav li.active a').attr('href').replace('#color', '');
 	var cols = 10;
+	
+	if (debug) {
+		$('td.picto-cell').livequery(function(){
+			$(this).html($('table.pictograph td.picto-cell').index($(this)));
+		});
+	}
 	
 	// This allows us to set the li active for any active a tag
 	$('.nav a.active').parent('li').addClass('active');
@@ -108,6 +115,10 @@ $(document).ready(function() {
 	
 	// focus on first risk
 	$('input#risks_1_value').focus();
+			
+	$("body").on("click", "table.pictograph:not(.active)", function(event){	
+		$(this).addClass('active');
+	});	
 			
 	// After updating a form field		
 	$("body").on("click", "a.submittable", function(event){
@@ -327,7 +338,15 @@ $(document).ready(function() {
 			
 			// Lower adjustment
 			var low1 = curVal;
-			var low2 = curVal - (curVal % cols) + cols;
+			var low2 = curVal - (curVal % cols);
+			if ((low1 - high1) >= 10){
+				 low2 += cols;
+			}
+			
+			if (debug) {
+				alert("high1: " + high1 + ", high2: " + high2);
+				alert("low1: " + low1 + ", low2: " + low2);
+			}
 			
 			// If we have a file extension, this is an icon
 			if (parts.length > 1) {
@@ -375,6 +394,16 @@ $(document).ready(function() {
 			var el = $('table.pictograph td#cell' + curRisk)
 			var low1 = val + 1;
 			var low2 = val - (val % cols) + cols;
+			if ((low1 - high1) < 10){
+				low1--;
+				high1 = low1;
+				low2 = high2;
+			}
+			
+			if (debug) {
+				alert("high1: " + high1 + ", high2: " + high2);
+				alert("low1: " + low1 + ", low2: " + low2);
+			}
 			
 			if (parts.length > 1) {
 				// Get the icon
