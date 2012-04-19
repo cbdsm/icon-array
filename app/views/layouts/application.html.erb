@@ -6,7 +6,6 @@
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 	<%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
-	<link rel="icon" type="image/png" href="/assets/images.png">
 </head>
 <body>
 	<div class="navbar navbar-fixed-top">
@@ -27,8 +26,7 @@
 	</div>
 	
 	<div id="branding">
-		<%=image_tag 'UM_logo_yellow_white.png' %><br />
-		<%=image_tag 'SPHlogo.jpg' %><br />
+		<%=image_tag 'StackedBlockMwrapped.png' %><br />
 		<%=image_tag 'RiskLogo.jpg' %> 
 	</div>
 	

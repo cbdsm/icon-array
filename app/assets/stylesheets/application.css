@@ -133,14 +133,7 @@ div.field div.field-icon {
 
 a.editable {
 	border-bottom: dotted 1px #c3c3c3;
-	cursor: help;
-}
-
-fieldset {
-	width: 180px;
-}
-fieldset#cells {
-	float: left;
+	cursor: url(pencil.png);
 }
 
 /* Legend */
