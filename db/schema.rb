@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120410162957) do
+ActiveRecord::Schema.define(:version => 20120419183054) do
 
   create_table "pictographs", :force => true do |t|
     t.string   "title"
@@ -37,10 +37,11 @@ ActiveRecord::Schema.define(:version => 20120410162957) do
     t.string   "icon_content_type"
     t.datetime "icon_updated_at"
     t.integer  "position"
-    t.datetime "created_at",                                       :null => false
-    t.datetime "updated_at",                                       :null => false
+    t.datetime "created_at",                                                         :null => false
+    t.datetime "updated_at",                                                         :null => false
     t.text     "description"
     t.string   "population"
+    t.boolean  "display",                                          :default => true
   end
 
 end

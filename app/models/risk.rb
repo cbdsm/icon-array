@@ -5,6 +5,7 @@ class Risk < ActiveRecord::Base
   
   scope :on, where("position != 0")
   scope :off, where("position = 0")
+  scope :displayed, where(:display => true)
   
   # after_initialize :init
   

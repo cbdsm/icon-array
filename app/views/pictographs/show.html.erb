@@ -6,20 +6,54 @@
 
 <div id="editor">
 	<dl id="risk-legend">
-		<% @pictograph.risks.each_with_index do |risk, i| %>
-			<% unless risk.description.blank? %>
-				<dt id="risky<%=i%>" style="width: <%=@pictograph.cell_width + 20%>px;">
-					<div class="legend-icon" id="test<%=i%>" style="width: <%=@pictograph.cell_width%>px; height: <%=@pictograph.cell_height%>px; background-color: <%=risk.hex%>;" data-color="<%=risk.hex%>"></div>
-				</dt>
-				<dd id="frisky<%=i%>" style="width: <%=400 - (@pictograph.cell_width + 20)%>px;">
-					<% if i > 0 %>
-						<span id="#risks_<%=i%>_value" class="risk-val"><%= risk.value %></span>
-					<% else%>
-						<span id="#risks_<%=i%>_value" class="risk-val"><%= @pictograph.off_value %></span>
-					<% end %>
-						<%= risk.population %> <%= risk.description %>
-				</dd>
-			<% end %>
+		<% @pictograph.risks.displayed.each_with_index do |risk, i| %>
+			<dt id="risky<%=i%>" style="width: <%=@pictograph.cell_width + 20%>px;">
+				<div class="legend-icon" id="test<%=i%>" style="width: <%=@pictograph.cell_width%>px; height: <%=@pictograph.cell_height%>px; background-color: <%=risk.hex%>;" data-color="<%=risk.hex%>"></div>
+			</dt>
+			<dd id="frisky<%=i%>" style="width: <%=400 - (@pictograph.cell_width + 20)%>px;">
+				<% if i > 0 %>
+					<span id="#risks_<%=i%>_value" class="risk-val"><%= risk.value %></span>
+				<% else%>
+					<span id="#risks_<%=i%>_value" class="risk-val"><%= @pictograph.off_value %></span>
+				<% end %>
+					<%= risk.population %> <%= risk.description %>
+			</dd>
 		<% end %>
 	</dl>
+</div>
+
+<br clear="left" />
+
+<div class="actions preview-actions">
+	<%=link_to 'edit', '/?' + request.query_string, {:class => 'btn btn-primary'} %>
+	<%=link_to 'save as link', '#save-share', {:class => 'btn'} %> <%=link_to 'embed', '#embed', {:class => 'btn'} %> 		<%=link_to 'export for web', '/pictographs/view.jpg?' + request.query_string, {:class => 'btn'} %> <%=link_to 'export for print', '/pictographs/view.tif?' + request.query_string, {:class => 'btn'} %>
+</div>
+
+<div class="modal" id="save-share">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>Save/Share this Icon Array</h3>
+  </div>
+  <div class="modal-body">
+    <%= @url %>
+  </div>
+  <div class="modal-footer">
+    <a href="#" data-dismiss="modal" class="btn">Close</a>
+  </div>
+</div>
+
+<div class="modal" id="embed">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>Embed this Icon Array</h3>
+  </div>
+  <div class="modal-body">
+    <pre>
+			<iframe src="<%=@url%>" type="text/html" width="<%=@pictograph.export_width%>" height="550" scrolling="no" frameborder="0"></iframe>'
+		</pre>
+  </div>
+  <div class="modal-footer">
+		<a href="#embed-code" class="zclip" data-copied-hint="copied!" data-copy-hint="copy to clipboard">Copy to Clipboard</a>
+  	<a href="#" data-dismiss="modal" class="btn">Close</a>
+  </div>
 </div>

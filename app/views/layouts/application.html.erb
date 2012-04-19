@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>IconArray</title>
+  <title>Icon Array</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
@@ -10,7 +10,7 @@
 <body>
 	<div class="navbar navbar-fixed-top">
 	  <div class="navbar-inner">
-			<%= image_tag 'icon_logo.png', :style => 'height: 30px;' %> <a class="brand" href="/">icon-array.com</a>
+			<%=link_to image_tag('web-logo.png'), '/', {:class => 'brand'} %>
 	    <div class="container">    
 				<ul class="nav">
 				  <li><%=link_to_active_if_current 'Basic', '/', %></li>
