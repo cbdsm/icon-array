@@ -18,6 +18,7 @@
 //= require bootstrap-popover
 //= require bootstrap-alert
 //= require bootstrap-modal
+//= require bootstrap-dropdown
 //= require jquery.miniColors.min
 //= require jquery.livequery
 //= require jquery.jeditable.min
@@ -45,6 +46,8 @@ $(document).ready(function() {
 			$(this).html($('table.pictograph td.picto-cell').index($(this)));
 		});
 	}
+	
+	$('.dropdown-toggle').dropdown()
 	
 	// This allows us to set the li active for any active a tag
 	$('.nav a.active').parent('li').addClass('active');
@@ -173,8 +176,8 @@ $(document).ready(function() {
 	
 	// Advanced Tab
 	$('a[href="/advanced"]').click(function(){
-		if ($('a:contains("edit")').length > 0) {
-			var formvars = $('a:contains("edit")').attr('href').replace('/?', '');
+		if ($('.actions a:contains("edit")').length > 0) {
+			var formvars = $('.actions a:contains("edit")').attr('href').replace('/?', '');
 			alert(formvars);
 		} else {
 			var formvars = decodeURIComponent($("form.picto-form").serialize());

@@ -26,7 +26,16 @@
 				<% end %>
 				<% if @advanced %>
 					<li id="new-risk"><%=link_to '+', new_risk_path(:tab => @pictograph.risks.length), {:remote => true}%></li>
-					<li><a href="#fine-tuning" data-toggle="tab" style="border-color: #ddd; border-width: 1px 1px 0px 1px;">fine-tuning</a></li>
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#finetuning">
+			      fine-tuning
+			      <b class="caret"></b>
+			    </a>
+			    <ul class="dropdown-menu">
+			      <li><a href="#cells" data-toggle="tab">Cell size and spacing</a></li>
+			      <li><a href="#axis" data-toggle="tab">Axis labels</a></li>
+			      <li><a href="#title" data-toggle="tab">Title font, size, and alignment</a></li>
+			    </ul>
 				<% end %>
 			</ul>
 
@@ -38,7 +47,7 @@
 				<% end %>
 
 			
-			<div class="tab-pane" id="fine-tuning">
+			<div class="tab-pane" id="cells">
 				<fieldset id="cells">
 					<legend>Cells</legend>
 				  <div class="field">
@@ -62,7 +71,9 @@
 				    <%= f.number_field :rows, {:class => 'span1'} %>
 				  </div>
 				</fieldset>
-				
+			</div>
+			
+			<div class="tab-pane" id="axis">
 				<fieldset id="axis">
 					<legend>Axis</legend>
 				  <div class="field checkbox">
