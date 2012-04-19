@@ -173,17 +173,21 @@ $(document).ready(function() {
 	
 	// Advanced Tab
 	$('a[href="/advanced"]').click(function(){
-		var formvars = decodeURIComponent($("form.picto-form").serialize());
-		formvars = formvars.replace(/utf8=./, '');
-		formvars = formvars.replace(/&authenticity_token=/, '');
-		formvars = formvars.replace(AUTH_TOKEN + '&', '');
-		// formvars = formvars.replace(/pictograph\[(\w+)\]/gi, "$1");
-		formvars = formvars.replace(/\#/gi, "%23");
-		// $('#save-share div.modal-body p').html(url + '/pictographs/view?' + formvars);
-		// $('#save-share').modal('show');
+		if ($('a:contains("edit")').length > 0) {
+			var formvars = $('a:contains("edit")').attr('href').replace('/?', '');
+			alert(formvars);
+		} else {
+			var formvars = decodeURIComponent($("form.picto-form").serialize());
+			formvars = formvars.replace(/utf8=./, '');
+			formvars = formvars.replace(/&authenticity_token=/, '');
+			formvars = formvars.replace(AUTH_TOKEN + '&', '');
+			// formvars = formvars.replace(/pictograph\[(\w+)\]/gi, "$1");
+			formvars = formvars.replace(/\#/gi, "%23");
+			// $('#save-share div.modal-body p').html(url + '/pictographs/view?' + formvars);
+			// $('#save-share').modal('show');
+		}
 		
 		$(this).attr('href', '/advanced?' + formvars);
-		alert($(this).attr('href'));
 	});
 		
 	// Save/Share
