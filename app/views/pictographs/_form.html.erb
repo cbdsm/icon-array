@@ -13,7 +13,7 @@
     </div>
   <% end %>
 
-  <h3 style="width: <%=@pictograph.table_width%>px; margin-left: <%=@pictograph.axis_width + 25 %>px; margin-bottom: -30px;">
+  <h3 style="width: <%=@pictograph.table_width%>px; margin-left: <%=@pictograph.axis_width + 25 %>px;" id="pictograph-title">
 		<%= f.text_field :title, {:placeholder => 'Click to edit title', :class => 'hide editor', :id => "pictograph_title"} %><%=link_to 'ok', "#", {:id => "pictograph_title_submit", :class => 'btn hide submittable'}%><%=link_to @pictograph.title || 'Click to edit title', "#pictograph_title", {:class => "editable"} %>
   </h3>
 
@@ -95,6 +95,24 @@
 				  <div class="field">
 				    <%= f.label :axis_font_size %>
 				    <%= f.number_field :axis_font_size, {:class => 'span1'} %>px
+				  </div>
+				</fieldset>
+			</div>
+			
+			<div class="tab-pane" id="title">
+				<fieldset id="title">
+					<legend>Title</legend>
+				  <div class="field radio">
+				    <%= f.label :title_alignment, 'alignment' %><br />
+						<%= f.select :title_alignment, {:left => 'left', :center => 'center', :right => 'right'} %>
+				  </div>
+				  <div class="field">
+				    <%= f.label :title_font %>
+				    <%= f.text_field :title_font %>
+				  </div>
+				  <div class="field">
+				    <%= f.label :title_size, 'Title font size' %>
+				    <%= f.number_field :title_size, {:class => 'span1'} %>px
 				  </div>
 				</fieldset>
 			</div>
