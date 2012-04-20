@@ -6,16 +6,18 @@
 
 <div id="editor">
 	<dl id="risk-legend">
-		<% @pictograph.risks.each_with_index do |risk, i| %>
+		<% off = @pictograph.risks.shift
+    @pictograph.risks.push(off) %>
+		<% @pictograph.risks.each do |risk| %>
 			<% if risk.display? %>
-				<dt id="risky<%=i%>" style="width: <%=@pictograph.cell_width + 20%>px;">
-					<div class="legend-icon" id="test<%=i%>" style="width: <%=@pictograph.cell_width%>px; height: <%=@pictograph.cell_height%>px; background-color: <%=risk.hex%>;" data-color="<%=risk.hex%>"></div>
+				<dt id="risky<%=risk.position%>" style="width: <%=@pictograph.cell_width + 20%>px;">
+					<div class="legend-icon" id="test<%=risk.position%>" style="width: <%=@pictograph.cell_width%>px; height: <%=@pictograph.cell_height%>px; background-color: <%=risk.hex%>;" data-color="<%=risk.hex%>"></div>
 				</dt>
-				<dd id="frisky<%=i%>" style="width: <%=400 - (@pictograph.cell_width + 20)%>px;">
-					<% if i > 0 %>
-						<span id="#risks_<%=i%>_value" class="risk-val"><%= risk.value %></span>
+				<dd id="frisky<%=risk.position%>" style="width: <%=400 - (@pictograph.cell_width + 20)%>px;">
+					<% unless risk.value.blank? %>
+						<span id="#risks_<%=risk.position%>_value" class="risk-val"><%= risk.value.to_i %></span>
 					<% else%>
-						<span id="#risks_<%=i%>_value" class="risk-val"><%= @pictograph.off_value %></span>
+						<span id="#risks_<%=risk.position%>_value" class="risk-val"><%= @pictograph.off_value %></span>
 					<% end %>
 						<%= risk.population %> <%= risk.description %>
 				</dd>

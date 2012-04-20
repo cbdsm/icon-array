@@ -38,6 +38,7 @@ class PictographsController < ApplicationController
   # GET /pictographs/new.json
   def new
     @pictograph = Pictograph.new(@p)
+    logger.info @pictograph.risks.inspect
 
     respond_to do |format|
       format.html # new.html.erb 
@@ -181,7 +182,7 @@ class PictographsController < ApplicationController
       end
 
       if @p[:risks_attributes].nil? or @p[:risks_attributes].empty?
-        @p[:risks_attributes] = {0 => {:hex => '#DCDCDC', :population => 'out of 100', :description => "don't exhibit this property"}, 1 => {:hex => '#0000FF', :value => 32, :population => 'out of 100', :description => 'exhibit this property'}}
+        @p[:risks_attributes] = {0 => {:hex => '#DCDCDC', :population => 'people out of 100', :description => "don't exhibit this property"}, 1 => {:hex => '#0000FF', :value => 32, :population => 'people out of 100', :description => 'exhibit this property'}}
       end
     end
   
