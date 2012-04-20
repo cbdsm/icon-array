@@ -21,11 +21,16 @@
 
 	<div id="editor">
 			<ul class="nav nav-tabs">
-				<% @pictograph.risks.each_with_index do |risk, i| %>
-					<li class='<%="active" if i == 1 %> color-tab'><a href="#color<%=i%>" data-toggle="tab" style="background-color: <%=@pictograph.risks[i].hex%>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+				<% @tab_risks = @pictograph.risks.clone %>
+				<% @off_risk = @tab_risks.shift %>
+				<% @tab_risks.each_with_index do |risk, i| %>
+					<li class='<%="active" if i == 0 %> color-tab'><a href="#color<%=i + 1%>" data-toggle="tab" style="background-color: <%=risk.hex%>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
 				<% end %>
 				<% if @advanced %>
 					<li id="new-risk"><%=link_to '+', new_risk_path(:tab => @pictograph.risks.length), {:remote => true}%></li>
+				<% end %>
+				<li class='color-tab'><a href="#color0" data-toggle="tab" style="background-color: <%=@off_risk.hex%>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+				<% if @advanced %>
 					<li class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#finetuning">
 			      fine-tuning
