@@ -93,6 +93,10 @@ a.miniColors-trigger {
 	margin-top: 10px;
 }
 
+h3#pictograph-title {
+	margin-bottom: -10px;
+}
+
 table.pictograph {
 	float: left;
 	margin: 20px;
