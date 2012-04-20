@@ -178,7 +178,6 @@ $(document).ready(function() {
 	$('a[href="/advanced"]').click(function(){
 		if ($('.actions a:contains("edit")').length > 0) {
 			var formvars = $('.actions a:contains("edit")').attr('href').replace('/?', '');
-			alert(formvars);
 		} else {
 			var formvars = decodeURIComponent($("form.picto-form").serialize());
 			formvars = formvars.replace(/utf8=./, '');
