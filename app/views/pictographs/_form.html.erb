@@ -129,8 +129,18 @@
 	
   <div class="actions">
     <!-- <%= f.submit "Save" %>-->
-		<%= f.submit 'preview', {:class => 'btn btn-primary'} %>
-		<%=link_to 'save as link', '#save-share', {:class => 'btn'} %> <%=link_to 'embed', '#embed', {:class => 'btn'} %> <%= f.submit 'export for web', {:class => 'btn'} %> <%= f.submit 'export for print', {:class => 'btn'} %>
+		<%= image_submit_tag("icons-prev.png", :name => 'commit', :value => 'preview') %>
+		<%=link_to image_tag('icon-link-01.png'), '#save-share' %> 
+		<%=link_to image_tag('icon-embed.png'), '#embed' %> 
+		<div class="btn-group dropup">
+		  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+		    <%=image_tag('icons-download.png') %>
+		  </a>
+		  <ul class="dropdown-menu">
+		    <li><%= image_submit_tag("icons-web.png", :name => 'commit', :value => 'export for web') %></li>
+				<li><%= image_submit_tag("icons-print.png", :name => 'commit', :value => 'export for print') %></li>
+		  </ul>
+		</div>
   </div>
 
 	<div class="modal" id="save-share">
