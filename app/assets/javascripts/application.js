@@ -201,7 +201,9 @@ $(document).ready(function() {
 			formvars = formvars.replace(AUTH_TOKEN + '&', '');
 			formvars = formvars.replace(/pictograph\[(\w+)\]/gi, "$1");
 			formvars = formvars.replace(/\#/gi, "%23");
-			$('#save-share div.modal-body p').html(url + '/pictographs/view?' + formvars);
+			
+			var full_url = bit_url(url + '/pictographs/view?' + formvars);
+			$('#save-share div.modal-body p').html(full_url);
 		}
 		$('#save-share').modal('show');
 	});
@@ -475,6 +477,24 @@ $(document).ready(function() {
 		curRisk = thisRisk;
 		$('.help:visible').hide();
 	};
+	
+	//bit_url function
+	function bit_url(url) { 
+		var url=url;
+		var username="ideaoforder"; // bit.ly username
+		var key="R_8d6c2265f9e37f9d332547673e8610d6";
+		$.ajax({
+			url:"http://api.bit.ly/v3/shorten",
+			data:{longUrl:url,apiKey:key,login:username},
+			dataType:"jsonp",
+			success:function(v) {
+				var bit_url=v.data.url;
+				return bit_url;
+				// $("#result").html('<a href="'+bit_url+'" target="_blank">'+bit_url+'</a>');
+				// $('#save-share div.modal-body p').html(bit_url);
+			}
+		});
+	}
 	
 });
 
