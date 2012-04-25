@@ -202,8 +202,9 @@ $(document).ready(function() {
 			formvars = formvars.replace(/pictograph\[(\w+)\]/gi, "$1");
 			formvars = formvars.replace(/\#/gi, "%23");
 			
-			var full_url = bit_url(url + '/pictographs/view?' + formvars);
-			$('#save-share div.modal-body p').html(full_url);
+			url = 'http://icon-array.heroku.com';
+			bit_url(url + '/pictographs/view/?' + formvars, '#save-share div.modal-body p');
+			// $('#save-share div.modal-body p').html(full_url);
 		}
 		$('#save-share').modal('show');
 	});
@@ -228,6 +229,10 @@ $(document).ready(function() {
 			// NOTE: width and height need to be calculated
 			// and to depend on whether there is a legend or not (i.e. whether there are risk descriptions)
 			$('#embed div.modal-body p').text('<iframe src="http://' + url + '/pictographs/embed?' + formvars + '" type="text/html" width="' + width + '" height="550" scrolling="no" frameborder="0"></iframe>');
+			// $('#embed div.modal-body p').text('<iframe src="" type="text/html" width="' + width + '" height="550" scrolling="no" frameborder="0"></iframe>');
+			// url = 'http://icon-array.heroku.com';
+			// bit_url(url + '/pictographs/embed/?' + formvars, '#save-share div.modal-body p');
+			// http://' + url + '/pictographs/embed?' + formvars + '
 		}
 		$('#embed').modal('show');
 	});
@@ -479,7 +484,7 @@ $(document).ready(function() {
 	};
 	
 	//bit_url function
-	function bit_url(url) { 
+	function bit_url(url, element) { 
 		var url=url;
 		var username="ideaoforder"; // bit.ly username
 		var key="ENV['BITLY_KEY']";
@@ -489,9 +494,7 @@ $(document).ready(function() {
 			dataType:"jsonp",
 			success:function(v) {
 				var bit_url=v.data.url;
-				return bit_url;
-				// $("#result").html('<a href="'+bit_url+'" target="_blank">'+bit_url+'</a>');
-				// $('#save-share div.modal-body p').html(bit_url);
+				$(element).html(bit_url);
 			}
 		});
 	}
