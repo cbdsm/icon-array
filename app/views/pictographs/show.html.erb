@@ -29,8 +29,18 @@
 <br clear="left" />
 
 <div class="actions preview-actions">
-	<%=link_to 'edit', '/?' + request.query_string, {:class => 'btn btn-primary'} %>
-	<%=link_to 'save as link', '#save-share', {:class => 'btn'} %> <%=link_to 'embed', '#embed', {:class => 'btn'} %> 		<%=link_to 'export for web', '/pictographs/view.jpg?' + request.query_string, {:class => 'btn'} %> <%=link_to 'export for print', '/pictographs/view.tif?' + request.query_string, {:class => 'btn'} %>
+	<%=link_to image_tag('icons-edit-03.png', :alt => 'edit'), '/?' + request.query_string, {:title => 'edit this icon array'} %>
+	<%=link_to image_tag('icons-link-03.png', :alt => 'save as link'), '#save-share', {:title => 'save a link to this icon array'} %> 
+	<%=link_to image_tag('icons-embed.png', :alt => 'embed'), '#embed', {:title => 'embed this icon array in another website'} %>
+	<div class="btn-group dropup">
+	  <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="download this icon array as an image">
+	    <%=image_tag('icons-download.png', :alt => 'download') %>
+	  </a>
+	  <ul class="dropdown-menu">
+			<li><%=link_to image_tag("icons-web.png", :alt => 'save image for web'), '/pictographs/view.jpg?' + request.query_string, {:title => "download this icon array as an image optimized for use on the web"} %></li>
+			<li><%=link_to image_tag("icons-print.png", :alt => 'save image for print'), '/pictographs/view.tif?' + request.query_string, {:title => "download this icon array as an image optimized for use in a print document"} %></li>
+	  </ul>
+	</div>
 </div>
 
 <div class="modal" id="save-share">

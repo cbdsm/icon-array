@@ -129,16 +129,16 @@
 	
   <div class="actions">
     <!-- <%= f.submit "Save" %>-->
-		<%= image_submit_tag("icons-prev.png", :name => 'commit', :value => 'preview') %>
-		<%=link_to image_tag('icon-link-01.png'), '#save-share' %> 
-		<%=link_to image_tag('icon-embed.png'), '#embed' %> 
+		<%= image_submit_tag("icons-prev-02.png", :name => 'commit', :value => 'preview', :alt => 'preview this icon array') %>
+		<%=link_to image_tag('icons-link-03.png', :alt => 'save as link'), '#save-share', {:title => 'save a link to this icon array'} %> 
+		<%=link_to image_tag('icons-embed.png', :alt => 'embed'), '#embed', {:title => 'embed this icon array in another website'} %> 
 		<div class="btn-group dropup">
-		  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-		    <%=image_tag('icons-download.png') %>
+		  <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="download this icon array as an image">
+		    <%=image_tag('icons-download.png', :alt => 'download') %>
 		  </a>
 		  <ul class="dropdown-menu">
-		    <li><%= image_submit_tag("icons-web.png", :name => 'commit', :value => 'export for web') %></li>
-				<li><%= image_submit_tag("icons-print.png", :name => 'commit', :value => 'export for print') %></li>
+		    <li><%= image_submit_tag("icons-web.png", :name => 'commit', :value => 'export for web', :alt => "download this icon array as an image optimized for use on the web") %></li>
+				<li><%= image_submit_tag("icons-print.png", :name => 'commit', :value => 'export for print', :alt => "download this icon array as an image optimized for use in a print document") %></li>
 		  </ul>
 		</div>
   </div>
