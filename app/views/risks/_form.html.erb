@@ -1,4 +1,4 @@
-<div class="tab-pane <%= 'active' if i == 1%> color-pane" id="color<%=i%>">
+<div class="tab-pane <%= 'active' if i == 1%> <%= 'off' if i == 0%> color-pane" id="color<%=i%>">
 	<div class="field">
 		<!-- Risk field -->
     <%= r.number_field :value, {:step => '.01', :class => 'span1 risk-field editable value-field', :id => "risks_#{i}_value", :autofocus => (i == 1), :disabled => i == 0, :value => (i == 0 ? @pictograph.off_value : r.object.value )  } %>

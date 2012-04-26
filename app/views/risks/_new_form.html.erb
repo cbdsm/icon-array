@@ -1,4 +1,4 @@
-<div class="tab-pane active" id="color<%=i%>">
+<div class="tab-pane active color-pane" id="color<%=i%>">
 	<% if i != 0 %>
 		<div class="field">
 	    <%= number_field_tag "pictograph[risks_attributes][#{i}][value]", value, {:step => '.01', :class => 'span1 risk-field editable value-field', :id => "risks_#{i}_value", :autofocus => true} %>
