@@ -26,7 +26,7 @@
 $(document).ready(function() {
 	// globals
 	// This stuff is mostly for embedding/linking
-	var debug = false;
+	var debug = true;
 	var host = window.location.hostname;
 	var port = window.location.port;
 	var url;
@@ -39,7 +39,9 @@ $(document).ready(function() {
 	// semi-globals
 	var curRisk = $('input#risks_1_value').val(); //$('form .tab-content div.active input.risk-field').val();
 	var colorIndex = 1; //$('form ul.nav li.active a').attr('href').replace('#color', '');
-	var cols = 10;
+	var cols = $('table.pictograph tr:first td.picto-cell').length;
+	var rows = $('table.pictograph tr:not(".bottom-row")').length;
+	var cells = rows * cols;
 	
 	if (debug) {
 		$('td.picto-cell').livequery(function(){
@@ -287,6 +289,7 @@ $(document).ready(function() {
 			// Form values
 			var thisRisk = $(this).attr('id').replace('cell', ''); // value of the cell we're on
 			
+			// If we're using icons--DEPRECATEDÍ
 			if ($(this).attr('data-icon') != undefined) {
 				if (thisRisk > curRisk) {
 					var icon = $('form .tab-content div.active').find('img.form-icon').attr('src');
@@ -298,8 +301,12 @@ $(document).ready(function() {
 				// This should be on the tab callback, really
 				// var el = $('form ul.nav li.active a');
 				// var colorIndex = el.attr('href').replace('#color', '');
+				
+				// If we're moving up
 				if (thisRisk > curRisk) {
 					var color = $('form ul.nav li.active a').css('background-color');
+					
+				// Otherwise we're moving back
 				} else {
 					var color = $('form .tab-content div.active').prev().find('input.color-field').val();
 				}
@@ -345,6 +352,12 @@ $(document).ready(function() {
 	
 	var updateMultiple = function(thisRisk, thisFill) {
 		// Table index values
+		var curRisk = $('.tab-content div.active input.value-field').val();
+		var hiVal = cells - $('input#risks_0_value').val();
+		if (curRisk == 0) {
+			curRisk = hiVal;
+		}
+
 		var el = $('table.pictograph td#cell' + curRisk)
 		var curVal = $('table.pictograph td.picto-cell').index(el);
 		var el2 = $('table.pictograph td#cell' + thisRisk)
@@ -364,122 +377,230 @@ $(document).ready(function() {
 			prevLeg.html(prevVal - diff);
 		}
 				
-		// If we're moving up
-		if (diff > 0) {
-			// Upper adjustment
-			var high2 = val + 1;
-			var high1 = val - (val % cols);
-			
-			// Lower adjustment
-			var low1 = curVal;
-			var low2 = curVal - (curVal % cols);
-			if ((low1 - high1) >= 10){
-				 low2 += cols;
-			}
-			
-			if (debug) {
-				alert("high1: " + high1 + ", high2: " + high2);
-				alert("low1: " + low1 + ", low2: " + low2);
-			}
-			
-			// If we have a file extension, this is an icon
-			if (parts.length > 1) {
-				// Get the icon
-				var icon = $('form .tab-content div.active').find('img.form-icon').attr('src');
-
-				// Upper
-				$('table.pictograph td.picto-cell').slice(high1, high2).children('img').attr('src', icon);
-				$('table.pictograph td.picto-cell').slice(high1, high2).attr('data-icon', icon);
-		
-				// Lower
-				$('table.pictograph td.picto-cell').slice(low1, low2).children('img').attr('src', icon);
-				$('table.pictograph td.picto-cell').slice(low1, low2).attr('data-icon', icon);
-
-				// The rest
-				$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).children('img').attr('src', icon);
-				$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).attr('data-icon', icon);
-			} else {
-				// get the color
-				var color = thisFill;
-					
-				// Upper
-				$('table.pictograph td.picto-cell').slice(high1, high2).css('background-color', color);
-				$('table.pictograph td.picto-cell').slice(high1, high2).attr('data-color', color);
-		
-				// Lower
-				$('table.pictograph td.picto-cell').slice(low1, low2).css('background-color', color);
-				$('table.pictograph td.picto-cell').slice(low1, low2).attr('data-color', color);
-
-				// The rest
-				$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).css('background-color', color);
-				$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).attr('data-color', color);
-			}
-			// Update the fill index
-			$('table.pictograph td.picto-cell').slice(high1, high2).removeClass().addClass('picto-cell fill' + colorIndex);			
-			$('table.pictograph td.picto-cell').slice(low1, low2).removeClass().addClass('picto-cell fill' + colorIndex);
-			$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).removeClass().addClass('picto-cell fill' + colorIndex);
-		} else { // Otherwise, we're decreasing
-			
-			// Upper adjustment
-			var high2 = curVal + 1;
-			var high1 = curVal - (curVal % cols);
-			
-			// Lower adjustment
-			var el = $('table.pictograph td#cell' + curRisk)
-			var low1 = val + 1;
-			var low2 = val - (val % cols) + cols;
-			if ((low1 - high1) < 10){
-				low1--;
-				high1 = low1;
-				low2 = high2;
-			}
-			
-			if (debug) {
-				alert("high1: " + high1 + ", high2: " + high2);
-				alert("low1: " + low1 + ", low2: " + low2);
-			}
-			
-			if (parts.length > 1) {
-				// Get the icon
-				var icon = $('form .tab-content div.active').find('img.form-icon').attr('src');
+		var col2 = el.col();
+	  var row2 = el.row();
+		var col1 = el2.col();
+	  var row1 = el2.row();
+		var startVal;
+		var startRow;
+		var endVal;
+		var endRow;
 				
-				// Upper
-				$('table.pictograph td.picto-cell').slice(high1, high2).children('img').attr('src', icon);
-				$('table.pictograph td.picto-cell').slice(high1, high2).attr('data-icon', icon);
-	
-				// Lower
-				$('table.pictograph td.picto-cell').slice(low1, low2).children('img').attr('src', icon);
-				$('table.pictograph td.picto-cell').slice(low1, low2).attr('data-icon', icon);
-			
-				// The rest
-				$('table.pictograph td.picto-cell').slice(high1, low2 - cols).children('img').attr('src', icon);
-				$('table.pictograph td.picto-cell').slice(high1, low2 - cols).attr('data-icon', icon);
-				
-			} else {
-				var color = $('form .tab-content div.active').prev().find('input.color-field').val();
-				//var color = prevRisk.children('div.legend-icon').attr('data-color');
-				
-				// Upper
-				$('table.pictograph td.picto-cell').slice(high1, high2).css('background-color', color);
-				$('table.pictograph td.picto-cell').slice(high1, high2).attr('data-color', color);
-	
-				// Lower
-				$('table.pictograph td.picto-cell').slice(low1, low2).css('background-color', color);
-				$('table.pictograph td.picto-cell').slice(low1, low2).attr('data-color', color);
-			
-				// The rest
-				$('table.pictograph td.picto-cell').slice(high1, low2 - cols).css('background-color', color);
-				$('table.pictograph td.picto-cell').slice(high1, low2 - cols).attr('data-color', color);	
-			}
-			$('table.pictograph td.picto-cell').slice(high1, high2).removeClass().addClass('picto-cell fill' + colorIndex);
-			$('table.pictograph td.picto-cell').slice(low1, low2).removeClass().addClass('picto-cell fill' + colorIndex);
-			$('table.pictograph td.picto-cell').slice(high1, low2 - cols).removeClass().addClass('picto-cell fill' + colorIndex);
+		if (debug) {
+			alert('Row1: ' + row1 + ', Column1: ' + col1 + 'Row2: ' + row2 + ', Column2: ' + col2);	
+			alert("just clicked: " + val + " current value: " + curVal);
 		}
 		
+		// We're increasing
+		if (diff > 0) {
+			var color = thisFill;	
+			for(i = row1; i <= row2; i++) {
+				endRow = (i + 1) * cols;
+				startRow = (i * cols);
+				
+				// first row
+				if (i == row1) {
+					endVal = val;
+				} else {
+					endVal = endRow;
+				}
+
+				// last row
+				if (i == row2) {
+					startVal = curVal + 1;
+				} else {
+					startVal = startRow;
+				}
+
+				$('table.pictograph td.picto-cell').slice(startVal, endVal).css('background-color', color);
+				$('table.pictograph td.picto-cell').slice(startVal, endVal).attr('data-color', color);
+				startVal = endVal;
+			}	
+			
+		// We're decreasing
+		// row2 is the first row here
+		} else {
+			var color = $('input#pictograph_risks_attributes_0_hex').val();
+			for(i = row2; i <= row1; i++) {
+				endRow = (i + 1) * cols;
+				startRow = (i * cols);
+				
+				// first row
+				if (i == row2) {
+					endVal = curVal + 1;
+				} else {
+					endVal = endRow;
+				}
+
+				// last row
+				if (i == row1) {
+					startVal = val + 1;
+				} else {
+					startVal = startRow;
+				}
+
+				$('table.pictograph td.picto-cell').slice(startVal, endVal).css('background-color', color);
+				$('table.pictograph td.picto-cell').slice(startVal, endVal).attr('data-color', color);
+				startVal = endVal;
+			}
+		}
+		
+
+	
+				
+		// // If we're moving up
+		// if (diff > 0) {
+		// 	
+		// 	var startVal;
+		// 	var startRow;
+		// 	var endVal;
+		// 	var endRow;
+		// 	for(i = row1; i <= row2; i++) {
+		// 		endRow = (i + 1) * cols;
+		// 		startRow = (i * cols);
+		// 		if (i == row1) {
+		// 			endVal = val;
+		// 		} else {
+		// 			endVal = endRow;
+		// 		}
+		// 		
+		// 		if (i == row2) {
+		// 			startVal = curVal + 1;
+		// 		} else {
+		// 			startVal = startRow;
+		// 		}
+		// 		
+		// 		alert(startVal + ' ' + endVal);
+		// 		$('table.pictograph td.picto-cell').slice(startVal, endVal).css('background-color', color);
+		// 		startVal = endVal;
+		// 	}
+		// 	
+		// 	// If we're in the same row
+		// 	if (1 == 1) {
+		// 		// $('table.pictograph td.picto-cell').slice(curVal + 1, val).css('background-color', color);
+		// 		// $('table.pictograph td.picto-cell').slice(curVal + 1, val).attr('data-color', color);
+		// 	} else {
+		// 	
+		// 		// Upper adjustment
+		// 		var high2 = val + 1;
+		// 		var high1 = val - (val % cols);
+		// 	
+		// 		// Lower adjustment
+		// 		var low1 = curVal;
+		// 		var low2 = curVal - (curVal % cols);
+		// 		if ((low1 - high1) >= 10){
+		// 			 low2 += cols;
+		// 		}
+		// 	
+		// 		if (debug) {
+		// 			alert("high1: " + high1 + ", high2: " + high2);
+		// 			alert("low1: " + low1 + ", low2: " + low2);
+		// 		}
+		// 	
+		// 		// If we have a file extension, this is an icon
+		// 		if (parts.length > 1) {
+		// 			// Get the icon
+		// 			var icon = $('form .tab-content div.active').find('img.form-icon').attr('src');
+		// 
+		// 			// Upper
+		// 			$('table.pictograph td.picto-cell').slice(high1, high2).children('img').attr('src', icon);
+		// 			$('table.pictograph td.picto-cell').slice(high1, high2).attr('data-icon', icon);
+		// 
+		// 			// Lower
+		// 			$('table.pictograph td.picto-cell').slice(low1, low2).children('img').attr('src', icon);
+		// 			$('table.pictograph td.picto-cell').slice(low1, low2).attr('data-icon', icon);
+		// 
+		// 			// The rest
+		// 			$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).children('img').attr('src', icon);
+		// 			$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).attr('data-icon', icon);
+		// 		} else {
+		// 			// get the color
+		// 			var color = thisFill;
+		// 			
+		// 			// Upper
+		// 			$('table.pictograph td.picto-cell').slice(high1, high2).css('background-color', color);
+		// 			$('table.pictograph td.picto-cell').slice(high1, high2).attr('data-color', color);
+		// 
+		// 			// Lower
+		// 			$('table.pictograph td.picto-cell').slice(low1, low2).css('background-color', color);
+		// 			$('table.pictograph td.picto-cell').slice(low1, low2).attr('data-color', color);
+		// 
+		// 			// The rest
+		// 			$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).css('background-color', color);
+		// 			$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).attr('data-color', color);
+		// 		}
+		// 		// Update the fill index
+		// 		$('table.pictograph td.picto-cell').slice(high1, high2).removeClass().addClass('picto-cell fill' + colorIndex);			
+		// 		$('table.pictograph td.picto-cell').slice(low1, low2).removeClass().addClass('picto-cell fill' + colorIndex);
+		// 		$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).removeClass().addClass('picto-cell fill' + colorIndex);
+		// 	}
+		// } else { // Otherwise, we're decreasing
+		// 	
+		// 	// Upper adjustment
+		// 	var high2 = curVal + 1;
+		// 	var high1 = curVal - (curVal % cols);
+		// 	
+		// 	// Lower adjustment
+		// 	var el = $('table.pictograph td#cell' + curRisk)
+		// 	var low1 = val + 1;
+		// 	var low2 = val - (val % cols) + cols;
+		// 	if ((low1 - high1) < 10){
+		// 		low1--;
+		// 		high1 = low1;
+		// 		low2 = high2;
+		// 	}
+		// 	
+		// 	if (debug) {
+		// 		alert("high1: " + high1 + ", high2: " + high2);
+		// 		alert("low1: " + low1 + ", low2: " + low2);
+		// 	}
+		// 	
+		// 	if (parts.length > 1) {
+		// 		// Get the icon
+		// 		var icon = $('form .tab-content div.active').find('img.form-icon').attr('src');
+		// 		
+		// 		// Upper
+		// 		$('table.pictograph td.picto-cell').slice(high1, high2).children('img').attr('src', icon);
+		// 		$('table.pictograph td.picto-cell').slice(high1, high2).attr('data-icon', icon);
+		// 	
+		// 		// Lower
+		// 		$('table.pictograph td.picto-cell').slice(low1, low2).children('img').attr('src', icon);
+		// 		$('table.pictograph td.picto-cell').slice(low1, low2).attr('data-icon', icon);
+		// 	
+		// 		// The rest
+		// 		$('table.pictograph td.picto-cell').slice(high1, low2 - cols).children('img').attr('src', icon);
+		// 		$('table.pictograph td.picto-cell').slice(high1, low2 - cols).attr('data-icon', icon);
+		// 		
+		// 	} else {
+		// 		var color = $('form .tab-content div.active').prev().find('input.color-field').val();
+		// 		//var color = prevRisk.children('div.legend-icon').attr('data-color');
+		// 		
+		// 		// Upper
+		// 		$('table.pictograph td.picto-cell').slice(high1, high2).css('background-color', color);
+		// 		$('table.pictograph td.picto-cell').slice(high1, high2).attr('data-color', color);
+		// 	
+		// 		// Lower
+		// 		$('table.pictograph td.picto-cell').slice(low1, low2).css('background-color', color);
+		// 		$('table.pictograph td.picto-cell').slice(low1, low2).attr('data-color', color);
+		// 	
+		// 		// The rest
+		// 		$('table.pictograph td.picto-cell').slice(high1, low2 - cols).css('background-color', color);
+		// 		$('table.pictograph td.picto-cell').slice(high1, low2 - cols).attr('data-color', color);	
+		// 	}
+		// 	$('table.pictograph td.picto-cell').slice(high1, high2).removeClass().addClass('picto-cell fill' + colorIndex);
+		// 	$('table.pictograph td.picto-cell').slice(low1, low2).removeClass().addClass('picto-cell fill' + colorIndex);
+		// 	$('table.pictograph td.picto-cell').slice(high1, low2 - cols).removeClass().addClass('picto-cell fill' + colorIndex);
+		// }
+		
 		// Set the form val
+		// TODO: we don't actually want to set this to the risk
+		// We want something like thisRisk - all lower risks
 		$('form .tab-content div.active input.risk-field').val(thisRisk);
-		$('input#risks_0_value').val(100 - thisRisk);
-		curRisk = thisRisk;
+		var totalRisk = 0;
+    $('input.value-field:not(:disabled)').each(function() {
+        totalRisk += Number($(this).val());
+    });
+		$('input#risks_0_value').val(cells - totalRisk);
 		$('.help:visible').hide();
 	};
 	
@@ -500,6 +621,16 @@ $(document).ready(function() {
 	}
 	
 });
+
+// This just gives us basic row and column
+(function( $ ) {
+  $.fn.col = function() {
+  	return this.parent().children().index(this);
+  };
+  $.fn.row = function() {
+  	return this.parent().parent().children().index(this.parent());
+  };
+})( jQuery );
 
 // This makes our number picker way cooler
 (function(c){var a=["DOMMouseScroll","mousewheel"];c.event.special.mousewheel={setup:function(){if(this.addEventListener){for(var d=a.length;d;){this.addEventListener(a[--d],b,false)}}else{this.onmousewheel=b}},teardown:function(){if(this.removeEventListener){for(var d=a.length;d;){this.removeEventListener(a[--d],b,false)}}else{this.onmousewheel=null}}};c.fn.extend({mousewheel:function(d){return d?this.bind("mousewheel",d):this.trigger("mousewheel")},unmousewheel:function(d){return this.unbind("mousewheel",d)}});function b(i){var g=i||window.event,f=[].slice.call(arguments,1),j=0,h=true,e=0,d=0;i=c.event.fix(g);i.type="mousewheel";if(i.wheelDelta){j=i.wheelDelta/120}if(i.detail){j=-i.detail/3}d=j;if(g.axis!==undefined&&g.axis===g.HORIZONTAL_AXIS){d=0;e=-1*j}if(g.wheelDeltaY!==undefined){d=g.wheelDeltaY/120}if(g.wheelDeltaX!==undefined){e=-1*g.wheelDeltaX/120}f.unshift(i,j,e,d);return c.event.handle.apply(this,f)}})(jQuery);
