@@ -149,7 +149,15 @@ $(document).ready(function() {
 		if ($(edit).hasClass('value-field')) {
 			//var color = $(this).parent().prev('dt').children('div.legend-icon').attr('data-color'); // old legend style
 			var color = $('div.tab-content div.active').find('input.color-field').val();
-			updateMultiple(val, color);
+			
+			var totalRisk = 0;
+			$('.tab-content div.active').prevAll("div.color-pane:not('.off')").each(function() {
+		    totalRisk += Number($(this).find('input.value-field').val());
+	    });
+
+			var thisRisk = totalRisk + Number(val);
+				alert(thisRisk);
+			updateMultiple(thisRisk, color);
 		}
 		return false;
 	});
@@ -326,6 +334,11 @@ $(document).ready(function() {
 	// This actually sets the value
 	$('body').on('click', 'table.pictograph.active td.picto-cell', function( event ) {
 		var thisRisk = Number($(this).attr('id').replace('cell', '')) + 1; // value of the cell we're on
+		var totalRisk = 0;
+		$('.tab-content div.active').prevAll("div.color-pane:not('.off')").each(function() {
+	    totalRisk += Number($(this).find('input.value-field').val());
+    });
+		$('form .tab-content div.active input.value-field').val(thisRisk - totalRisk);
 		updateMultiple(thisRisk - 1, $('div.tab-content div.active').find('input.color-field').val());
 		$('a.submittable:visible').hide();
 		$('table.pictograph').removeClass('active');
@@ -351,13 +364,29 @@ $(document).ready(function() {
 	};
 	
 	var updateMultiple = function(thisRisk, thisFill) {
-		// Table index values
-		var curRisk = $('.tab-content div.active input.value-field').val();
-		var hiVal = cells - $('input#risks_0_value').val();
-		if (curRisk == 0) {
-			curRisk = hiVal;
-		}
-
+		// alert(thisRisk);
+		// // Table index values
+		// var curCell = $('.tab-content div.active input.value-field').val();
+		var curRisk = 0;
+		// var hiVal = cells - $('input#risks_0_value').val();
+		// if (curCell == 0) {
+		// 	// curRisk = hiVal;
+		// 	
+		// 	var hiRisk = 0;
+		// 	$('.tab-content div.active').prevAll("div.color-pane:not('.off')").each(function() {
+		//     hiRisk += Number($(this).find('input.value-field').val());
+		// 	    });
+		// 	curRisk = hiRisk;
+		// } else {
+		// 	curRisk = curCell;
+		// }
+		
+		$('.tab-content div.active').prevAll("div.color-pane:not('.off')").each(function() {
+	    curRisk += Number($(this).find('input.value-field').val());
+    });
+		
+		alert('curRisk: ' + curRisk);
+		
 		var el = $('table.pictograph td#cell' + curRisk)
 		var curVal = $('table.pictograph td.picto-cell').index(el);
 		var el2 = $('table.pictograph td#cell' + thisRisk)
@@ -595,7 +624,7 @@ $(document).ready(function() {
 		// Set the form val
 		// TODO: we don't actually want to set this to the risk
 		// We want something like thisRisk - all lower risks
-		$('form .tab-content div.active input.risk-field').val(thisRisk);
+		// $('form .tab-content div.active input.risk-field').val(thisRisk);
 		var totalRisk = 0;
     $('input.value-field:not(:disabled)').each(function() {
         totalRisk += Number($(this).val());
