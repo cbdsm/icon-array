@@ -201,3 +201,8 @@ p#value-help {
 div.page-content {
 	width: 85%;
 }
+
+div#about-image {
+	float: left;
+	margin: 5px 10px 0px 0;
+}
