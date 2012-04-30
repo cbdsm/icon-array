@@ -296,6 +296,7 @@ $(document).ready(function() {
 		if ( event.type === 'mouseenter' ) {
 			// Form values
 			var thisRisk = $(this).attr('id').replace('cell', ''); // value of the cell we're on
+			var curRisk = current_risk();
 			
 			// If we're using icons--DEPRECATEDÍ
 			if ($(this).attr('data-icon') != undefined) {
@@ -316,7 +317,7 @@ $(document).ready(function() {
 					
 				// Otherwise we're moving back
 				} else {
-					var color = $('form .tab-content div.active').prev().find('input.color-field').val();
+					var color = $('input#pictograph_risks_attributes_0_hex').val();
 				}
 				$(this).css('background-color', color);
 			}	   
@@ -333,13 +334,17 @@ $(document).ready(function() {
 	
 	// This actually sets the value
 	$('body').on('click', 'table.pictograph.active td.picto-cell', function( event ) {
-		var thisRisk = Number($(this).attr('id').replace('cell', '')) + 1; // value of the cell we're on
+		var thisRisk = Number($(this).attr('id').replace('cell', '')); // value of the cell we're on
 		var totalRisk = 0;
 		$('.tab-content div.active').prevAll("div.color-pane:not('.off')").each(function() {
 	    totalRisk += Number($(this).find('input.value-field').val());
     });
+		var curRisk = current_risk();
+		if (thisRisk <= curRisk) {
+			thisRisk--;
+		}
+		updateMultiple(thisRisk, $('div.tab-content div.active').find('input.color-field').val());
 		$('form .tab-content div.active input.value-field').val(thisRisk - totalRisk);
-		updateMultiple(thisRisk - 1, $('div.tab-content div.active').find('input.color-field').val());
 		$('a.submittable:visible').hide();
 		$('table.pictograph').removeClass('active');
 	});
@@ -365,25 +370,8 @@ $(document).ready(function() {
 	
 	var updateMultiple = function(thisRisk, thisFill) {
 		// alert(thisRisk);
-		// // Table index values
-		// var curCell = $('.tab-content div.active input.value-field').val();
-		var curRisk = 0;
-		// var hiVal = cells - $('input#risks_0_value').val();
-		// if (curCell == 0) {
-		// 	// curRisk = hiVal;
-		// 	
-		// 	var hiRisk = 0;
-		// 	$('.tab-content div.active').prevAll("div.color-pane:not('.off')").each(function() {
-		//     hiRisk += Number($(this).find('input.value-field').val());
-		// 	    });
-		// 	curRisk = hiRisk;
-		// } else {
-		// 	curRisk = curCell;
-		// }
-		
-		$('.tab-content div.active').prevAll("div.color-pane:not('.off')").each(function() {
-	    curRisk += Number($(this).find('input.value-field').val());
-    });
+		// Table index values
+		var curRisk = current_risk();
 		
 		alert('curRisk: ' + curRisk);
 		
@@ -647,6 +635,28 @@ $(document).ready(function() {
 				$(element).html(bit_url);
 			}
 		});
+	}
+	
+	function current_risk() {
+		var curCell = $('.tab-content div.active input.value-field').val();
+		var curRisk;
+		var hiVal = cells - $('input#risks_0_value').val();
+		if (curCell == 0) {
+			// curRisk = hiVal;
+			
+			var hiRisk = 0;
+			$('.tab-content div.active').prevAll("div.color-pane:not('.off')").each(function() {
+		    hiRisk += Number($(this).find('input.value-field').val());
+			    });
+			curRisk = hiRisk;
+		} else {
+			curRisk = curCell;
+		}
+		
+		$('.tab-content div.active').prevAll("div.color-pane:not('.off')").each(function() {
+	    curRisk += Number($(this).find('input.value-field').val());
+    });
+		return curRisk;
 	}
 	
 });
