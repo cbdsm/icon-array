@@ -372,12 +372,17 @@ $(document).ready(function() {
 		// alert(thisRisk);
 		// Table index values
 		if (debug) {
-			alert('curRisk: ' + curRisk);
+			alert('curRisk: ' + curRisk + ' thisRisk: ' + thisRisk);
 		}
+		
+		var adjRisk = Math.ceil(thisRisk); // integer risk
+		var decRisk = adjRisk - thisRisk; // leftover decimal risk
+		// var adjcRisk = Math.floor(curRisk); // integer risk
+		// var deccRisk = curRisk - adjRisk; // leftover decimal risk
 		
 		var el = $('table.pictograph td#cell' + curRisk)
 		var curVal = $('table.pictograph td.picto-cell').index(el);
-		var el2 = $('table.pictograph td#cell' + thisRisk)
+		var el2 = $('table.pictograph td#cell' + adjRisk)
 		var val = $('table.pictograph td.picto-cell').index(el2);
 		var parts = thisFill.split('.');
 		var colorIndex = $('form ul.nav li.active a').attr('href').replace('#color', '');
@@ -465,6 +470,9 @@ $(document).ready(function() {
 			}
 		}
 		
+		// TODO
+		// If we need to adjust the value for a decimal
+		// el2.children('div').height()
 
 	
 				
