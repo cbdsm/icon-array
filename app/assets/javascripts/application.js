@@ -26,7 +26,7 @@
 $(document).ready(function() {
 	// globals
 	// This stuff is mostly for embedding/linking
-	var debug = true;
+	var debug = false;
 	var host = window.location.hostname;
 	var port = window.location.port;
 	var url;
@@ -97,6 +97,7 @@ $(document).ready(function() {
 		$('a.submittable:visible').hide();
 		
 		if ($(this).hasClass('value-field')) {
+			curRisk = current_risk();
 			$('table.pictograph').addClass('active');
 			$('p#value-help').show();
 		} else {
@@ -156,7 +157,6 @@ $(document).ready(function() {
 	    });
 
 			var thisRisk = totalRisk + Number(val);
-				alert(thisRisk);
 			updateMultiple(thisRisk, color);
 		}
 		return false;
@@ -296,9 +296,9 @@ $(document).ready(function() {
 		if ( event.type === 'mouseenter' ) {
 			// Form values
 			var thisRisk = $(this).attr('id').replace('cell', ''); // value of the cell we're on
-			var curRisk = current_risk();
+			curRisk = current_risk();
 			
-			// If we're using icons--DEPRECATEDÍ
+			// If we're using icons--DEPRECATED
 			if ($(this).attr('data-icon') != undefined) {
 				if (thisRisk > curRisk) {
 					var icon = $('form .tab-content div.active').find('img.form-icon').attr('src');
@@ -371,15 +371,16 @@ $(document).ready(function() {
 	var updateMultiple = function(thisRisk, thisFill) {
 		// alert(thisRisk);
 		// Table index values
-		var curRisk = current_risk();
-		
-		alert('curRisk: ' + curRisk);
+		if (debug) {
+			alert('curRisk: ' + curRisk);
+		}
 		
 		var el = $('table.pictograph td#cell' + curRisk)
 		var curVal = $('table.pictograph td.picto-cell').index(el);
 		var el2 = $('table.pictograph td#cell' + thisRisk)
 		var val = $('table.pictograph td.picto-cell').index(el2);
 		var parts = thisFill.split('.');
+		var colorIndex = $('form ul.nav li.active a').attr('href').replace('#color', '');
 		
 		var prevRisk = $('div[data-color="' + thisFill + '"]').parent().prevAll('dt:last');
 		var diff = thisRisk - curRisk;
@@ -431,6 +432,7 @@ $(document).ready(function() {
 
 				$('table.pictograph td.picto-cell').slice(startVal, endVal).css('background-color', color);
 				$('table.pictograph td.picto-cell').slice(startVal, endVal).attr('data-color', color);
+				$('table.pictograph td.picto-cell').slice(startVal, endVal + 1).removeClass().addClass('picto-cell fill' + colorIndex);
 				startVal = endVal;
 			}	
 			
@@ -458,6 +460,7 @@ $(document).ready(function() {
 
 				$('table.pictograph td.picto-cell').slice(startVal, endVal).css('background-color', color);
 				$('table.pictograph td.picto-cell').slice(startVal, endVal).attr('data-color', color);
+				$('table.pictograph td.picto-cell').slice(startVal, endVal).removeClass().addClass('picto-cell fill' + 0);
 				startVal = endVal;
 			}
 		}
