@@ -1,34 +1,34 @@
 <div class="tab-pane <%= 'active' if i == 1%> <%= 'off' if i == 0%> color-pane" id="color<%=i%>">
 	<div class="field">
+		<h4 class="field-title">Number/Risk/Frequency</h4>
+		
 		<!-- Risk field -->
     <%= r.number_field :value, {:step => '.01', :class => 'span1 risk-field editable value-field', :id => "risks_#{i}_value", :autofocus => (i == 1), :disabled => i == 0, :value => (i == 0 ? @pictograph.off_value : r.object.value )  } %>
 		<%=link_to 'ok', "#", {:id => "risks_#{i}_value_submit", :class => 'btn submittable hide description-field'}%>
 		
 		<!-- Population field (i.e. 'out of 100' )-->
-		<%= r.text_field :population, {:value => r.object.population || "out of #{@pictograph.cells} people", :class => "span3 #{'editable' if @advanced}", :id => "risks_#{i}_population", :readonly => (!@advanced or i == 0)} %>
-		<%=link_to 'ok', "#", {:id => "risks_#{i}_population_submit", :class => 'btn submittable hide'}%>
+		<%#= r.text_field :population, {:value => r.object.population || "out of #{@pictograph.cells} people", :class => "span3 #{'editable' if @advanced}", :id => "risks_#{i}_population", :readonly => (!@advanced or i == 0)} %>
+		<%#=link_to 'ok', "#", {:id => "risks_#{i}_population_submit", :class => 'btn submittable hide'}%>
 		
 		<!-- Description/Legend field -->
-		<%= r.text_field :description, {:placeholder => (i == 0 ? "don't exhibit this property": "exhibit this property"), :class => 'span3 editable', :id => "risks_#{i}_description", :readonly => i == 0} %>
+		<%= r.text_field :description, {:placeholder => (i == 0 ? "out of #{@pictograph.cells} people don't exhibit this property": "out of #{@pictograph.cells} people exhibit this property"), :class => 'span4 editable', :id => "risks_#{i}_description", :readonly => i == 0} %>
 		<%=link_to 'ok', "#", {:id => "risks_#{i}_description_submit", :class => 'btn submittable hide'}%>
   </div>
 
   <div class="field">
-    <%= r.label :hex, 'Color' %>
-    <%= r.text_field :hex, {:class => 'color-field'} %>
+		<h4 class="field-title">Color</h4>
+    <%= r.text_field :hex, {:class => 'color-field'} %><br />
+		<span class="instructions">Change the color by clicking the square above or specifying a value</span>
   </div>
 
 	<% if @advanced %>
-		<label class="checkbox">
-	    <%= r.check_box :display %> show this legend
-	  </label>
+		<div class="field">
+			<label class="checkbox">
+		    <%= r.check_box :display %> show this legend
+		  </label>
+		</div>
 	<% else %>
 		<%= r.hidden_field :display %>
 	<% end %>
 
-  <!-- <div class="field">
-		<%=image_tag(r.object.icon.url(:default), {:id => "icon#{i}", :class => "form-icon"}) if r.object.icon? %>
-    <%= r.label :icon %>
-    <%= r.file_field :icon, {:class => 'image-field'} %>
-  </div> -->
 </div>

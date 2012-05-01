@@ -40,6 +40,7 @@
 			      <li><a href="#cells" data-toggle="tab">Cell size and spacing</a></li>
 			      <li><a href="#axis" data-toggle="tab">Axis labels</a></li>
 			      <li><a href="#title" data-toggle="tab">Title font, size, and alignment</a></li>
+						<li><a href="#legend" data-toggle="tab">Legend font and size</a></li>
 			    </ul>
 				<% end %>
 			</ul>
@@ -111,8 +112,22 @@
 				    <%= f.text_field :title_font %>
 				  </div>
 				  <div class="field">
-				    <%= f.label :title_size, 'Title font size' %>
-				    <%= f.number_field :title_size, {:class => 'span1'} %>px
+				    <%= f.label :title_font_size, 'Title font size' %>
+				    <%= f.number_field :title_font_size, {:class => 'span1'} %>px
+				  </div>
+				</fieldset>
+			</div>
+			
+			<div class="tab-pane" id="legend">
+				<fieldset id="legend">
+					<legend>Legend</legend>
+				  <div class="field">
+				    <%= f.label :legend_font %>
+				    <%= f.text_field :legend_font %>
+				  </div>
+				  <div class="field">
+				    <%= f.label :legend_font_size, 'Legend font size' %>
+				    <%= f.number_field :legend_font_size, {:class => 'span1'} %>px
 				  </div>
 				</fieldset>
 			</div>

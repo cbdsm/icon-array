@@ -116,7 +116,7 @@ class PictographsController < ApplicationController
     respond_to do |format|
       format.html { 
         @url = request.url
-        render 'show' 
+        render 'show'
       }
       format.json { render json: @pictograph }
       format.xml  { render :xml => @pictograph }   
@@ -132,6 +132,8 @@ class PictographsController < ApplicationController
         @pictograph.cell_height = @pictograph.cell_height * 5
         @pictograph.cell_spacing = @pictograph.cell_spacing * 5
         @pictograph.axis_font_size = @pictograph.axis_font_size * 5
+        @pictograph.title_font_size = @pictograph.title_font_size * 5
+        @pictograph.legend_font_size = @pictograph.legend_font_size * 5
         
         # We have to do all of this with files, since stdin/stdout don't seem to work with wkhtmltoimage
         inpath = "#{Rails.root.to_s}/tmp/tiff_#{Time.now.to_i}.html"
@@ -181,7 +183,7 @@ class PictographsController < ApplicationController
       end
 
       if @p[:risks_attributes].nil? or @p[:risks_attributes].empty?
-        @p[:risks_attributes] = {0 => {:hex => '#DCDCDC', :population => 'out of 100 people', :description => "don't exhibit this property"}, 1 => {:hex => '#0000FF', :value => 32, :population => 'out of 100 people', :description => 'exhibit this property'}}
+        @p[:risks_attributes] = {0 => {:hex => '#DCDCDC', :population => 'out of 100 people', :description => "out of 100 people don't exhibit this property"}, 1 => {:hex => '#0000FF', :value => 32, :population => 'out of 100 people', :description => 'out of 100 people exhibit this property'}}
       end
       
       @p.delete(:title) if @p[:title].blank?

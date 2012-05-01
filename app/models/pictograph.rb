@@ -2,6 +2,10 @@ class Pictograph < ActiveRecord::Base
   has_many :risks, :dependent => :destroy, :order => "position ASC"
   
   accepts_nested_attributes_for :risks
+  
+  after_initialize :set_attr
+  
+  attr_accessor :legend_width
     
   def cells
     rows * cols
@@ -25,7 +29,7 @@ class Pictograph < ActiveRecord::Base
   
   def export_width
     out = table_width + axis_width
-    out += 400 if show_legend?
+    out += legend_width if show_legend?
     return out
   end
   
@@ -41,5 +45,10 @@ class Pictograph < ActiveRecord::Base
     # we can't use the 'on' scope yet--because these often haven't been saved
     cells - risks.collect{|r| r.value.to_f }.sum.to_i
   end
+  
+  private
+    def set_attr
+      @legend_width = 410
+    end
   
 end

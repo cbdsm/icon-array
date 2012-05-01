@@ -98,6 +98,9 @@ $(document).ready(function() {
 	$("body").on("focus", "input.editable", function(event){
 		$('a.submittable:visible').hide();
 		
+		$('input').removeClass('active');
+		$(this).addClass('active');
+		
 		if ($(this).hasClass('value-field')) {
 			curRisk = current_risk();
 			$('table.pictograph').addClass('active');
@@ -168,7 +171,10 @@ $(document).ready(function() {
 	$('body').keypress(function(e){
 		if(e.which == 13){
 			e.preventDefault();
-			$('a.submittable:visible:last').click().hide();
+			$('a.submittable:visible:last').click();
+			$('input.active').blur();
+			
+			// .hide();
 			// var edit = '#' + $(this).attr('id').replace('_submit', '');
 			// var editable = $('a[href="' + edit + '"]');
 			// var val = $(edit).val();
@@ -183,7 +189,8 @@ $(document).ready(function() {
 			// if ($(edit).hasClass('risk-val')) {
 			// 	updateMultiple(val, color);
 			// }
-			return false;		}
+			// return false;		
+		}
 	});
 	
 	// Advanced Tab
