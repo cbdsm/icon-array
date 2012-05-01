@@ -379,10 +379,10 @@ $(document).ready(function() {
 		
 		var adjRisk = Math.ceil(thisRisk); // integer risk
 		var decRisk = adjRisk - thisRisk; // leftover decimal risk
-		// var adjcRisk = Math.floor(curRisk); // integer risk
-		// var deccRisk = curRisk - adjRisk; // leftover decimal risk
+		var adjCurRisk = Math.ceil(curRisk); // integer risk
+		var decCurRisk = curRisk - adjCurRisk; // leftover decimal risk
 
-		var el = $('table.pictograph td#cell' + curRisk)
+		var el = $('table.pictograph td#cell' + adjCurRisk)
 		var curVal = $('table.pictograph td.picto-cell').index(el);
 		var el2 = $('table.pictograph td#cell' + adjRisk)
 		var val = $('table.pictograph td.picto-cell').index(el2);
@@ -390,7 +390,7 @@ $(document).ready(function() {
 		var colorIndex = $('form ul.nav li.active a').attr('href').replace('#color', '');
 		
 		var prevRisk = $('div[data-color="' + thisFill + '"]').parent().prevAll('dt:last');
-		var diff = adjRisk - curRisk;
+		var diff = adjRisk - adjCurRisk;
 		// This is usually the case
 		if (prevRisk.next('dd').children('input.risk-val').length > 0) {
 			var prevLeg = prevRisk.next('dd').children('input.risk-val');
