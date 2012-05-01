@@ -17,7 +17,11 @@
 			if @pictograph.risks[fill_risk + 1]
 				dval = @pictograph.risks[fill_risk + 1].value
 				d = dval - dval.floor
-				is_dec = true
+				if d > 0.0 
+					is_dec = true
+				else
+					d = 1.0
+				end
 			else
 				d = 1.0
 			end
@@ -26,7 +30,6 @@
 			val += 1 if is_dec and fill_risk > 0
 		
 			# increment if we've hit our mark
-			dec = 1.0
 			if current_fill_index == val
 				fill_index += 1
 				fill_risk = @pictograph.risks.length - fill_index
