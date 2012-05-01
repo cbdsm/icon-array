@@ -5,35 +5,16 @@
 	<% fill_index = 0 %>
 	<% fill_risk = 0 %>
 	<% current_fill_index = 0 %>
-	<% is_dec = false %>
   <% for i in 1..100 %>
     <%
 			val = fill_risk == 0 ? @pictograph.off_value : @pictograph.risks[fill_risk].value
-			if !val.is_a? Integer
-			  val = val.floor.to_i
-			end
-			
-			# decimal handling
-			if @pictograph.risks[fill_risk + 1]
-				dval = @pictograph.risks[fill_risk + 1].value
-				d = dval - dval.floor
-				is_dec = true
-			else
-				d = 1.0
-			end
-			
-			# if we use decimals, we're rounding, and we lose a cell
-			val += 1 if is_dec and fill_risk > 0
+			val.to_i if !val.is_a? Integer
 		
 			# increment if we've hit our mark
-			dec = 1.0
 			if current_fill_index == val
 				fill_index += 1
 				fill_risk = @pictograph.risks.length - fill_index
 				current_fill_index = 0
-				dec = d
-			else
-				dec = 1.0
 			end
 			if @pictograph.risks[fill_risk].icon?
 				fill_icon = @pictograph.risks[fill_risk].icon.url(:default) # NOTE: we may want to default to upload size
@@ -51,7 +32,7 @@
 				row << "<td id='cell#{100 - i + 1}' class='picto-cell fill#{fill_risk}' data-icon='#{fill_icon}'><img src=\'#{fill_icon}\' alt=\'risk #{fill_risk} icon\'></td>"
 				# also, the fill class won't work with icons
 			else
-	    	row << "<td id='cell#{100 - i + 1}' style='background-color: #{@pictograph.risks[0].hex};padding:0; width: #{@pictograph.cell_width}px; height: #{@pictograph.cell_height}px;' class='picto-cell fill#{fill_risk}' data-color='#{fill_color}'><div style='background-color: #{fill_color}; width: #{@pictograph.cell_width }px; height: #{@pictograph.cell_height * dec}px; margin-top: #{@pictograph.cell_height * (1.0 - dec)}px;'></div></td>"
+	    	row << "<td id='cell#{100 - i + 1}' style='padding:0; width: #{@pictograph.cell_width}px; height: #{@pictograph.cell_height}px;' class='picto-cell fill#{fill_risk}' data-color='#{fill_color}'><div style='background-color: #{fill_color}; width: #{@pictograph.cell_width}px; height: #{@pictograph.cell_height}px;'></div></td>"
 			end
 	    if i % 10 == 0
 	      if @pictograph.axis_labels

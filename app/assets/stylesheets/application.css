@@ -112,8 +112,8 @@ table.pictograph td.picto-cell {
 	position: relative;
 }
 table.pictograph td.picto-cell div {
-	position: absolute;
-	bottom: 0;
+/*	position: absolute;
+	bottom: 0;*/
 }
 td.picto-axis-label {
   text-align: right;

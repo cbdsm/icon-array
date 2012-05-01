@@ -38,6 +38,7 @@ class PictographsController < ApplicationController
   # GET /pictographs/new.json
   def new
     @pictograph = Pictograph.new(@p)
+    logger.info @pictograph.inspect
 
     respond_to do |format|
       format.html # new.html.erb 

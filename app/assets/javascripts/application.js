@@ -133,6 +133,7 @@ $(document).ready(function() {
 			
 	// After updating a form field		
 	$("body").on("click", "a.submittable", function(event){
+		var tmpRisk = curRisk;
 		// get input & value
 		var edit = '#' + $(this).attr('id').replace('_submit', '');
 		var val = $(edit).val();
@@ -160,9 +161,16 @@ $(document).ready(function() {
 			$('.tab-content div.active').prevAll("div.color-pane:not('.off')").each(function() {
 		    totalRisk += Number($(this).find('input.value-field').val());
 	    });
-
+	
 			var thisRisk = totalRisk + Number(val);
-			updateMultiple(thisRisk, color);
+			
+			if (thisRisk > cells || thisRisk < 0 || !isNumber(thisRisk) || !thisRisk) {
+				alert("Please enter a number between 0 and " + cells);
+				$(edit).val(tmpRisk);
+				$(edit).focus();
+			} else {
+				updateMultiple(thisRisk, color);
+			}
 		}
 		return false;
 	});
@@ -305,11 +313,11 @@ $(document).ready(function() {
 		if ( event.type === 'mouseenter' ) {
 			// Form values
 			var thisRisk = $(this).attr('id').replace('cell', ''); // value of the cell we're on
-			curRisk = current_risk();
+			tmpRisk = current_risk();
 			
 			// If we're using icons--DEPRECATED
 			if ($(this).attr('data-icon') != undefined) {
-				if (thisRisk > curRisk) {
+				if (thisRisk > tmpRisk) {
 					var icon = $('form .tab-content div.active').find('img.form-icon').attr('src');
 				} else {
 					var icon = $('form .tab-content div.active').prev().find('img.form-icon').attr('src');
@@ -321,7 +329,7 @@ $(document).ready(function() {
 				// var colorIndex = el.attr('href').replace('#color', '');
 				
 				// If we're moving up
-				if (thisRisk > curRisk) {
+				if (thisRisk > tmpRisk) {
 					var color = $('form ul.nav li.active a').css('background-color');
 					
 				// Otherwise we're moving back
@@ -425,6 +433,7 @@ $(document).ready(function() {
 		
 		// reset the inner div height
 		$('td.picto-cell div').height(height);
+		$('td.picto-cell div').css('margin-top', '0');
 		
 		// We're increasing
 		if (diff > 0) {
@@ -485,7 +494,7 @@ $(document).ready(function() {
 		// TODO
 		// If we need to adjust the value for a decimal
 		if (decRisk > 0.0) {
-			el2.children('div').height(height * (1.0 - decRisk));
+			el2.children('div').height(height * (1.0 - decRisk)).css('margin-top', height * decRisk);
 			el2.css('background-color', $('input#pictograph_risks_attributes_0_hex').val());
 		}
 
@@ -683,6 +692,10 @@ $(document).ready(function() {
 	    curRisk += Number($(this).find('input.value-field').val());
     });
 		return curRisk;
+	}
+	
+	function isNumber(n) {
+	  return !isNaN(parseFloat(n)) && isFinite(n);
 	}
 	
 });
