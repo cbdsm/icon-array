@@ -43,7 +43,7 @@ class Pictograph < ActiveRecord::Base
   
   def off_value
     # we can't use the 'on' scope yet--because these often haven't been saved
-    cells - risks.collect{|r| r.value.to_f }.sum.to_i
+    cells - risks.collect{|r| r.value.to_f }.sum
   end
   
   private
