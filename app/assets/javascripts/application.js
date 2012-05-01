@@ -122,14 +122,23 @@ $(document).ready(function() {
 	$("body").on("focus", "input.color-field", function(event){
 		$('a.submittable:visible').hide();
 		$('table.pictograph').removeClass('active');
+		$('.help:visible').hide();
 	});
+	// Same for color picker
+	$("body").on("click", "a.miniColors-trigger", function(event){
+		$('a.submittable:visible').hide();
+		$('table.pictograph').removeClass('active');
+		$('.help:visible').hide();
+	});
+	
 	
 	// focus on first risk
 	$('input#risks_1_value').focus();
 			
-	$("body").on("click", "table.pictograph:not(.active)", function(event){	
-		$(this).addClass('active');
-	});	
+	// TODO: this is setting the curVal, so it's disabled until it can be troubleshot		
+	// $("body").on("click", "table.pictograph:not(.active)", function(event){	
+	// 	$(this).addClass('active');
+	// });	
 			
 	// After updating a form field		
 	$("body").on("click", "a.submittable", function(event){
@@ -300,7 +309,7 @@ $(document).ready(function() {
 	    change: function(hex, rgb) {
 				$(this).val(hex);
 				var klass = $(this).attr('id').replace('pictograph_risks_attributes_', '').replace('_hex', '');
-				$('td.fill' + klass).css('backgroundColor', hex);
+				$('td.fill' + klass + ' div').css('backgroundColor', hex);
 				$('td.fill' + klass).attr('data-color', hex);
 				//$(this).parent().prev('div.legend-icon').css('background-color', hex);
 				$('form ul.nav li.active a').css('background-color', hex);
