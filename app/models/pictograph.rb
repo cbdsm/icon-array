@@ -38,7 +38,7 @@ class Pictograph < ActiveRecord::Base
   end
   
   def show_legend?
-    !self.risks[1].description.blank?
+    self.risks.collect(&:display).include? true
   end
   
   def off_value
