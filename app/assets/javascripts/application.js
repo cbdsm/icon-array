@@ -26,7 +26,7 @@
 $(document).ready(function() {
 	// globals
 	// This stuff is mostly for embedding/linking
-	var debug = true;
+	var debug = false;
 	var host = window.location.hostname;
 	var port = window.location.port;
 	var url;
@@ -230,8 +230,9 @@ $(document).ready(function() {
 			formvars = formvars.replace(/\#/gi, "%23");
 			
 			url = 'http://icon-array.heroku.com';
-			bit_url(url + '/pictographs/view/?' + formvars, '#save-share div.modal-body p');
-			// $('#save-share div.modal-body p').html(full_url);
+			full_url = url + '/pictographs/view/?' + formvars, '#save-share div.modal-body p';
+			// bit_url(full_url);
+			$('#save-share div.modal-body p').html(full_url);
 		}
 		$('#save-share').modal('show');
 	});

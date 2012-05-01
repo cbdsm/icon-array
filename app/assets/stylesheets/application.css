@@ -132,6 +132,12 @@ div#editor {
 	width: 410px;
 }
 
+div.tiff div#editor {
+	margin-top: 125px;
+	float: left;
+	padding-left: 100px;
+}
+
 div#risk input {
 	font-size: 24px;
 	height: 28px;
@@ -161,6 +167,10 @@ a.editable {
 /* Legend */
 dl, dt, dd {
 	margin: 15px 0 0 0 !important;
+	padding: 0;
+}
+div.tiff dl, dt, dd {
+	margin: 65px 0 0 0 !important;
 	padding: 0;
 }
 dl {
