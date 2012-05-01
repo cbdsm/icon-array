@@ -90,7 +90,12 @@ div.risk-fill input {
 	margin: 10px 0 0 10px;
 }
 a.miniColors-trigger {
-	margin-top: 10px;
+/*	margin-top: 10px;
+*/}
+
+span.instructions {
+	color: #a9a9a9;
+	font-size: .85em;
 }
 
 h3#pictograph-title {
@@ -122,15 +127,23 @@ td.picto-axis-label {
 }
 
 div#editor {
-	margin-top: 50px;
+	margin-top: 25px;
 	float: left;
-	width: 400px;
+	width: 410px;
 }
 
 div#risk input {
 	font-size: 24px;
 	height: 28px;
 	width: 60px;
+}
+div.field {
+	margin-bottom: 20px;
+}
+h4.field-title {
+	color: #a9a9a9;
+	border-bottom: dotted 1px #a9a9a9;
+	margin-bottom: 10px;
 }
 
 div.field div.field-icon {
@@ -196,8 +209,12 @@ div.actions ul.dropdown-menu {
 }
 
 p#value-help {
+	margin-top: 30px;
 	display: block;
 	width: 280px;
+	-moz-box-shadow: 3px 3px 2px #888;
+	-webkit-box-shadow: 3px 3px 2px #888;
+	box-shadow: 3px 3px 2px #888;
 /*	float: left;
 	margin-left: 120px;
 	margin-top: -50px;*/
