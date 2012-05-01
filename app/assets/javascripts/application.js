@@ -26,7 +26,7 @@
 $(document).ready(function() {
 	// globals
 	// This stuff is mostly for embedding/linking
-	var debug = false;
+	var debug = true;
 	var host = window.location.hostname;
 	var port = window.location.port;
 	var url;
@@ -42,10 +42,12 @@ $(document).ready(function() {
 	var cols = $('table.pictograph tr:first td.picto-cell').length;
 	var rows = $('table.pictograph tr:not(".bottom-row")').length;
 	var cells = rows * cols;
+	var width = $('td#cell1').width();
+	var height = $('td#cell1').height();
 	
 	if (debug) {
 		$('td.picto-cell').livequery(function(){
-			$(this).html($('table.pictograph td.picto-cell').index($(this)));
+			$(this).children('div').html($('table.pictograph td.picto-cell').index($(this)));
 		});
 	}
 	
@@ -319,7 +321,7 @@ $(document).ready(function() {
 				} else {
 					var color = $('input#pictograph_risks_attributes_0_hex').val();
 				}
-				$(this).css('background-color', color);
+				$(this).children('div').css('background-color', color);
 			}	   
 		} else {
     	if ($(this).attr('data-icon') != undefined) {
@@ -327,7 +329,7 @@ $(document).ready(function() {
 				$(this).children('img').attr('src', curIcon);		
 			} else {
 				var curColor = $(this).attr('data-color');
-				$(this).css('background-color', curColor);
+				$(this).children('div').css('background-color', curColor);
 			}
 		}
 	});
@@ -379,7 +381,7 @@ $(document).ready(function() {
 		var decRisk = adjRisk - thisRisk; // leftover decimal risk
 		// var adjcRisk = Math.floor(curRisk); // integer risk
 		// var deccRisk = curRisk - adjRisk; // leftover decimal risk
-		
+
 		var el = $('table.pictograph td#cell' + curRisk)
 		var curVal = $('table.pictograph td.picto-cell').index(el);
 		var el2 = $('table.pictograph td#cell' + adjRisk)
@@ -388,7 +390,7 @@ $(document).ready(function() {
 		var colorIndex = $('form ul.nav li.active a').attr('href').replace('#color', '');
 		
 		var prevRisk = $('div[data-color="' + thisFill + '"]').parent().prevAll('dt:last');
-		var diff = thisRisk - curRisk;
+		var diff = adjRisk - curRisk;
 		// This is usually the case
 		if (prevRisk.next('dd').children('input.risk-val').length > 0) {
 			var prevLeg = prevRisk.next('dd').children('input.risk-val');
@@ -414,6 +416,9 @@ $(document).ready(function() {
 			alert("just clicked: " + val + " current value: " + curVal);
 		}
 		
+		// reset the inner div height
+		$('td.picto-cell div').height(height);
+		
 		// We're increasing
 		if (diff > 0) {
 			var color = thisFill;	
@@ -423,7 +428,7 @@ $(document).ready(function() {
 				
 				// first row
 				if (i == row1) {
-					endVal = val;
+					endVal = val + 1;
 				} else {
 					endVal = endRow;
 				}
@@ -435,7 +440,7 @@ $(document).ready(function() {
 					startVal = startRow;
 				}
 
-				$('table.pictograph td.picto-cell').slice(startVal, endVal).css('background-color', color);
+				$('table.pictograph td.picto-cell div').slice(startVal, endVal).css('background-color', color);
 				$('table.pictograph td.picto-cell').slice(startVal, endVal).attr('data-color', color);
 				$('table.pictograph td.picto-cell').slice(startVal, endVal + 1).removeClass().addClass('picto-cell fill' + colorIndex);
 				startVal = endVal;
@@ -463,7 +468,7 @@ $(document).ready(function() {
 					startVal = startRow;
 				}
 
-				$('table.pictograph td.picto-cell').slice(startVal, endVal).css('background-color', color);
+				$('table.pictograph td.picto-cell div').slice(startVal, endVal).css('background-color', color);
 				$('table.pictograph td.picto-cell').slice(startVal, endVal).attr('data-color', color);
 				$('table.pictograph td.picto-cell').slice(startVal, endVal).removeClass().addClass('picto-cell fill' + 0);
 				startVal = endVal;
@@ -472,7 +477,10 @@ $(document).ready(function() {
 		
 		// TODO
 		// If we need to adjust the value for a decimal
-		// el2.children('div').height()
+		if (decRisk > 0.0) {
+			el2.children('div').height(height * (1.0 - decRisk));
+			el2.css('background-color', $('input#pictograph_risks_attributes_0_hex').val());
+		}
 
 	
 				

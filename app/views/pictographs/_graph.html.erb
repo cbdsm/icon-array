@@ -32,7 +32,7 @@
 				row << "<td id='cell#{100 - i + 1}' class='picto-cell fill#{fill_risk}' data-icon='#{fill_icon}'><img src=\'#{fill_icon}\' alt=\'risk #{fill_risk} icon\'></td>"
 				# also, the fill class won't work with icons
 			else
-	    	row << "<td id='cell#{100 - i + 1}' style='background-color: #{fill_color}; width: #{@pictograph.cell_width}px; height: #{@pictograph.cell_height}px;' class='picto-cell fill#{fill_risk}' data-color='#{fill_color}'></td>"
+	    	row << "<td id='cell#{100 - i + 1}' style='padding:0; width: #{@pictograph.cell_width}px; height: #{@pictograph.cell_height}px;' class='picto-cell fill#{fill_risk}' data-color='#{fill_color}'><div style='background-color: #{fill_color}; width: #{@pictograph.cell_width}px; height: #{@pictograph.cell_height}px;'></div></td>"
 			end
 	    if i % 10 == 0
 	      if @pictograph.axis_labels

@@ -16,7 +16,7 @@ class Pictograph < ActiveRecord::Base
   end
   
   def table_width
-    (cell_width  * cols) + (cell_spacing * (cols - 1)) + axis_width
+    (cell_width  * cols) + (cell_spacing * (cols - 1)) + axis_width + (cols * 2)
   end
   
   def axis_margin_top

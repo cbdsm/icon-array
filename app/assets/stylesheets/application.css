@@ -102,8 +102,13 @@ table.pictograph {
 	margin: 20px 20px 0 20px;
 	border-collapse: separate;
 }
-table.pictograph td {
+table.pictograph td.picto-cell {
 /*	display: block;*/
+	position: relative;
+}
+table.pictograph td.picto-cell div {
+	position: absolute;
+	bottom: 0;
 }
 td.picto-axis-label {
   text-align: right;
