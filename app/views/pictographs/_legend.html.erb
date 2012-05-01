@@ -7,11 +7,11 @@
 				<dt id="risky<%=risk.position%>" style="width: <%=@pictograph.cell_width + 20%>px;">
 					<div class="legend-icon" id="test<%=risk.position%>" style="width: <%=@pictograph.cell_width%>px; height: <%=@pictograph.cell_height%>px; background-color: <%=risk.hex%>;" data-color="<%=risk.hex%>"></div>
 				</dt>
-				<dd id="frisky<%=risk.position%>" style="width: <%=400 - (@pictograph.cell_width + 20)%>px;">
+				<dd id="frisky<%=risk.position%>">
 					<% unless risk.value.blank? %>
 						<span id="#risks_<%=risk.position%>_value" class="risk-val"><%= risk.value == risk.value.round ? risk.value.to_i : risk.value %></span>
 					<% else%>
-						<span id="#risks_<%=risk.position%>_value" class="risk-val"><%= @pictograph.off_value %></span>
+						<span id="#risks_<%=risk.position%>_value" class="risk-val"><%= @pictograph.off_value == @pictograph.off_value.round ? @pictograph.off_value.to_i : @pictograph.off_value %></span>
 					<% end %>
 						<%= risk.population %> <%= risk.description %>
 				</dd>
