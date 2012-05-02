@@ -11,12 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120501170450) do
+ActiveRecord::Schema.define(:version => 20120502203308) do
 
   create_table "pictographs", :force => true do |t|
     t.string   "title"
-    t.integer  "cell_width",       :default => 25
-    t.integer  "cell_height",      :default => 45
+    t.integer  "cell_width",       :default => 22
+    t.integer  "cell_height",      :default => 40
     t.integer  "cell_spacing",     :default => 5
     t.integer  "cols",             :default => 10
     t.integer  "rows",             :default => 10
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(:version => 20120501170450) do
   create_table "risks", :force => true do |t|
     t.integer  "pictograph_id"
     t.string   "hex"
-    t.decimal  "value",             :precision => 10, :scale => 0
+    t.decimal  "value",             :precision => 10, :scale => 2
     t.string   "icon_file_name"
     t.integer  "icon_file_size"
     t.string   "icon_content_type"
