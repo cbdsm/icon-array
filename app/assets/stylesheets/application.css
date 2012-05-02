@@ -19,8 +19,8 @@ div.navbar-inner {
 	padding-left: 20px !important;
 	background-color: #373a64;
 
-	background-image: -moz-linear-gradient(top, #333333, #222222);
-	background-image: -ms-linear-gradient(top, #333333, #222222);
+	background-image: -moz-linear-gradient(top, #373a64, #6880a6);
+	background-image: -ms-linear-gradient(top, #373a64, #6880a6);
 	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#373a64), to(#6880a6));
 	background-image: -webkit-linear-gradient(top, #373a64, #6880a6);
 	background-repeat: repeat-x;
@@ -100,6 +100,10 @@ span.instructions {
 
 h3#pictograph-title {
 	margin-bottom: -10px;
+	padding-left: 10px;
+}
+h3#pictograph-title a {
+	color: #a9a9a9;
 }
 
 table.pictograph {
@@ -169,7 +173,7 @@ dl, dt, dd {
 	margin: 15px 0 0 0 !important;
 	padding: 0;
 }
-div.tiff dl, dt, dd {
+div.tiff dl, div.tiff dt, div.tiff dd {
 	margin: 65px 0 0 0 !important;
 	padding: 0;
 }
@@ -180,11 +184,11 @@ dl {
 dt {
 	clear: left;
   float:left;
-/*  width:20%; /* adjust the width; make sure the total of both is 100% */*/
+/*  width:20%; /* adjust the width; make sure the total of both is 100% */
 }
 dd {
   float:left;
-/*  width:80%; /* adjust the width; make sure the total of both is 100% */*/
+/*  width:80%; /* adjust the width; make sure the total of both is 100% */
 }
 
 
@@ -218,7 +222,7 @@ div.actions ul.dropdown-menu {
 	display: inline;
 }
 
-p#value-help {
+p.help {
 	margin-top: 30px;
 	display: block;
 	width: 280px;
@@ -237,4 +241,7 @@ div.page-content {
 div#about-image {
 	float: left;
 	margin: 5px 10px 0px 0;
+}
+input.highlight {
+	border: 1px solid #C09853;
 }

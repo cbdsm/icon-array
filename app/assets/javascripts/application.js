@@ -104,10 +104,14 @@ $(document).ready(function() {
 		if ($(this).hasClass('value-field')) {
 			curRisk = current_risk();
 			$('table.pictograph').addClass('active');
+			$('.help:visible').hide();
 			$('p#value-help').show();
+			$(this).removeClass('highlight');
 		} else {
+			$('input.value-field:visible').addClass('highlight');
 			$('table.pictograph').removeClass('active');
 			$('.help:visible').hide();
+			$('p#off-help').show();
 		}
 		
 		// If there's an open "click to edit field"
@@ -120,12 +124,15 @@ $(document).ready(function() {
 	
 	// Same for color picker
 	$("body").on("focus", "input.color-field", function(event){
+		$('input').removeClass('active');
+		$(this).addClass('active');
 		$('a.submittable:visible').hide();
 		$('table.pictograph').removeClass('active');
 		$('.help:visible').hide();
 	});
 	// Same for color picker
 	$("body").on("click", "a.miniColors-trigger", function(event){
+		$('input').removeClass('active');
 		$('a.submittable:visible').hide();
 		$('table.pictograph').removeClass('active');
 		$('.help:visible').hide();
@@ -374,6 +381,8 @@ $(document).ready(function() {
 		$('form .tab-content div.active input.value-field').val(thisRisk - totalRisk);
 		$('a.submittable:visible').hide();
 		$('table.pictograph').removeClass('active');
+		$('p#off-help').show();
+		$('input.value-field:visible').addClass('highlight');
 	});
 	
 	
@@ -468,7 +477,7 @@ $(document).ready(function() {
 
 				$('table.pictograph td.picto-cell div').slice(startVal, endVal).css('background-color', color);
 				$('table.pictograph td.picto-cell').slice(startVal, endVal).attr('data-color', color);
-				$('table.pictograph td.picto-cell').slice(startVal, endVal + 1).removeClass().addClass('picto-cell fill' + colorIndex);
+				$('table.pictograph td.picto-cell').slice(startVal, endVal).removeClass().addClass('picto-cell fill' + colorIndex);
 				startVal = endVal;
 			}	
 			
