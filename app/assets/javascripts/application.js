@@ -26,7 +26,7 @@
 $(document).ready(function() {
 	// globals
 	// This stuff is mostly for embedding/linking
-	var debug = false;
+	var debug = true;
 	var host = window.location.hostname;
 	var port = window.location.port;
 	var url;
@@ -331,7 +331,8 @@ $(document).ready(function() {
 			// Form values
 			var thisRisk = $(this).attr('id').replace('cell', ''); // value of the cell we're on
 			tmpRisk = current_risk();
-			
+			prevRisk = previous_risk();
+
 			// If we're using icons--DEPRECATED
 			if ($(this).attr('data-icon') != undefined) {
 				if (thisRisk > tmpRisk) {
@@ -340,21 +341,18 @@ $(document).ready(function() {
 					var icon = $('form .tab-content div.active').prev().find('img.form-icon').attr('src');
 				}
 				$(this).children('img').attr('src', icon);			
-			} else {
-				// This should be on the tab callback, really
-				// var el = $('form ul.nav li.active a');
-				// var colorIndex = el.attr('href').replace('#color', '');
-				
-				// If we're moving up
-				if (thisRisk > tmpRisk) {
-					var color = $('form ul.nav li.active a').css('background-color');
-					
-				// Otherwise we're moving back
-				} else {
-					var color = $('input#pictograph_risks_attributes_0_hex').val();
-				}
-				$(this).children('div').css('background-color', color);
-			}	   
+			} else {		
+				if (thisRisk > prevRisk) {
+					// If we're moving up
+					if (thisRisk > tmpRisk) {
+						var color = $('form ul.nav li.active a').css('background-color');
+					// Otherwise we're moving back
+					} else {			
+						var color = $('input#pictograph_risks_attributes_0_hex').val();
+					}
+					$(this).children('div').css('background-color', color);
+				}	   
+			}
 		} else {
     	if ($(this).attr('data-icon') != undefined) {
 				var curIcon = $(this).attr('data-icon');
@@ -692,25 +690,20 @@ $(document).ready(function() {
 	}
 	
 	function current_risk() {
-		var curCell = $('.tab-content div.active input.value-field').val();
-		var curRisk;
-		var hiVal = cells - $('input#risks_0_value').val();
-		if (curCell == 0) {
-			// curRisk = hiVal;
-			
-			var hiRisk = 0;
-			$('.tab-content div.active').prevAll("div.color-pane:not('.off')").each(function() {
-		    hiRisk += Number($(this).find('input.value-field').val());
-			    });
-			curRisk = hiRisk;
-		} else {
-			curRisk = curCell;
-		}
-		
+		var curRisk = Number($('.tab-content div.active input.value-field').val());
 		$('.tab-content div.active').prevAll("div.color-pane:not('.off')").each(function() {
 	    curRisk += Number($(this).find('input.value-field').val());
     });
 		return curRisk;
+	}
+	
+	function previous_risk() {	
+		var prevs = $('.tab-content div.active').prevAll("div.color-pane:not('.off')");
+		if (prevs.length > 0) {
+			return Number(prevs.first().find('input.value-field').val());
+		} else {
+			return 0.0;
+		}
 	}
 	
 	function isNumber(n) {
