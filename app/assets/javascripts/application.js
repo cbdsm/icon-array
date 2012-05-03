@@ -402,17 +402,21 @@ $(document).ready(function() {
 		curRisk = val;
 	};
 	
-	var updateMultiple = function(thisRisk, thisFill) {
+	var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 		// alert(thisRisk);
 		// Table index values
+
+		var cmpRisk = passInRisk || curRisk;
+		var thisTab = passInTab || $('.tab-content div.active');
+
 		if (debug) {
-			alert('curRisk: ' + curRisk + ' thisRisk: ' + thisRisk);
+			alert('curRisk: ' + cmpRisk + ' thisRisk: ' + thisRisk);
 		}
 		
 		var adjRisk = Math.ceil(thisRisk); // integer risk
 		var decRisk = adjRisk - thisRisk; // leftover decimal risk
-		var adjCurRisk = Math.ceil(curRisk); // integer risk
-		var decCurRisk = curRisk - adjCurRisk; // leftover decimal risk
+		var adjCurRisk = Math.ceil(cmpRisk); // integer risk
+		var decCurRisk = cmpRisk - adjCurRisk; // leftover decimal risk
 
 		var el = $('table.pictograph td#cell' + adjCurRisk)
 		var curVal = $('table.pictograph td.picto-cell').index(el);
@@ -479,6 +483,21 @@ $(document).ready(function() {
 				startVal = endVal;
 			}	
 			
+			// Now we need to see if there are other colors higher up
+			// If there are, we move those too--sheesh!
+			var hiTabs = thisTab.nextAll("div.color-pane:not('.off')");
+			if (hiTabs.length > 0) {
+				var color = hiTabs.first().find('input.color-field').val();
+				var tabRisk = hiTabs.first().find('input.value-field').val();
+				updateMultiple(thisRisk + Number(tabRisk), color, thisRisk + 1, hiTabs.first());
+			}
+			
+			// TODO: when this adjustment is made, we're not bringing down the top value
+			// In that event, there are essentially three values,
+			// the passed in min, max, and current val
+			// We're current grabbing the range where we'd like the vals to be,
+			// but not setting cells that fall beyond the range.
+			
 		// We're decreasing
 		// row2 is the first row here
 		} else {
@@ -506,160 +525,22 @@ $(document).ready(function() {
 				$('table.pictograph td.picto-cell').slice(startVal, endVal).removeClass().addClass('picto-cell fill' + 0);
 				startVal = endVal;
 			}
+			
+			// Now we need to see if there are other colors higher up
+			// If there are, we move those too--sheesh!
+			var hiTabs = thisTab.nextAll("div.color-pane:not('.off')");
+			if (hiTabs.length > 0) {
+				var color = hiTabs.first().find('input.color-field').val();
+				var tabRisk = hiTabs.first().find('input.value-field').val();
+				updateMultiple(thisRisk + Number(tabRisk), color, thisRisk, hiTabs.first());
+			}
 		}
 		
-		// TODO
 		// If we need to adjust the value for a decimal
 		if (decRisk > 0.0) {
 			el2.children('div').height(height * (1.0 - decRisk)).css('margin-top', height * decRisk);
 			el2.css('background-color', $('input#pictograph_risks_attributes_0_hex').val());
 		}
-
-	
-				
-		// // If we're moving up
-		// if (diff > 0) {
-		// 	
-		// 	var startVal;
-		// 	var startRow;
-		// 	var endVal;
-		// 	var endRow;
-		// 	for(i = row1; i <= row2; i++) {
-		// 		endRow = (i + 1) * cols;
-		// 		startRow = (i * cols);
-		// 		if (i == row1) {
-		// 			endVal = val;
-		// 		} else {
-		// 			endVal = endRow;
-		// 		}
-		// 		
-		// 		if (i == row2) {
-		// 			startVal = curVal + 1;
-		// 		} else {
-		// 			startVal = startRow;
-		// 		}
-		// 		
-		// 		alert(startVal + ' ' + endVal);
-		// 		$('table.pictograph td.picto-cell').slice(startVal, endVal).css('background-color', color);
-		// 		startVal = endVal;
-		// 	}
-		// 	
-		// 	// If we're in the same row
-		// 	if (1 == 1) {
-		// 		// $('table.pictograph td.picto-cell').slice(curVal + 1, val).css('background-color', color);
-		// 		// $('table.pictograph td.picto-cell').slice(curVal + 1, val).attr('data-color', color);
-		// 	} else {
-		// 	
-		// 		// Upper adjustment
-		// 		var high2 = val + 1;
-		// 		var high1 = val - (val % cols);
-		// 	
-		// 		// Lower adjustment
-		// 		var low1 = curVal;
-		// 		var low2 = curVal - (curVal % cols);
-		// 		if ((low1 - high1) >= 10){
-		// 			 low2 += cols;
-		// 		}
-		// 	
-		// 		if (debug) {
-		// 			alert("high1: " + high1 + ", high2: " + high2);
-		// 			alert("low1: " + low1 + ", low2: " + low2);
-		// 		}
-		// 	
-		// 		// If we have a file extension, this is an icon
-		// 		if (parts.length > 1) {
-		// 			// Get the icon
-		// 			var icon = $('form .tab-content div.active').find('img.form-icon').attr('src');
-		// 
-		// 			// Upper
-		// 			$('table.pictograph td.picto-cell').slice(high1, high2).children('img').attr('src', icon);
-		// 			$('table.pictograph td.picto-cell').slice(high1, high2).attr('data-icon', icon);
-		// 
-		// 			// Lower
-		// 			$('table.pictograph td.picto-cell').slice(low1, low2).children('img').attr('src', icon);
-		// 			$('table.pictograph td.picto-cell').slice(low1, low2).attr('data-icon', icon);
-		// 
-		// 			// The rest
-		// 			$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).children('img').attr('src', icon);
-		// 			$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).attr('data-icon', icon);
-		// 		} else {
-		// 			// get the color
-		// 			var color = thisFill;
-		// 			
-		// 			// Upper
-		// 			$('table.pictograph td.picto-cell').slice(high1, high2).css('background-color', color);
-		// 			$('table.pictograph td.picto-cell').slice(high1, high2).attr('data-color', color);
-		// 
-		// 			// Lower
-		// 			$('table.pictograph td.picto-cell').slice(low1, low2).css('background-color', color);
-		// 			$('table.pictograph td.picto-cell').slice(low1, low2).attr('data-color', color);
-		// 
-		// 			// The rest
-		// 			$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).css('background-color', color);
-		// 			$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).attr('data-color', color);
-		// 		}
-		// 		// Update the fill index
-		// 		$('table.pictograph td.picto-cell').slice(high1, high2).removeClass().addClass('picto-cell fill' + colorIndex);			
-		// 		$('table.pictograph td.picto-cell').slice(low1, low2).removeClass().addClass('picto-cell fill' + colorIndex);
-		// 		$('table.pictograph td.picto-cell').slice(high1 + cols, low2 - 1).removeClass().addClass('picto-cell fill' + colorIndex);
-		// 	}
-		// } else { // Otherwise, we're decreasing
-		// 	
-		// 	// Upper adjustment
-		// 	var high2 = curVal + 1;
-		// 	var high1 = curVal - (curVal % cols);
-		// 	
-		// 	// Lower adjustment
-		// 	var el = $('table.pictograph td#cell' + curRisk)
-		// 	var low1 = val + 1;
-		// 	var low2 = val - (val % cols) + cols;
-		// 	if ((low1 - high1) < 10){
-		// 		low1--;
-		// 		high1 = low1;
-		// 		low2 = high2;
-		// 	}
-		// 	
-		// 	if (debug) {
-		// 		alert("high1: " + high1 + ", high2: " + high2);
-		// 		alert("low1: " + low1 + ", low2: " + low2);
-		// 	}
-		// 	
-		// 	if (parts.length > 1) {
-		// 		// Get the icon
-		// 		var icon = $('form .tab-content div.active').find('img.form-icon').attr('src');
-		// 		
-		// 		// Upper
-		// 		$('table.pictograph td.picto-cell').slice(high1, high2).children('img').attr('src', icon);
-		// 		$('table.pictograph td.picto-cell').slice(high1, high2).attr('data-icon', icon);
-		// 	
-		// 		// Lower
-		// 		$('table.pictograph td.picto-cell').slice(low1, low2).children('img').attr('src', icon);
-		// 		$('table.pictograph td.picto-cell').slice(low1, low2).attr('data-icon', icon);
-		// 	
-		// 		// The rest
-		// 		$('table.pictograph td.picto-cell').slice(high1, low2 - cols).children('img').attr('src', icon);
-		// 		$('table.pictograph td.picto-cell').slice(high1, low2 - cols).attr('data-icon', icon);
-		// 		
-		// 	} else {
-		// 		var color = $('form .tab-content div.active').prev().find('input.color-field').val();
-		// 		//var color = prevRisk.children('div.legend-icon').attr('data-color');
-		// 		
-		// 		// Upper
-		// 		$('table.pictograph td.picto-cell').slice(high1, high2).css('background-color', color);
-		// 		$('table.pictograph td.picto-cell').slice(high1, high2).attr('data-color', color);
-		// 	
-		// 		// Lower
-		// 		$('table.pictograph td.picto-cell').slice(low1, low2).css('background-color', color);
-		// 		$('table.pictograph td.picto-cell').slice(low1, low2).attr('data-color', color);
-		// 	
-		// 		// The rest
-		// 		$('table.pictograph td.picto-cell').slice(high1, low2 - cols).css('background-color', color);
-		// 		$('table.pictograph td.picto-cell').slice(high1, low2 - cols).attr('data-color', color);	
-		// 	}
-		// 	$('table.pictograph td.picto-cell').slice(high1, high2).removeClass().addClass('picto-cell fill' + colorIndex);
-		// 	$('table.pictograph td.picto-cell').slice(low1, low2).removeClass().addClass('picto-cell fill' + colorIndex);
-		// 	$('table.pictograph td.picto-cell').slice(high1, low2 - cols).removeClass().addClass('picto-cell fill' + colorIndex);
-		// }
 		
 		// Set the form val
 		// TODO: we don't actually want to set this to the risk
