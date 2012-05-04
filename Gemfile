@@ -12,6 +12,7 @@ gem 'paperclip'
 gem 'acts_as_list'
 gem 'imgkit'
 gem 'mini_magick'
+gem 'rack-canonical-host'
 
 group :production do
 	gem "pg"
