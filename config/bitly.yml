@@ -1,6 +1,9 @@
 development:
   username: ideaoforder
   api_key: R_8d6c2265f9e37f9d332547673e8610d6
+staging:
+  username: ideaoforder
+  api_key: R_8d6c2265f9e37f9d332547673e8610d6
 testing:
   username: ideaoforder
   api_key: R_8d6c2265f9e37f9d332547673e8610d6
