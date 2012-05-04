@@ -21,3 +21,6 @@ test:
 
 production:
   adapter: pg
+  
+staging:
+  adapter: pg
