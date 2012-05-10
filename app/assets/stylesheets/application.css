@@ -245,3 +245,36 @@ div#about-image {
 input.highlight {
 	border: 1px solid #C09853;
 }
+
+.tint {
+	position: relative;
+	float: left;
+	cursor: pointer;
+	padding: 0;
+}
+.tint img {
+	margin: 0;
+}
+.tint:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 0, 255, 0.8);
+	-moz-transition: background .3s linear;
+	-webkit-transition: background .3s linear;
+	-ms-transition: background .3s linear;
+	-o-transition: background .3s linear;
+	transition: background .3s linear;
+}
+.tint:hover:before {
+	background: none;
+}
+
+img.overlay {
+	position: absolute;
+	top: 0;
+}

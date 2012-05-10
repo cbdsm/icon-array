@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120502203308) do
+ActiveRecord::Schema.define(:version => 20120510173829) do
 
   create_table "pictographs", :force => true do |t|
     t.string   "title"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(:version => 20120502203308) do
     t.string   "title_alignment",  :default => "left"
     t.string   "legend_font",      :default => "Arial"
     t.integer  "legend_font_size", :default => 12
+    t.string   "icon"
   end
 
   create_table "risks", :force => true do |t|
