@@ -10,6 +10,12 @@ test:
   bucket: icon-array-dev
   acl: public-read
   max_file_size: 1073741824
+staging:
+  access_key_id: 02ZS2AZC1TT2P9A8TF82
+  secret_access_key: 1mZTsqlQdF5Y3tMvDCSE7QPD7yRHlhwVw9Ond+JU
+  bucket: icon-array-dev
+  acl: public-read
+  max_file_size: 1073741824
 # This should be moved to a UM account, probably
 production:
   access_key_id: 02ZS2AZC1TT2P9A8TF82
