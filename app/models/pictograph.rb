@@ -20,7 +20,11 @@ class Pictograph < ActiveRecord::Base
   end
   
   def axis_width
-    axis_font_size * 4
+    if axis_labels
+      axis_font_size * 4
+    else
+      0
+    end
   end
   
   def table_width
