@@ -5,7 +5,11 @@
 		<% @pictograph.risks.each do |risk| %>
 			<% if risk.display? %>
 				<dt id="risky<%=risk.position%>" style="width: <%=@pictograph.cell_width + 20%>px;">
-					<div class="legend-icon" id="test<%=risk.position%>" style="width: <%=@pictograph.cell_width%>px; height: <%=@pictograph.cell_height%>px; background-color: <%=risk.hex%>;" data-color="<%=risk.hex%>"></div>
+					<% if !@pictograph.icon.blank? %>
+						<%=icon(@pictograph.icon, risk.hex, @pictograph.cell_height)%>
+					<% else %>
+						<div class="legend-icon" id="test<%=risk.position%>" style="width: <%=@pictograph.cell_width%>px; height: <%=@pictograph.cell_height%>px; background-color: <%=risk.hex%>;" data-color="<%=risk.hex%>"></div>
+					<% end %>
 				</dt>
 				<dd id="frisky<%=risk.position%>">
 					<% unless risk.value.blank? %>

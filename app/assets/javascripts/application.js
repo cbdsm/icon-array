@@ -383,6 +383,28 @@ $(document).ready(function() {
 		$('input.value-field:visible').addClass('highlight');
 	});
 	
+	function hex2rgb(hexStr){
+	    // note: hexStr should be #rrggbb
+	    var hex = parseInt(hexStr.substring(1), 16);
+	    var r = (hex & 0xff0000) >> 16;
+	    var g = (hex & 0x00ff00) >> 8;
+	    var b = hex & 0x0000ff;
+	    return [r, g, b];
+	}
+	
+	$('img.overlay').click(function(){
+		var overlay = $(this).attr('src');
+		var img = overlay.replace('_overlay', '');
+		$('#pictograph_icon').val(img);
+		var alt = $(this).attr('alt');
+		var height = $('td.picto-cell:first').height();
+		$('td.picto-cell').html('<div class="tint" style="height: ' + height + 'px;"><img alt="' + alt + '" src="' + img + '" style="height:' + height + 'px;"><img alt="' + alt + '" class="overlay" src="' + overlay + '" style="height:' + height + 'px;"></div>');
+		$('td.picto-cell').css('background-color', 'white');
+		$('td.picto-cell img.overlay').each(function(){
+			var bg = hex2rgb($(this).parent().parent().attr('data-color'));
+			$(this).css('background', 'rgba(' + bg[0] + ',' + bg[1] + ',' + bg[2] + ', 0.6)');
+		});
+	});
 	
 	var updateSingle = function(val) { 
 		if (val != curRisk) {

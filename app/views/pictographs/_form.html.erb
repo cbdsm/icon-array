@@ -59,11 +59,9 @@
 				<legend>Icon</legend>
 			  <div class="field">
 			    <% for icon in Pictograph.icons %>
-						<div class="tint" style="height: 45px;">
-							<%=image_tag icon, :style => 'height:45px;' %>
-							<%=image_tag icon.gsub('icons', 'icon_overlays'), :style => 'height:45px;', :class => 'overlay' %>
-						</div>
+						<%=icon(icon, @pictograph.risks.first.hex, 45) %>
 					<% end %>
+					<%= f.hidden_field :icon %>
 			  </div>
 			</div>
 			

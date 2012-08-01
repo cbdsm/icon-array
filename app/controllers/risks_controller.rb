@@ -34,6 +34,15 @@ class RisksController < ApplicationController
       format.js {}
     end
   end
+  
+  # GET /risks/1/remove
+  # GET /risks/1/remove.js
+  def remove
+    @i = params[:id]
+    respond_to do |format|
+      format.js {}
+    end
+  end
 
   # GET /risks/1/edit
   def edit
