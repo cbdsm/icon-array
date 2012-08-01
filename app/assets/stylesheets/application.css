@@ -12,6 +12,10 @@
  *= require_self
 */
 
+h2 {
+	margin-bottom: 15px;
+}
+
 div.content {
 	padding-top: 50px;
 }
@@ -41,12 +45,21 @@ div.navbar-inner {
 }
 
 div#branding {
-	position: fixed;
-	bottom: 20px;
-	right: 20px;
+	width: 940px;
+	position: relative;
+	clear: both;
+	color: darkGray;
+	border-top: dotted 1px	darkGray;
+	margin: 10px auto;
+	padding-top: 10px;
+}
+div#branding a {
+	display: block;
+	float: left;
+	padding: 0 10px;
 }
 div#branding img {
-	width: 150px;
+/*	width: 150px;*/
 }
 
 input.hide {
@@ -238,10 +251,6 @@ div.page-content {
 	width: 85%;
 }
 
-div#about-image {
-	float: left;
-	margin: 5px 10px 0px 0;
-}
 input.highlight {
 	border: 1px solid #C09853;
 }
@@ -263,7 +272,7 @@ input.highlight {
 	bottom: 0;
 	left: 0;
 	right: 0;
-	background: rgba(0, 0, 255, 0.8);
+	/*background: rgba(0, 0, 255, 0.8);*/
 	-moz-transition: background .3s linear;
 	-webkit-transition: background .3s linear;
 	-ms-transition: background .3s linear;
@@ -277,4 +286,36 @@ input.highlight {
 img.overlay {
 	position: absolute;
 	top: 0;
+	left: 0;
+	background: rgba(0, 0, 255, 0.6);
+}
+
+/* WHY PAGE */
+img#why-icon-array,
+#about-image {
+	float: right;
+	margin: 15px 0 15px 15px;
+}
+#why ol li {
+	margin-bottom: 10px;
+}
+#why ol li a {
+	font-size: .9em;
+}
+
+
+/* EXAMPLES PAGE */
+ul#examples {
+	list-style-type: none;
+	padding: none;
+	margin: none;
+}
+ul#examples li {
+	display: block;
+	float: left;
+	width: 250px;
+	margin: 10px;
+}
+ul#examples li h4 {
+	padding-left: 45px;
 }

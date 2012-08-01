@@ -3,6 +3,7 @@
 <% value = @pictograph.risks[0].value %>
 <% description = @pictograph.risks[0].description %>
 <% population = @pictograph.risks[0].population %>
+<% display = @pictograph.risks[0].display %>
 $("form div.tab-content").append("<%= escape_javascript render('/risks/new_form', :i => i, :hex => hex, :value => value, :description => description, :population => population) %>");
 $('form ul li#new-risk').before("<li class='color-tab'><a href='#color<%=i%>' data-toggle='tab' style='background-color: <%=@pictograph.risks[0].hex%>;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>");
 var tab = $('li#new-risk a').attr('href');

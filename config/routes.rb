@@ -1,5 +1,9 @@
 IconArray::Application.routes.draw do
-  resources :risks
+  resources :risks do
+    member do
+      post 'remove'
+    end
+  end
 
   resources :icons
 
@@ -12,6 +16,7 @@ IconArray::Application.routes.draw do
   
   match '/about' => 'contents#about', :as => :about
   match '/why' => 'contents#why', :as => :why
+  match '/examples' => 'contents#examples', :as => :examples
   match '/sponsorship' => 'contents#sponsorship', :as => :sponsorship
   match '/advanced' => 'pictographs#new', :advanced => true, :as => :advanced
 

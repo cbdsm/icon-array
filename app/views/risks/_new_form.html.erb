@@ -1,12 +1,11 @@
 <div class="tab-pane active color-pane" id="color<%=i%>">
 	<% if i != 0 %>
 		<div class="field">
+			<h4 class="field-title">Number/Risk/Frequency</h4>
+			
 	    <%= number_field_tag "pictograph[risks_attributes][#{i}][value]", value, {:step => '.01', :class => 'span1 risk-field editable value-field', :id => "risks_#{i}_value", :autofocus => true} %>
 			<%=link_to 'ok', "#", {:id => "risks_#{i}_value_submit", :class => 'btn submittable hide description-field'}%>
-	
-			<!-- <%#= text_field_tag "pictograph[risks_attributes][#{i}][population]", population, {:class => 'span3 editable population-field', :id => "risks_#{i}_population", :placeholder => "out of #{@pictograph.cells} people"} %>
-			<%=link_to 'ok', "#", {:id => "risks_#{i}_population_submit", :class => 'btn submittable hide'}%> -->
-			<%# , :readonly => !@advanced %>
+
 	
 			<%= text_field_tag "pictograph[risks_attributes][#{i}][description]", description, {:class => 'span3 editable description-field', :id => "risks_#{i}_description", :placeholder => "exhibit this property"} %>
 			<%=link_to 'ok', "#", {:id => "risks_#{i}_description_submit", :class => 'btn submittable hide'}%>
@@ -14,12 +13,19 @@
 	<% end %>
 
   <div class="field">
+		<h4 class="field-title">Color</h4>
+		
     <%= label_tag "pictograph[risks_attributes][#{i}][hex]", 'Color' %>
-    <%= text_field_tag "pictograph[risks_attributes][#{i}][hex]", hex, {:class => 'color-field'} %>
+    <%= text_field_tag "pictograph[risks_attributes][#{i}][hex]", hex, {:class => 'color-field'} %><br />
+		<span class="instructions">Change the color by clicking the square above or specifying a value</span>
   </div>
 
-  <!-- <div class="field">
-    <%= label_tag "pictograph[risks_attributes][#{i}][icon]", 'Icon' %>
-    <%= file_field_tag "pictograph[risks_attributes][#{i}][icon]", {:class => 'image-field'} %>
-  </div> -->
+	<div class="field">
+		<label class="checkbox">
+	    <%= check_box_tag 'pictograph[display]', display %> show this legend
+	  </label>
+	</div>
+	
+	<%=link_to "Remove this color", remove_risk_path(i), {:method => 'post', :confirm => 'Are you sure? This cannot be undone.'}%>
+	
 </div>

@@ -1,0 +1,9 @@
+<h2>Examples</h2>
+<ul id="examples">
+	<% for i in 1..6 %>
+	<li>
+		<h4>Example <%=i%></h4>
+		<%=link_to image_tag('icon-array-example.jpg'), "/pictographs/view/?title=&risks_attributes[0][description]=out+of+100+people+don't+exhibit+this+property&risks_attributes[0][hex]=%23DCDCDC&risks_attributes[0][display]=true&risks_attributes[1][value]=74&risks_attributes[1][description]=out+of+100+people+exhibit+this+property&risks_attributes[1][hex]=%230000FF&risks_attributes[1][display]=true&cell_width=22&cell_height=40&cell_spacing=5&cols=10&rows=10&axis_labels=0&axis_labels=1&axis_position=left&axis_font=Arial&axis_font_size=12&title_alignment=left&title_font=Helvetica&title_font_size=18&legend_font=Arial&legend_font_size=12" %>
+	</li>
+	<% end %>
+</ul>
