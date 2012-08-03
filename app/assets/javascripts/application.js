@@ -316,10 +316,13 @@ $(document).ready(function() {
 	    change: function(hex, rgb) {
 				$(this).val(hex);
 				var klass = $(this).attr('id').replace('pictograph_risks_attributes_', '').replace('_hex', '');
-				$('td.fill' + klass + ' div').css('backgroundColor', hex);
+				change_color($('td.fill' + klass + ' div'), hex);
+				// css('backgroundColor', hex);
 				$('td.fill' + klass).attr('data-color', hex);
 				//$(this).parent().prev('div.legend-icon').css('background-color', hex);
-				$('form ul.nav li.active a').css('background-color', hex);
+				$('form ul.nav li.active a').css('data-color', hex);
+				$('form ul.nav li.active a div.icon-box').css('background-color', hex);
+				$('form ul.nav li.active a img.overlay').css('background-color', hex);
 		 }
 		});
 	});
@@ -367,6 +370,9 @@ $(document).ready(function() {
 		$('table.pictograph').removeClass('active');
 		$('p#off-help').show();
 		$('input.value-field:visible').addClass('highlight');
+		
+		// This is a start to keep the picto active at all times
+		// $('input.value-field:visible').focus();
 	});
 	
 	function hex2rgb(hexStr){
@@ -389,15 +395,16 @@ $(document).ready(function() {
 		} else {
 			var testImg = el;
 		}
-		if (el.find('img').length > 0) {
+		if (testImg.find('img').length > 0) {
 			var colors = hex2rgb(color);
 			var rgba = 'rgba(' + colors[0] + ',' + colors[1] + ',' + colors[2] + ', 0.6)';
 			el.find('img.overlay').css('background-color', rgba);
 		} else {
-			el.children('div').css('background-color', color);
+			el.find('div').css('background-color', color);
 		}
 	}
 	
+	// When someone clicks on an icon
 	$('img.overlay').click(function(){
 		var overlay = $(this).attr('src');
 		var img = overlay.replace('_overlay', '');
@@ -409,6 +416,33 @@ $(document).ready(function() {
 		$('td.picto-cell img.overlay').each(function(){
 			var bg = hex2rgb($(this).parent().parent().attr('data-color'));
 			$(this).css('background', 'rgba(' + bg[0] + ',' + bg[1] + ',' + bg[2] + ', 0.6)');
+		});
+		
+		
+		$('li.color-tab a').html('<div class="tint" style="height: 15px;"><img alt="' + alt + '" src="' + img + '" style="height:15px;"><img alt="' + alt + '" class="overlay" src="' + overlay + '" style="height:15px;"></div>');
+		$('li.color-tab a img.overlay').each(function(){
+			var bg = hex2rgb($(this).closest('a').attr('data-color'));
+			$(this).css('background', 'rgba(' + bg[0] + ',' + bg[1] + ',' + bg[2] + ', 0.6)');
+		});
+	});
+	
+	// When someone clicks on the box
+	$('.field div.icon-box').click(function(){
+		var td = $('td.picto-cell:first');
+		var height = td.height();
+		var width = td.width();
+		$('#pictograph_icon').val(null);
+		$('td.picto-cell').each(function() {
+			var color = $(this).attr('data-color');
+			$(this).html("<div style='background-color: " + color + "; width: " + width + "px; height: " + height + "px;'></div>");
+		});
+		// TODO: we're not allowing for partial cells in this case:
+		//  margin-top: #{@pictograph.cell_height * (1.0 - dec)}px;
+		
+		$('li.color-tab a').html("<div class='icon-box' style='width:9px; height: 15px;'></div>");
+		$('li.color-tab a div.icon-box').each(function(){
+			var color = $(this).closest('a').attr('data-color');
+			$(this).css('background-color', color);
 		});
 	});
 	
@@ -505,11 +539,10 @@ $(document).ready(function() {
 					startVal = startRow;
 				}
 
-				var div_range = $('table.pictograph td.picto-cell div').slice(startVal, endVal);
-				var td_range = $('table.pictograph td.picto-cell').slice(startVal, endVal);
-				change_color(div_range, color);
-				td_range.attr('data-color', color);
-				td_range.removeClass().addClass('picto-cell fill' + colorIndex);
+				var range = $('table.pictograph td.picto-cell').slice(startVal, endVal);
+				change_color(range, color);
+				range.attr('data-color', color);
+				range.removeClass().addClass('picto-cell fill' + colorIndex);
 				startVal = endVal;
 			}	
 			
@@ -550,11 +583,10 @@ $(document).ready(function() {
 					startVal = startRow;
 				}
 
-				var div_range = $('table.pictograph td.picto-cell div').slice(startVal, endVal);
-				var td_range = $('table.pictograph td.picto-cell').slice(startVal, endVal);
-				change_color(div_range, color);
-				td_range.attr('data-color', color);
-				td_range.removeClass().addClass('picto-cell fill' + 0);
+				var range = $('table.pictograph td.picto-cell').slice(startVal, endVal);
+				change_color(range, color);
+				range.attr('data-color', color);
+				range.removeClass().addClass('picto-cell fill' + 0);
 				startVal = endVal;
 			}
 			
