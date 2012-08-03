@@ -332,35 +332,21 @@ $(document).ready(function() {
 			var thisRisk = $(this).attr('id').replace('cell', ''); // value of the cell we're on
 			tmpRisk = current_risk();
 			prevRisk = previous_risk();
-
-			// If we're using icons--DEPRECATED
-			if ($(this).attr('data-icon') != undefined) {
+	
+			if (thisRisk > prevRisk) {
+				// If we're moving up
 				if (thisRisk > tmpRisk) {
-					var icon = $('form .tab-content div.active').find('img.form-icon').attr('src');
-				} else {
-					var icon = $('form .tab-content div.active').prev().find('img.form-icon').attr('src');
+					var color = $('form ul.nav li.active a').css('background-color');
+				// Otherwise we're moving back
+				} else {			
+					var color = $('input#pictograph_risks_attributes_0_hex').val();
 				}
-				$(this).children('img').attr('src', icon);			
-			} else {		
-				if (thisRisk > prevRisk) {
-					// If we're moving up
-					if (thisRisk > tmpRisk) {
-						var color = $('form ul.nav li.active a').css('background-color');
-					// Otherwise we're moving back
-					} else {			
-						var color = $('input#pictograph_risks_attributes_0_hex').val();
-					}
-					$(this).children('div').css('background-color', color);
-				}	   
-			}
-		} else {
-    	if ($(this).attr('data-icon') != undefined) {
-				var curIcon = $(this).attr('data-icon');
-				$(this).children('img').attr('src', curIcon);		
-			} else {
-				var curColor = $(this).attr('data-color');
-				$(this).children('div').css('background-color', curColor);
-			}
+				change_color($(this), color);
+			}	   
+
+		} else { // Mouse exit
+			var curColor = $(this).attr('data-color');
+			change_color($(this), curColor);
 		}
 	});
 	
@@ -385,11 +371,31 @@ $(document).ready(function() {
 	
 	function hex2rgb(hexStr){
 	    // note: hexStr should be #rrggbb
-	    var hex = parseInt(hexStr.substring(1), 16);
-	    var r = (hex & 0xff0000) >> 16;
-	    var g = (hex & 0x00ff00) >> 8;
-	    var b = hex & 0x0000ff;
-	    return [r, g, b];
+			if (hexStr[0] != '#') {
+				var rgb = hexStr.replace('rgb(', '').replace(')', '')
+				return rgb.split(',');
+			} else {
+				var hex = parseInt(hexStr.substring(1), 16);
+		    var r = (hex & 0xff0000) >> 16;
+		    var g = (hex & 0x00ff00) >> 8;
+		    var b = hex & 0x0000ff;
+				return [r, g, b];
+			}	    
+	}
+	
+	function change_color(el, color) {
+		if (el.length > 1) {
+			var testImg = el.first();
+		} else {
+			var testImg = el;
+		}
+		if (el.find('img').length > 0) {
+			var colors = hex2rgb(color);
+			var rgba = 'rgba(' + colors[0] + ',' + colors[1] + ',' + colors[2] + ', 0.6)';
+			el.find('img.overlay').css('background-color', rgba);
+		} else {
+			el.children('div').css('background-color', color);
+		}
 	}
 	
 	$('img.overlay').click(function(){
@@ -499,9 +505,11 @@ $(document).ready(function() {
 					startVal = startRow;
 				}
 
-				$('table.pictograph td.picto-cell div').slice(startVal, endVal).css('background-color', color);
-				$('table.pictograph td.picto-cell').slice(startVal, endVal).attr('data-color', color);
-				$('table.pictograph td.picto-cell').slice(startVal, endVal).removeClass().addClass('picto-cell fill' + colorIndex);
+				var div_range = $('table.pictograph td.picto-cell div').slice(startVal, endVal);
+				var td_range = $('table.pictograph td.picto-cell').slice(startVal, endVal);
+				change_color(div_range, color);
+				td_range.attr('data-color', color);
+				td_range.removeClass().addClass('picto-cell fill' + colorIndex);
 				startVal = endVal;
 			}	
 			
@@ -542,9 +550,11 @@ $(document).ready(function() {
 					startVal = startRow;
 				}
 
-				$('table.pictograph td.picto-cell div').slice(startVal, endVal).css('background-color', color);
-				$('table.pictograph td.picto-cell').slice(startVal, endVal).attr('data-color', color);
-				$('table.pictograph td.picto-cell').slice(startVal, endVal).removeClass().addClass('picto-cell fill' + 0);
+				var div_range = $('table.pictograph td.picto-cell div').slice(startVal, endVal);
+				var td_range = $('table.pictograph td.picto-cell').slice(startVal, endVal);
+				change_color(div_range, color);
+				td_range.attr('data-color', color);
+				td_range.removeClass().addClass('picto-cell fill' + 0);
 				startVal = endVal;
 			}
 			
