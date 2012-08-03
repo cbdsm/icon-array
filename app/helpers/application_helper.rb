@@ -15,6 +15,11 @@ module ApplicationHelper
 		return out.html_safe
   end
   
+  def box(color, height=45)
+    width = (height / 1.8).round
+    return "<div class='icon-box' style='width:#{width}px; height: #{height}px; background-color: #{color};'></div>".html_safe
+  end
+  
   def hex2rgb(hex)
     rgb = Array.new
     hex.gsub!('#', '')

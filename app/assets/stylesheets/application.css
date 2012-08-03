@@ -12,6 +12,11 @@
  *= require_self
 */
 
+.submittable {
+	position: absolute;
+	visibility: hidden !important;
+}
+
 h2 {
 	margin-bottom: 15px;
 }
@@ -288,6 +293,11 @@ img.overlay {
 	top: 0;
 	left: 0;
 	background: rgba(0, 0, 255, 0.6);
+}
+
+.field div.icon-box {
+  float: left; 
+	margin-right: 5px;
 }
 
 /* WHY PAGE */

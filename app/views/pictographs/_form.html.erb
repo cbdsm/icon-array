@@ -1,4 +1,5 @@
 <p id="notice"><%= notice %></p>
+<% okay = false %>
 
 <%= form_for(@pictograph, :html => {:class => 'form-horizontal picto-form', :multipart => true}) do |f| %>
   <% if @pictograph.errors.any? %>
@@ -14,7 +15,7 @@
   <% end %>
 
   <h3 style="width: <%=@pictograph.table_width%>px; margin-left: <%=@pictograph.axis_width + 25 %>px;" id="pictograph-title">
-		<%= f.text_field :title, {:placeholder => 'Click to edit title', :class => 'hide editor', :id => "pictograph_title"} %><%=link_to 'ok', "#", {:id => "pictograph_title_submit", :class => 'btn hide submittable'}%><%=link_to @pictograph.title || 'Click to edit title', "#pictograph_title", {:class => "editable"} %>
+		<%= f.text_field :title, {:placeholder => 'Click to edit title', :class => 'hide editor', :id => "pictograph_title"} %><%=link_to('ok', "#", {:id => "pictograph_title_submit", :class => 'btn hide submittable'}) if okay%><%=link_to @pictograph.title || 'Click to edit title', "#pictograph_title", {:class => "editable"} %>
   </h3>
 
 	<%= render 'graph' %>
@@ -24,12 +25,24 @@
 				<% @tab_risks = @pictograph.risks.clone %>
 				<% @off_risk = @tab_risks.shift %>
 				<% @tab_risks.each_with_index do |risk, i| %>
-					<li class='<%="active" if i == 0 %> color-tab'><a href="#color<%=i + 1%>" data-toggle="tab" style="background-color: <%=risk.hex%>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+					<li class='<%="active" if i == 0 %> color-tab'><a href="#color<%=i + 1%>" data-toggle="tab" data-color="<%=risk.hex%>">
+						<% if !@pictograph.icon.blank? %>
+							<%=icon(@pictograph.icon, risk.hex)%>
+						<% else %>
+							<%=box(risk.hex, 15)%>
+						<% end %>
+					</a></li>
 				<% end %>
 				<% if @advanced %>
 					<li id="new-risk"><%=link_to '+', new_risk_path(:tab => @pictograph.risks.length), {:remote => true}%></li>
 				<% end %>
-				<li class='color-tab'><a href="#color0" data-toggle="tab" style="background-color: <%=@off_risk.hex%>;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+				<li class='color-tab'><a href="#color0" data-toggle="tab" data-color="<%=@off_risk.hex%>">
+				<% if !@pictograph.icon.blank? %>
+					<%=icon(@pictograph.icon, @off_risk.hex)%>
+				<% else %>
+					<%=box(@off_risk.hex, 15)%>
+				<% end %>
+				</a></li>
 				<% if @advanced %>
 					<li class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#finetuning">
@@ -58,6 +71,7 @@
 			<fieldset id="icons">
 				<legend>Icon</legend>
 			  <div class="field">
+					<%=box(@pictograph.risks.first.hex, 45)%>
 			    <% for icon in Pictograph.icons %>
 						<%=icon(icon, @pictograph.risks.first.hex, 45) %>
 					<% end %>
