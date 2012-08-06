@@ -1,5 +1,4 @@
 class PictographsController < ApplicationController
-  before_filter :set_params, :only => [:new, :view, :embed]
   
   # GET /pictographs
   # GET /pictographs.json
@@ -36,9 +35,8 @@ class PictographsController < ApplicationController
 
   # GET /pictographs/new
   # GET /pictographs/new.json
-  def new
+  def new    
     @pictograph = Pictograph.new(@p)
-    logger.info @pictograph.inspect
 
     respond_to do |format|
       format.html # new.html.erb 
@@ -165,30 +163,5 @@ class PictographsController < ApplicationController
       format.xml  { render :xml => @pictograph }    
     end
   end
-  
-  private
-    def set_params
-      if !params[:pictograph].blank?
-        @p = params[:pictograph]
-      else
-        @p = params.clone
-        @p.delete(:format)
-        @p.delete(:controller)
-        @p.delete(:action)
-        @p.delete(:advanced)
-      end
-      
-      if !params[:advanced].blank? and params[:advanced] == true
-        @advanced = true 
-      else
-        @advanced = false
-      end
-
-      if @p[:risks_attributes].nil? or @p[:risks_attributes].empty?
-        @p[:risks_attributes] = {0 => {:hex => '#DCDCDC', :population => 'out of 100 people', :description => "out of 100 people don't exhibit this property"}, 1 => {:hex => '#0000FF', :value => 32, :population => 'out of 100 people', :description => 'out of 100 people exhibit this property'}}
-      end
-      
-      @p.delete(:title) if @p[:title].blank?
-    end
   
 end

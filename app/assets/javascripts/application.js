@@ -218,10 +218,11 @@ $(document).ready(function() {
 	});
 	
 	// Advanced Tab
-	$('a[href="/advanced"]').click(function(){
+	$('div.navbar ul.nav > li > a').click(function(){
 		if ($('.actions a:contains("edit")').length > 0) {
 			var formvars = $('.actions a:contains("edit")').attr('href').replace('/?', '');
-		} else {
+			$(this).attr('href', $(this).attr('href') + '?' + formvars);
+		} else if ($("form.picto-form").length > 0) {
 			var formvars = decodeURIComponent($("form.picto-form").serialize());
 			formvars = formvars.replace(/utf8=./, '');
 			formvars = formvars.replace(/&authenticity_token=/, '');
@@ -230,9 +231,8 @@ $(document).ready(function() {
 			formvars = formvars.replace(/\#/gi, "%23");
 			// $('#save-share div.modal-body p').html(url + '/pictographs/view?' + formvars);
 			// $('#save-share').modal('show');
+			$(this).attr('href', $(this).attr('href') + '?' + formvars);
 		}
-		
-		$(this).attr('href', '/advanced?' + formvars);
 	});
 		
 	// Save/Share
@@ -316,8 +316,7 @@ $(document).ready(function() {
 	    change: function(hex, rgb) {
 				$(this).val(hex);
 				var klass = $(this).attr('id').replace('pictograph_risks_attributes_', '').replace('_hex', '');
-				change_color($('td.fill' + klass + ' div'), hex);
-				// css('backgroundColor', hex);
+				$('td.fill' + klass + ' div').css('backgroundColor', hex);
 				$('td.fill' + klass).attr('data-color', hex);
 				//$(this).parent().prev('div.legend-icon').css('background-color', hex);
 				$('form ul.nav li.active a').css('data-color', hex);
