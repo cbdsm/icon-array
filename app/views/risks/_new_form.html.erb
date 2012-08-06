@@ -14,18 +14,16 @@
 
   <div class="field">
 		<h4 class="field-title">Color</h4>
-		
-    <%= label_tag "pictograph[risks_attributes][#{i}][hex]", 'Color' %>
     <%= text_field_tag "pictograph[risks_attributes][#{i}][hex]", hex, {:class => 'color-field'} %><br />
 		<span class="instructions">Change the color by clicking the square above or specifying a value</span>
   </div>
 
 	<div class="field">
-		<label class="checkbox">
-	    <%= check_box_tag 'pictograph[display]', display %> show this legend
-	  </label>
+		<label for="pictograph_risks_attributes_<%=i%>_display" class="checkbox">show this legend</label>
+	  <%= check_box_tag "pictograph[risks_attributes][#{i}][display]", display %> 
 	</div>
 	
+	<br />
 	<%=link_to "Remove this color", remove_risk_path(i), {:method => 'post', :confirm => 'Are you sure? This cannot be undone.'}%>
 	
 </div>

@@ -27,36 +27,43 @@
 				<% @tab_risks.each_with_index do |risk, i| %>
 					<li class='<%="active" if i == 0 %> color-tab'><a href="#color<%=i + 1%>" data-toggle="tab" data-color="<%=risk.hex%>">
 						<% if !@pictograph.icon.blank? %>
-							<%=icon(@pictograph.icon, risk.hex)%>
+							<%=icon(@pictograph.icon, risk.hex, 15)%>
 						<% else %>
 							<%=box(risk.hex, 15)%>
 						<% end %>
 					</a></li>
 				<% end %>
-				<% if @advanced %>
+				<% if advanced %>
 					<li id="new-risk"><%=link_to '+', new_risk_path(:tab => @pictograph.risks.length), {:remote => true}%></li>
 				<% end %>
 				<li class='color-tab'><a href="#color0" data-toggle="tab" data-color="<%=@off_risk.hex%>">
 				<% if !@pictograph.icon.blank? %>
-					<%=icon(@pictograph.icon, @off_risk.hex)%>
+					<%=icon(@pictograph.icon, @off_risk.hex, 15)%>
 				<% else %>
 					<%=box(@off_risk.hex, 15)%>
 				<% end %>
 				</a></li>
-				<% if @advanced %>
+				<% if advanced %>
+					<li class="icons-tab"><a href="#icons" data-toggle="tab">
+				    <% Pictograph.icons.each_with_index do |icon, i| %>
+							<%=image_tag icon, :style => "height: 12px; #{'float:left' unless i == Pictograph.icons.length - 1}" %>
+						<% end %>
+						</a></li>
+				<% end %>
+				<% if advanced %>
 					<li class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#finetuning">
 			      fine-tuning
 			      <b class="caret"></b>
 			    </a>
 			    <ul class="dropdown-menu">
-						<li><a href="#icons" data-toggle="tab">Use an icon</a></li>
 			      <li><a href="#cells" data-toggle="tab">Cell size and spacing</a></li>
 			      <li><a href="#axis" data-toggle="tab">Axis labels</a></li>
 			      <li><a href="#title" data-toggle="tab">Title font, size, and alignment</a></li>
 						<li><a href="#legend" data-toggle="tab">Legend font and size</a></li>
 			    </ul>
 				<% end %>
+				<%=link_to 'reset', reset_path, {:id => 'reset'} %>
 			</ul>
 
 			<div class="tab-content">
@@ -102,18 +109,24 @@
 				    <%= f.label :rows %>
 				    <%= f.number_field :rows, {:class => 'span1'} %>
 				  </div>
+				
+					<p class="ft-help">
+					  Click the "Preview" button below the graph to see your changes.
+					</p>
 				</fieldset>
 			</div>
 			
 			<div class="tab-pane" id="axis">
 				<fieldset id="axis">
 					<legend>Axis</legend>
-				  <div class="field checkbox">
-				    <%= f.check_box :axis_labels %> <%= f.label :axis_labels %> 
+				  <div class="field">
+						<%= f.label :axis_labels %> 
+				    <%= f.check_box :axis_labels %> 
 				  </div>
-				  <div class="field radio">
-				    <%= f.label :axis_position_left, 'left' %><%= f.radio_button :axis_position, 'left' %><br />
-						<%= f.label :axis_position_right, 'right' %><%= f.radio_button :axis_position, 'right' %>
+				  <div class="field">
+						<br clear="left"/>
+				    <%= f.label :axis_position_left, 'left' %><%= f.radio_button :axis_position, 'left' %><br clear="left"/>
+						<%= f.label :axis_position_right, 'right' %><%= f.radio_button :axis_position, 'right' %><br clear="left"/>
 				  </div>
 				  <div class="field">
 				    <%= f.label :axis_font %>
@@ -122,15 +135,19 @@
 				  <div class="field">
 				    <%= f.label :axis_font_size %>
 				    <%= f.number_field :axis_font_size, {:class => 'span1'} %>px
-				  </div>
+				  </div>	
+				
+					<p class="ft-help">
+					  Click the "Preview" button below the graph to see your changes.
+					</p>
 				</fieldset>
 			</div>
 			
 			<div class="tab-pane" id="title">
 				<fieldset id="title">
 					<legend>Title</legend>
-				  <div class="field radio">
-				    <%= f.label :title_alignment, 'alignment' %><br />
+				  <div class="field">
+				    <%= f.label :title_alignment, 'alignment' %>
 						<%= f.select :title_alignment, {:left => 'left', :center => 'center', :right => 'right'} %>
 				  </div>
 				  <div class="field">
@@ -141,6 +158,9 @@
 				    <%= f.label :title_font_size, 'Title font size' %>
 				    <%= f.number_field :title_font_size, {:class => 'span1'} %>px
 				  </div>
+					<p class="ft-help">
+					  Click the "Preview" button below the graph to see your changes.
+					</p>
 				</fieldset>
 			</div>
 			
@@ -155,6 +175,9 @@
 				    <%= f.label :legend_font_size, 'Legend font size' %>
 				    <%= f.number_field :legend_font_size, {:class => 'span1'} %>px
 				  </div>
+					<p class="ft-help">
+					  Click the "Preview" button below the graph to see your changes.
+					</p>
 				</fieldset>
 			</div>
 			

@@ -23,9 +23,8 @@
 
 	<% if @advanced %>
 		<div class="field">
-			<label class="checkbox">
-		    <%= r.check_box :display %> show this legend
-		  </label>
+			<%= r.label :display, 'show this legend' %>
+		  <%= r.check_box :display %> 
 		</div>
 	<% else %>
 		<%= r.hidden_field :display %>

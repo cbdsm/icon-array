@@ -1,0 +1,28 @@
+ul.nav-tabs > li > a {
+	border: solid 1px #ddd !important;
+/*	background-color: #F7F7F7;*/
+	border-color: #F7F7F7 !important;
+}
+
+.nav-tabs li.color-tab a,
+.nav-tabs li.icons-tab a{
+	border: solid 1px #ddd !important;
+/*	background-color: #F7F7F7;*/
+	border-color: #F7F7F7 #F7F7F7 #DDD !important;
+}
+
+.nav-tabs > li.active > a {
+	border: solid 1px #ddd !important;
+	border-color: #ddd #ddd #fff !important;
+	background-color: transparent;
+}
+
+.form-horizontal div.field {
+	margin-bottom: 5px;
+}
+.form-horizontal label {
+	float: left;
+	width: 100px;
+	padding: 5px 10px 0 0;
+	text-align: right;
+}
