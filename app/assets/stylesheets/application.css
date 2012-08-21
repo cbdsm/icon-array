@@ -52,7 +52,7 @@ div.navbar-inner {
 a#reset {
 	border: none;
 	float: right;
-	margin-top: 15px;
+	margin-top: -50px;
 }
 
 div#branding {
@@ -302,7 +302,7 @@ img.overlay {
 	position: absolute;
 	top: 0;
 	left: 0;
-	background: rgba(0, 0, 255, 0.6);
+	background: rgba(0, 0, 255, 1.0);
 }
 
 .field div.icon-box {

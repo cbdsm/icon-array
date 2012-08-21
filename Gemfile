@@ -13,6 +13,7 @@ gem 'acts_as_list'
 gem 'imgkit'
 gem 'mini_magick'
 gem 'rack-canonical-host'
+gem "deep_merge", :require => 'deep_merge/rails_compat'
 
 group :production do
 	gem "pg"
