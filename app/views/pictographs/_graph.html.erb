@@ -39,12 +39,12 @@
 				dec = 1.0
 			end
 			if !@pictograph.icon.blank?
-				fill_color = @pictograph.risks[fill_risk].hex
 				fill_icon = @pictograph.risks[fill_risk].icon.url(:default) # NOTE: we may want to default to upload size
 			else
-				fill_color = @pictograph.risks[fill_risk].hex
 				fill_icon = false
 			end
+			fill_color = @pictograph.risks[fill_risk].hex
+			fill_color = '#' + fill_color if fill_color[0] != '#'
 			current_fill_index += 1
 		%>
 

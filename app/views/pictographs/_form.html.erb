@@ -63,8 +63,8 @@
 						<li><a href="#legend" data-toggle="tab">Legend font and size</a></li>
 			    </ul>
 				<% end %>
-				<%=link_to 'reset', reset_path, {:id => 'reset'} %>
 			</ul>
+			<%=link_to 'reset', reset_path, {:id => 'reset', :class => 'btn btn-primary'} %>
 
 			<div class="tab-content">
 				<% i = 0 %>	  
@@ -74,16 +74,18 @@
 				<% end %>
 
 
-		<div class="tab-pane" id="icons">
-			<fieldset id="icons">
-				<legend>Icon</legend>
-			  <div class="field">
-					<%=box(@pictograph.risks.first.hex, 45)%>
-			    <% for icon in Pictograph.icons %>
-						<%=icon(icon, @pictograph.risks.first.hex, 45) %>
-					<% end %>
-					<%= f.hidden_field :icon %>
-			  </div>
+		<% if advanced %>
+			<div class="tab-pane" id="icons">
+				<fieldset id="icons">
+					<legend>Icon</legend>
+				  <div class="field">
+						<%=box(@pictograph.risks.first.hex, 45)%>
+				    <% for icon in Pictograph.icons %>
+							<%=icon(icon, @pictograph.risks.first.hex, 45) %>
+						<% end %>
+						<%= f.hidden_field :icon %>
+				  </div>
+				</fieldset>
 			</div>
 			
 			<div class="tab-pane" id="cells">
@@ -180,7 +182,7 @@
 					</p>
 				</fieldset>
 			</div>
-			
+		<% end %><%# end advanced tabs %>	
 			
 		</div><!-- End tab content -->
 		
