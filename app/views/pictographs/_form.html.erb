@@ -46,7 +46,7 @@
 				<% if advanced %>
 					<li class="icons-tab"><a href="#icons" data-toggle="tab">
 				    <% Pictograph.icons.each_with_index do |icon, i| %>
-							<%=image_tag icon, :style => "height: 12px; #{'float:left' unless i == Pictograph.icons.length - 1}" %>
+							<%=image_tag icon, :style => "height: 12px; margin-right: 2px; background-color: #000; #{'float:left' unless i == Pictograph.icons.length - 1}" %>
 						<% end %>
 						</a></li>
 				<% end %>

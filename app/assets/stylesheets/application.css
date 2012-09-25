@@ -275,6 +275,7 @@ input.highlight {
 	float: left;
 	cursor: pointer;
 	padding: 0;
+/*	background-color: #DCDCDC;*/
 }
 .tint img {
 	margin: 0;
@@ -299,10 +300,10 @@ input.highlight {
 }
 
 img.overlay {
-	position: absolute;
+/*	position: absolute;
 	top: 0;
 	left: 0;
-	background: rgba(0, 0, 255, 1.0);
+	background: rgba(0, 0, 255, 1.0);*/
 }
 
 .field div.icon-box {

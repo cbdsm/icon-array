@@ -8,7 +8,7 @@ class Pictograph < ActiveRecord::Base
   attr_accessor :legend_width
   
   def self.icons
-    Dir.glob(Rails.root.to_s + '/app/assets/images/icons/*').collect{|i| i.gsub(Rails.root.to_s + '/app/assets/images/', '')}
+    Dir.glob(Rails.root.to_s + '/app/assets/images/icons/*.png').collect{|i| i.gsub(Rails.root.to_s + '/app/assets/images/', '')}
   end
     
   def cells
