@@ -31,6 +31,19 @@ function previous_risk() {
 	}
 }
 
+function previous_total() {	
+	var prevs = $('.tab-content div.active').prevAll("div.color-pane:not('.off')");
+	var totalRisk = 0;
+	if (prevs.length > 0) {
+	  prevs.each(function() {
+	  	totalRisk += Number($(this).find('input.risk-field').val());
+	  });
+		return totalRisk;
+	} else {
+		return 0.0;
+	}
+}
+
 function isNumber(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 }

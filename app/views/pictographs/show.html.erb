@@ -7,44 +7,46 @@
 
 <br clear="left" />
 
-<div class="actions preview-actions">
-	<%=link_to image_tag('icons-edit-02.png', :alt => 'edit'), '/?' + request.query_string, {:title => 'edit this icon array'} %>
-	<%=link_to image_tag('icons-link-03.png', :alt => 'save as link'), '#save-share', {:title => 'save a link to this icon array'} %> 
-	<%=link_to image_tag('icons-embed.png', :alt => 'embed'), '#embed', {:title => 'embed this icon array in another website'} %>
-	<div class="btn-group dropup">
-	  <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="download this icon array as an image">
-	    <%=image_tag('icons-download.png', :alt => 'download') %>
-	  </a>
-	  <ul class="dropdown-menu">
-			<li><%=link_to image_tag("icons-web.png", :alt => 'save image for web'), '/pictographs/view.jpg?' + request.query_string, {:title => "download this icon array as an image optimized for use on the web"} %></li>
-			<li><%=link_to image_tag("icons-print.png", :alt => 'save image for print'), '/pictographs/view.tif?' + request.query_string, {:title => "download this icon array as an image optimized for use in a print document"} %></li>
-	  </ul>
+<% if controller.action_name == 'view' %>
+	<div class="actions preview-actions">
+		<%=link_to image_tag('icons-edit-02.png', :alt => 'edit'), (advanced ? '/advanced?' : '/?') + request.query_string, {:title => 'edit this icon array'} %>
+		<%=link_to image_tag('icons-link-03.png', :alt => 'save as link'), '#save-share', {:title => 'save a link to this icon array'} %> 
+		<%=link_to image_tag('icons-embed.png', :alt => 'embed'), '#embed', {:title => 'embed this icon array in another website'} %>
+		<div class="btn-group dropup">
+		  <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="download this icon array as an image">
+		    <%=image_tag('icons-download.png', :alt => 'download') %>
+		  </a>
+		  <ul class="dropdown-menu">
+				<li><%=link_to image_tag("icons-web.png", :alt => 'save image for web'), '/pictographs/view.jpg?' + request.query_string, {:title => "download this icon array as an image optimized for use on the web"} %></li>
+				<li><%=link_to image_tag("icons-print.png", :alt => 'save image for print'), '/pictographs/view.tif?' + request.query_string, {:title => "download this icon array as an image optimized for use in a print document"} %></li>
+		  </ul>
+		</div>
 	</div>
-</div>
 
-<div class="modal" id="save-share">
-  <div class="modal-header">
-    <a class="close" data-dismiss="modal">×</a>
-    <h3>Save/Share this Icon Array</h3>
-  </div>
-  <div class="modal-body">
-    <%= @url %>
-  </div>
-  <div class="modal-footer">
-    <a href="#" data-dismiss="modal" class="btn">Close</a>
-  </div>
-</div>
+	<div class="modal" id="save-share">
+	  <div class="modal-header">
+	    <a class="close" data-dismiss="modal">×</a>
+	    <h3>Save/Share this Icon Array</h3>
+	  </div>
+	  <div class="modal-body">
+	    <%= @url %>
+	  </div>
+	  <div class="modal-footer">
+	    <a href="#" data-dismiss="modal" class="btn">Close</a>
+	  </div>
+	</div>
 
-<div class="modal" id="embed">
-  <div class="modal-header">
-    <a class="close" data-dismiss="modal">×</a>
-    <h3>Embed this Icon Array</h3>
-  </div>
-  <div class="modal-body">
-    <%= "<iframe src='#{@url}' type='text/html' width='#{@pictograph.export_width}' height='550' scrolling='no' frameborder='0'></iframe>" %>
-  </div>
-  <div class="modal-footer">
-		<a href="#embed-code" class="zclip" data-copied-hint="copied!" data-copy-hint="copy to clipboard">Copy to Clipboard</a>
-  	<a href="#" data-dismiss="modal" class="btn">Close</a>
-  </div>
-</div>
+	<div class="modal" id="embed">
+	  <div class="modal-header">
+	    <a class="close" data-dismiss="modal">×</a>
+	    <h3>Embed this Icon Array</h3>
+	  </div>
+	  <div class="modal-body">
+	    <%= "<iframe src='#{@url}' type='text/html' width='#{@pictograph.export_width}' height='550' scrolling='no' frameborder='0'></iframe>" %>
+	  </div>
+	  <div class="modal-footer">
+			<a href="#embed-code" class="zclip" data-copied-hint="copied!" data-copy-hint="copy to clipboard">Copy to Clipboard</a>
+	  	<a href="#" data-dismiss="modal" class="btn">Close</a>
+	  </div>
+	</div>
+<% end %>

@@ -259,12 +259,15 @@ $(document).ready(function() {
 	$('body').on('hover', 'table.pictograph.active td.picto-cell', function( event ) {
 		// in
 		if ( event.type === 'mouseenter' ) {
+			var index = $('form ul.nav li.active a').attr('href').replace('#color', '');
+			
 			// Form values
 			var thisRisk = $(this).attr('id').replace('cell', ''); // value of the cell we're on
 			tmpRisk = current_risk();
 			prevRisk = previous_risk();
-	
-			if (thisRisk > prevRisk) {
+			var prevTotal = previous_total();
+			
+			if (thisRisk > prevTotal) {
 				// If we're moving up
 				if (thisRisk > tmpRisk) {
 					var color = $('form ul.nav li.active a').attr('data-color');
@@ -284,25 +287,26 @@ $(document).ready(function() {
 	// This actually sets the value
 	$('body').on('click', 'table.pictograph.active td.picto-cell', function( event ) {
 		var thisRisk = Number($(this).attr('id').replace('cell', '')); // value of the cell we're on
-		var totalRisk = 0;
-		$('.tab-content div.active').prevAll("div.color-pane:not('.off')").each(function() {
-	    totalRisk += Number($(this).find('input.value-field').val());
-    });
+		var totalRisk = previous_total();
 		var curRisk = current_risk();
-		if (thisRisk <= curRisk) {
-			thisRisk--;
-		}
-		
-		$('form .tab-content div.active input.value-field').val(thisRisk - totalRisk);
-		updateMultiple(thisRisk, $('div.tab-content div.active').find('input.color-field').val());
 
-		$('a.submittable:visible').hide();
-		$('table.pictograph').removeClass('active');
-		$('p#off-help').show();
-		$('input.value-field:visible').addClass('highlight');
+		// We only allow updates down to the end of the previous color
+		// Except if we're on the last color
+		if (thisRisk > totalRisk) {
+			if (thisRisk <= curRisk) {
+				thisRisk--;
+			}
 		
+			$('form .tab-content div.active input.value-field').val(thisRisk - totalRisk);
+			updateMultiple(thisRisk, $('div.tab-content div.active').find('input.color-field').val());
+
+			$('a.submittable:visible').hide();
+			$('table.pictograph').removeClass('active');
+			$('p#off-help').show();
+			$('input.value-field:visible').addClass('highlight');
+		}
 		// This is a start to keep the picto active at all times
-		// $('input.value-field:visible').focus();
+		$('input.value-field:visible').focus();
 	});
 	
 	// When someone clicks on an icon
