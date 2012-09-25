@@ -23,6 +23,7 @@
 //= require jquery.livequery
 //= require jquery.jeditable.min
 //= require jquery.row-column
+//= require modernizr.svg.js
 //= require globals
 //= require helpers
 //= require save_share
@@ -242,13 +243,14 @@ $(document).ready(function() {
 	    change: function(hex, rgb) {
 				$(this).val(hex);
 				var klass = $(this).attr('id').replace('pictograph_risks_attributes_', '').replace('_hex', '');
-				$('td.fill' + klass + ' div').css('backgroundColor', hex);
+				$('td.fill' + klass + ' div').css('background-color', hex);
+				$('td.fill' + klass + ' img').css('background-color', hex);
 				$('td.fill' + klass).attr('data-color', hex);
 				//$(this).parent().prev('div.legend-icon').css('background-color', hex);
 				
 				$('form ul.nav li.active a').attr('data-color', hex);
 				$('form ul.nav li.active a div.icon-box').css('background-color', hex);
-				$('form ul.nav li.active a img.overlay').css('background-color', hex);
+				$('form ul.nav li.active a img').css('background-color', hex);
 		 }
 		});
 	});
@@ -305,30 +307,36 @@ $(document).ready(function() {
 	
 	// When someone clicks on an icon
 	$('img.overlay').click(function(){
-		var overlay = $(this).attr('src');
-		var img = overlay.replace('_overlay', '');
+		var img = $(this).attr('src');
+		
+		// Turning this off until Ryan can weigh in on the weird lines
+		// if(Modernizr.svg) {
+		// 	img = img.replace('png','svg')
+		// }
+
 		$('#pictograph_icon').val(img);
 		var alt = $(this).attr('alt');
-		var height = $('td.picto-cell:first').height();
-		$('td.picto-cell').html('<div class="tint" style="height: ' + height + 'px;"><img alt="' + alt + '" src="' + img + '" style="height:' + height + 'px;"><img alt="' + alt + '" class="overlay" src="' + overlay + '" style="height:' + height + 'px;"></div>');
+		var height = $('td.picto-cell:first').children(':first').height();
+		var color;
+		$('td.picto-cell').html('<img class="picto-cell-icon" alt="' + alt + '" src="' + img + '" style="height:' + height + 'px;"></div>');
 		$('td.picto-cell').css('background-color', 'white');
-		$('td.picto-cell img.overlay').each(function(){
-			var bg = hex2rgb($(this).parent().parent().attr('data-color'));
-			$(this).css('background', 'rgba(' + bg[0] + ',' + bg[1] + ',' + bg[2] + ', ' + overlay_opacity + ')');
+		$('td.picto-cell img.picto-cell-icon').each(function(){
+			color = $(this).parent().attr('data-color');
+			$(this).css('background-color', color);
 		});
 		
-		
-		$('li.color-tab a').html('<div class="tint" style="height: 15px;"><img alt="' + alt + '" src="' + img + '" style="height:15px;"><img alt="' + alt + '" class="overlay" src="' + overlay + '" style="height:15px;"></div>');
-		$('li.color-tab a img.overlay').each(function(){
-			var bg = hex2rgb($(this).closest('a').attr('data-color'));
-			$(this).css('background', 'rgba(' + bg[0] + ',' + bg[1] + ',' + bg[2] + ', ' + overlay_opacity + ')');
+		// Set the tab icon too
+		$('li.color-tab a').html('<img alt="' + alt + '" src="' + img + '" style="height:15px;">');
+		$('li.color-tab a img').each(function(){
+			color = $(this).closest('a').attr('data-color');
+			$(this).css('background-color', color);
 		});
 	});
 	
 	// When someone clicks on the box
 	$('.field div.icon-box').click(function(){
 		var td = $('td.picto-cell:first');
-		var height = td.height();
+		var height = td.children(':first').height();
 		var width = td.width();
 		$('#pictograph_icon').val(null);
 		$('td.picto-cell').each(function() {

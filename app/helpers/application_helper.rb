@@ -9,11 +9,7 @@ module ApplicationHelper
   end
   
   def icon(icon, color, height=45)
-    rgb = hex2rgb(color)
-    out = "<div class=\"tint\" style=\"height: #{height}px; \">"
-		out += image_tag icon, :style => "height:#{height}px;"
-		out += image_tag icon.gsub('icons', 'icon_overlays'), :style => "height:#{height}px; background-color: rgba(#{rgb[0]}, #{rgb[1]}, #{rgb[2]}, #{@@overlay_opacity});", :class => 'overlay'
-		out += "</div>"
+    out = image_tag icon, :style => "height:#{height}px; background-color: #{color}", :class => 'overlay'
 		return out.html_safe
   end
   
