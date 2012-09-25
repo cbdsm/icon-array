@@ -22,30 +22,13 @@
 //= require jquery.miniColors.min
 //= require jquery.livequery
 //= require jquery.jeditable.min
+//= require jquery.row-column
+//= require globals
+//= require helpers
+//= require save_share
+//= require pictograph.functions
 	
 $(document).ready(function() {
-	// globals
-	// This stuff is mostly for embedding/linking
-	var debug = false;
-	var host = window.location.hostname;
-	var port = window.location.port;
-	var url;
-	if (port != 80) {
-		url = host + ':' + port;
-	} else {
-		url = host;
-	}
-	var overlay_opacity = 1.0;
-	
-	// semi-globals
-	var curRisk = $('input#risks_1_value').val(); //$('form .tab-content div.active input.risk-field').val();
-	var colorIndex = 1; //$('form ul.nav li.active a').attr('href').replace('#color', '');
-	var cols = $('table.pictograph tr:first td.picto-cell').length;
-	var rows = $('table.pictograph tr:not(".bottom-row")').length;
-	var cells = rows * cols;
-	var width = $('td#cell1').width();
-	var height = $('td#cell1').height();
-	
 	if (debug) {
 		$('td.picto-cell').livequery(function(){
 			$(this).children('div').html($('table.pictograph td.picto-cell').index($(this)));
@@ -61,7 +44,6 @@ $(document).ready(function() {
 		$(this).next('div.risk-fill').toggle();
 	});
 	
-	// $('a[data-toggle="tab"]').on('shown', function (e) {
 	$("body").on("shown", 'a[data-toggle="tab"]', function(e){
 		$('a.submittable:visible').hide();
 		// If this is a risk/color tab
@@ -93,6 +75,13 @@ $(document).ready(function() {
 		$(edit).focus();
 		$(edit_submit).show();
 		return false;
+	});
+	
+	// When we leave the body field, set val
+	$("body").on("blur", "input#pictograph_title", function(event){
+		$("a[href='#pictograph_title']").html($(this).val());
+		$(this).hide();
+		$(this).siblings('a.editable').show();
 	});
 	
 	// Show/hide OK button on focus/blur
@@ -218,70 +207,6 @@ $(document).ready(function() {
 		}
 	});
 	
-	// Advanced Tab
-	$('div.navbar ul.nav > li > a').click(function(){
-		if ($('.actions a:contains("edit")').length > 0) {
-			var formvars = $('.actions a:contains("edit")').attr('href').replace('/?', '');
-			$(this).attr('href', $(this).attr('href') + '?' + formvars);
-		} else if ($("form.picto-form").length > 0) {
-			var formvars = decodeURIComponent($("form.picto-form").serialize());
-			formvars = formvars.replace(/utf8=./, '');
-			formvars = formvars.replace(/&authenticity_token=/, '');
-			formvars = formvars.replace(AUTH_TOKEN + '&', '');
-			// formvars = formvars.replace(/pictograph\[(\w+)\]/gi, "$1");
-			formvars = formvars.replace(/\#/gi, "%23");
-			// $('#save-share div.modal-body p').html(url + '/pictographs/view?' + formvars);
-			// $('#save-share').modal('show');
-			$(this).attr('href', $(this).attr('href') + '?' + formvars);
-		}
-	});
-		
-	// Save/Share
-	$('a[href="#save-share"]').click(function(){
-		if ($(this).parent().not('.preview-actions')) {
-			var formvars = decodeURIComponent($(this).parents("form").serialize());
-			formvars = formvars.replace(/utf8=./, '');
-			formvars = formvars.replace(/&authenticity_token=/, '');
-			formvars = formvars.replace(AUTH_TOKEN + '&', '');
-			formvars = formvars.replace(/pictograph\[(\w+)\]/gi, "$1");
-			formvars = formvars.replace(/\#/gi, "%23");
-			
-			url = 'http://icon-array.heroku.com';
-			full_url = url + '/pictographs/view/?' + formvars, '#save-share div.modal-body p';
-			// bit_url(full_url);
-			$('#save-share div.modal-body p').html(full_url);
-		}
-		$('#save-share').modal('show');
-	});
-	
-	// Embed
-	$('a[href="#embed"]').click(function(){
-		if ($(this).parent().not('.preview-actions')) {
-			var formvars = decodeURIComponent($(this).parents("form").serialize());
-			formvars = formvars.replace(/utf8=./, '');
-			formvars = formvars.replace(/&authenticity_token=/, '');
-			formvars = formvars.replace(AUTH_TOKEN + '&', '');
-			formvars = formvars.replace(/pictograph\[(\w+)\]/gi, "$1");
-			formvars = formvars.replace(/\#/gi, "%23");
-		
-			// We check to see if the first risk has text
-			// If not, don't show the legend (i.e. width is just table width)
-			var width = $('table.pictograph').width();
-			if ($('input#risks_1_description').val() != '') {
-				width += 420;
-			}
-		
-			// NOTE: width and height need to be calculated
-			// and to depend on whether there is a legend or not (i.e. whether there are risk descriptions)
-			$('#embed div.modal-body p').text('<iframe src="http://' + url + '/pictographs/embed?' + formvars + '" type="text/html" width="' + width + '" height="550" scrolling="no" frameborder="0"></iframe>');
-			// $('#embed div.modal-body p').text('<iframe src="" type="text/html" width="' + width + '" height="550" scrolling="no" frameborder="0"></iframe>');
-			// url = 'http://icon-array.heroku.com';
-			// bit_url(url + '/pictographs/embed/?' + formvars, '#save-share div.modal-body p');
-			// http://' + url + '/pictographs/embed?' + formvars + '
-		}
-		$('#embed').modal('show');
-	});
-	
 	// $('form ul.nav-tabs li a').live('click', function(){
 	// 	colorIndex = $(this).attr('href').replace('#color', '');
 	// 	curRisk = $('form .tab-content div.active input.risk-field').val();
@@ -320,7 +245,8 @@ $(document).ready(function() {
 				$('td.fill' + klass + ' div').css('backgroundColor', hex);
 				$('td.fill' + klass).attr('data-color', hex);
 				//$(this).parent().prev('div.legend-icon').css('background-color', hex);
-				$('form ul.nav li.active a').css('data-color', hex);
+				
+				$('form ul.nav li.active a').attr('data-color', hex);
 				$('form ul.nav li.active a div.icon-box').css('background-color', hex);
 				$('form ul.nav li.active a img.overlay').css('background-color', hex);
 		 }
@@ -364,8 +290,10 @@ $(document).ready(function() {
 		if (thisRisk <= curRisk) {
 			thisRisk--;
 		}
-		updateMultiple(thisRisk, $('div.tab-content div.active').find('input.color-field').val());
+		
 		$('form .tab-content div.active input.value-field').val(thisRisk - totalRisk);
+		updateMultiple(thisRisk, $('div.tab-content div.active').find('input.color-field').val());
+
 		$('a.submittable:visible').hide();
 		$('table.pictograph').removeClass('active');
 		$('p#off-help').show();
@@ -374,35 +302,6 @@ $(document).ready(function() {
 		// This is a start to keep the picto active at all times
 		// $('input.value-field:visible').focus();
 	});
-	
-	function hex2rgb(hexStr){
-	    // note: hexStr should be #rrggbb
-			if (hexStr[0] != '#') {
-				var rgb = hexStr.replace('rgb(', '').replace(')', '')
-				return rgb.split(',');
-			} else {
-				var hex = parseInt(hexStr.substring(1), 16);
-		    var r = (hex & 0xff0000) >> 16;
-		    var g = (hex & 0x00ff00) >> 8;
-		    var b = hex & 0x0000ff;
-				return [r, g, b];
-			}	    
-	}
-	
-	function change_color(el, color) {
-		if (el.length > 1) {
-			var testImg = el.first();
-		} else {
-			var testImg = el;
-		}
-		if (testImg.find('img').length > 0) {
-			var colors = hex2rgb(color);
-			var rgba = 'rgba(' + colors[0] + ',' + colors[1] + ',' + colors[2] + ', ' + overlay_opacity + ')';
-			el.find('img.overlay').css('background-color', rgba);
-		} else {
-			el.find('div').css('background-color', color);
-		}
-	}
 	
 	// When someone clicks on an icon
 	$('img.overlay').click(function(){
@@ -446,226 +345,4 @@ $(document).ready(function() {
 		});
 	});
 	
-	var updateSingle = function(val) { 
-		if (val != curRisk) {
-			var colorIndex = $('form ul.nav li.active a').attr('href').replace('#color', '');
-			if (val > curRisk) {
-				var color = $('form ul.nav li.active a').css('background-color');
-				var i = curRisk;
-			} else {
-				colorIndex--;
-				var color = $('form .tab-content div.active').prev().find('input.color-field').val();
-				i = curRisk - 1;
-			}
-			$('table.pictograph td.#cell' + i).css('background-color', color);
-			$('table.pictograph td.#cell' + i).attr('data-color', color);
-			$('table.pictograph td.#cell' + i).removeClass().addClass('picto-cell fill' + colorIndex);
-		}
-		curRisk = val;
-	};
-	
-	var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
-		// alert(thisRisk);
-		// Table index values
-
-		var cmpRisk = passInRisk || curRisk;
-		var thisTab = passInTab || $('.tab-content div.active');
-
-		if (debug) {
-			alert('curRisk: ' + cmpRisk + ' thisRisk: ' + thisRisk);
-		}
-		
-		var adjRisk = Math.ceil(thisRisk); // integer risk
-		var decRisk = adjRisk - thisRisk; // leftover decimal risk
-		var adjCurRisk = Math.ceil(cmpRisk); // integer risk
-		var decCurRisk = cmpRisk - adjCurRisk; // leftover decimal risk
-
-		var el = $('table.pictograph td#cell' + adjCurRisk)
-		var curVal = $('table.pictograph td.picto-cell').index(el);
-		var el2 = $('table.pictograph td#cell' + adjRisk)
-		var val = $('table.pictograph td.picto-cell').index(el2);
-		var parts = thisFill.split('.');
-		var colorIndex = $('form ul.nav li.active a').attr('href').replace('#color', '');
-		
-		var prevRisk = $('div[data-color="' + thisFill + '"]').parent().prevAll('dt:last');
-		var diff = adjRisk - adjCurRisk;
-		// This is usually the case
-		if (prevRisk.next('dd').children('input.risk-val').length > 0) {
-			var prevLeg = prevRisk.next('dd').children('input.risk-val');
-			var prevVal = prevLeg.val();
-			prevLeg.val(prevVal - diff);
-		} else { // This is for the off value
-			var prevLeg = prevRisk.next('dd').children('span.risk-val');
-			var prevVal = prevLeg.html();
-			prevLeg.html(prevVal - diff);
-		}
-				
-		var col2 = el.col();
-	  var row2 = el.row();
-		var col1 = el2.col();
-	  var row1 = el2.row();
-		var startVal;
-		var startRow;
-		var endVal;
-		var endRow;
-				
-		if (debug) {
-			alert('Row1: ' + row1 + ', Column1: ' + col1 + 'Row2: ' + row2 + ', Column2: ' + col2);	
-			alert("just clicked: " + val + " current value: " + curVal);
-		}
-		
-		// reset the inner div height
-		$('td.picto-cell div').height(height);
-		$('td.picto-cell div').css('margin-top', '0');
-		
-		// We're increasing
-		if (diff > 0) {
-			var color = thisFill;	
-			for(i = row1; i <= row2; i++) {
-				endRow = (i + 1) * cols;
-				startRow = (i * cols);
-				
-				// first row
-				if (i == row1) {
-					endVal = val + 1;
-				} else {
-					endVal = endRow;
-				}
-
-				// last row
-				if (i == row2) {
-					startVal = curVal + 1;
-				} else {
-					startVal = startRow;
-				}
-
-				var range = $('table.pictograph td.picto-cell').slice(startVal, endVal);
-				change_color(range, color);
-				range.attr('data-color', color);
-				range.removeClass().addClass('picto-cell fill' + colorIndex);
-				startVal = endVal;
-			}	
-			
-			// Now we need to see if there are other colors higher up
-			// If there are, we move those too--sheesh!
-			var hiTabs = thisTab.nextAll("div.color-pane:not('.off')");
-			if (hiTabs.length > 0) {
-				var color = hiTabs.first().find('input.color-field').val();
-				var tabRisk = hiTabs.first().find('input.value-field').val();
-				updateMultiple(thisRisk + Number(tabRisk), color, thisRisk + 1, hiTabs.first());
-			}
-			
-			// TODO: when this adjustment is made, we're not bringing down the top value
-			// In that event, there are essentially three values,
-			// the passed in min, max, and current val
-			// We're current grabbing the range where we'd like the vals to be,
-			// but not setting cells that fall beyond the range.
-			
-		// We're decreasing
-		// row2 is the first row here
-		} else {
-			var color = $('input#pictograph_risks_attributes_0_hex').val();
-			for(i = row2; i <= row1; i++) {
-				endRow = (i + 1) * cols;
-				startRow = (i * cols);
-				
-				// first row
-				if (i == row2) {
-					endVal = curVal + 1;
-				} else {
-					endVal = endRow;
-				}
-
-				// last row
-				if (i == row1) {
-					startVal = val + 1;
-				} else {
-					startVal = startRow;
-				}
-
-				var range = $('table.pictograph td.picto-cell').slice(startVal, endVal);
-				change_color(range, color);
-				range.attr('data-color', color);
-				range.removeClass().addClass('picto-cell fill' + 0);
-				startVal = endVal;
-			}
-			
-			// Now we need to see if there are other colors higher up
-			// If there are, we move those too--sheesh!
-			var hiTabs = thisTab.nextAll("div.color-pane:not('.off')");
-			if (hiTabs.length > 0) {
-				var color = hiTabs.first().find('input.color-field').val();
-				var tabRisk = hiTabs.first().find('input.value-field').val();
-				updateMultiple(thisRisk + Number(tabRisk), color, thisRisk, hiTabs.first());
-			}
-		}
-		
-		// If we need to adjust the value for a decimal
-		if (decRisk > 0.0) {
-			el2.children('div').height(height * (1.0 - decRisk)).css('margin-top', height * decRisk);
-			el2.css('background-color', $('input#pictograph_risks_attributes_0_hex').val());
-		}
-		
-		// Set the form val
-		// TODO: we don't actually want to set this to the risk
-		// We want something like thisRisk - all lower risks
-		// $('form .tab-content div.active input.risk-field').val(thisRisk);
-		var totalRisk = 0;
-    $('input.value-field:not(:disabled)').each(function() {
-        totalRisk += Number($(this).val());
-    });
-		$('input#risks_0_value').val(cells - totalRisk);
-		$('.help:visible').hide();
-	};
-	
-	//bit_url function
-	function bit_url(url, element) { 
-		var url=url;
-		var username="ideaoforder"; // bit.ly username
-		var key="R_8d6c2265f9e37f9d332547673e8610d6";
-		$.ajax({
-			url:"http://api.bit.ly/v3/shorten",
-			data:{longUrl:url,apiKey:key,login:username},
-			dataType:"jsonp",
-			success:function(v) {
-				var bit_url=v.data.url;
-				$(element).html(bit_url);
-			}
-		});
-	}
-	
-	function current_risk() {
-		var curRisk = Number($('.tab-content div.active input.value-field').val());
-		$('.tab-content div.active').prevAll("div.color-pane:not('.off')").each(function() {
-	    curRisk += Number($(this).find('input.value-field').val());
-    });
-		return curRisk;
-	}
-	
-	function previous_risk() {	
-		var prevs = $('.tab-content div.active').prevAll("div.color-pane:not('.off')");
-		if (prevs.length > 0) {
-			return Number(prevs.first().find('input.value-field').val());
-		} else {
-			return 0.0;
-		}
-	}
-	
-	function isNumber(n) {
-	  return !isNaN(parseFloat(n)) && isFinite(n);
-	}
-	
 });
-
-// This just gives us basic row and column
-(function( $ ) {
-  $.fn.col = function() {
-  	return this.parent().children().index(this);
-  };
-  $.fn.row = function() {
-  	return this.parent().parent().children().index(this.parent());
-  };
-})( jQuery );
-
-// This makes our number picker way cooler
-(function(c){var a=["DOMMouseScroll","mousewheel"];c.event.special.mousewheel={setup:function(){if(this.addEventListener){for(var d=a.length;d;){this.addEventListener(a[--d],b,false)}}else{this.onmousewheel=b}},teardown:function(){if(this.removeEventListener){for(var d=a.length;d;){this.removeEventListener(a[--d],b,false)}}else{this.onmousewheel=null}}};c.fn.extend({mousewheel:function(d){return d?this.bind("mousewheel",d):this.trigger("mousewheel")},unmousewheel:function(d){return this.unbind("mousewheel",d)}});function b(i){var g=i||window.event,f=[].slice.call(arguments,1),j=0,h=true,e=0,d=0;i=c.event.fix(g);i.type="mousewheel";if(i.wheelDelta){j=i.wheelDelta/120}if(i.detail){j=-i.detail/3}d=j;if(g.axis!==undefined&&g.axis===g.HORIZONTAL_AXIS){d=0;e=-1*j}if(g.wheelDeltaY!==undefined){d=g.wheelDeltaY/120}if(g.wheelDeltaX!==undefined){e=-1*g.wheelDeltaX/120}f.unshift(i,j,e,d);return c.event.handle.apply(this,f)}})(jQuery);
