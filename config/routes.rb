@@ -18,6 +18,7 @@ IconArray::Application.routes.draw do
   match '/why' => 'contents#why', :as => :why
   match '/examples' => 'contents#examples', :as => :examples
   match '/sponsorship' => 'contents#sponsorship', :as => :sponsorship
+  match '/citation' => 'contents#citation', :as => :citation
   match '/advanced' => 'pictographs#new', :advanced => true, :as => :advanced
   match '/reset' => 'pictographs#new', :reset => true, :as => :reset
 
