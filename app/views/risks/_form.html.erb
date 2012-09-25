@@ -11,7 +11,7 @@
 		<%#=link_to 'ok', "#", {:id => "risks_#{i}_population_submit", :class => 'btn submittable hide'}%>
 		
 		<!-- Description/Legend field -->
-		<%= r.text_field :description, {:placeholder => (i == 0 ? "out of #{@pictograph.cells} people don't exhibit this property": "out of #{@pictograph.cells} people exhibit this property"), :class => 'span4 editable', :id => "risks_#{i}_description", :readonly => i == 0} %>
+		<%= r.text_field :description, {:placeholder => (i == 0 ? "out of #{@pictograph.cells} people don't exhibit this property": "out of #{@pictograph.cells} people exhibit this property"), :class => 'span4 editable', :id => "risks_#{i}_description"} %>
 		<%=link_to 'ok', "#", {:id => "risks_#{i}_description_submit", :class => 'btn submittable hide'}%>
   </div>
 
