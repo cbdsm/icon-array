@@ -63,6 +63,8 @@ class ApplicationController < ActionController::Base
       return @advanced if defined?(@advanced)
       if !session[:advanced].blank?
         @advanced = session[:advanced]
+      elsif params[:advanced] == true or params[:advanced] == 'true'
+        @advanced = true
       else
         @advanced = false
       end
