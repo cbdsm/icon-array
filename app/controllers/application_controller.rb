@@ -21,7 +21,13 @@ class ApplicationController < ActionController::Base
         else
           @p = params[:pictograph]
         end
-        session[:pictograph] = @p      
+        
+        @p[:risks_attributes].each do |i, risk|
+          logger.info risk.inspect
+          @p[:risks_attributes].delete(i) if risk['_destroy'] == '1' or risk['_destroy'] == 1
+        end
+        logger.info @p[:risks_attributes].inspect
+        session[:pictograph] = @p
       else
         @p = session[:pictograph] || {}
         # TODO: we need to decide if we'll allow any sort of api request
@@ -36,7 +42,7 @@ class ApplicationController < ActionController::Base
         @p[:risks_attributes] = {'0' => {:hex => '#DCDCDC', :population => 'out of 100 people', :description => "out of 100 people don't exhibit this property"}, '1' => {:hex => '#0000FF', :value => 32, :population => 'out of 100 people', :description => 'out of 100 people exhibit this property'}}
       end
       
-      if params[:action] == 'new'
+      if params[:action] == 'new' and !request.format.js?
         if !params[:advanced].blank? and params[:advanced] == true
           @advanced = true 
         else
@@ -53,6 +59,7 @@ class ApplicationController < ActionController::Base
       
       # pare out some attributes if this is basic mode
       unless @advanced == true
+        logger.info "NO ADVANCED!"
         @p = {:title => @p[:title], :risks_attributes => {0 => @p[:risks_attributes]['0'], 1 => @p[:risks_attributes]['1']}}
       end
             
@@ -60,11 +67,12 @@ class ApplicationController < ActionController::Base
     end
     
     def advanced
+      if params[:advanced] == true or params[:advanced] == 'true'
+        @advanced = true
+      end
       return @advanced if defined?(@advanced)
       if !session[:advanced].blank?
         @advanced = session[:advanced]
-      elsif params[:advanced] == true or params[:advanced] == 'true'
-        @advanced = true
       else
         @advanced = false
       end

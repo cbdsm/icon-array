@@ -24,6 +24,7 @@
 	</div>
 	
 	<br />
-	<%=link_to "Remove this color", remove_risk_path(i), {:method => 'post', :confirm => 'Are you sure? This cannot be undone.'}%>
+	<%= hidden_field_tag "pictograph[risks_attributes][#{i}][_destroy]", :value => 0 %>
+	<%= submit_tag 'remove this color', {:class => 'remove-color btn btn-danger'} %>
 	
 </div>

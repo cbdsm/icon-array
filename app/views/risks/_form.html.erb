@@ -30,4 +30,8 @@
 		<%= r.hidden_field :display %>
 	<% end %>
 
+	<% if i > 1 %>
+		<%= r.hidden_field '_destroy', :value => 0 %>
+		<%= submit_tag 'remove this color', {:class => 'remove-color btn btn-danger'} %>
+	<% end %>
 </div>

@@ -59,6 +59,12 @@ class PictographsController < ApplicationController
      redirect_to view_pictographs_path(params[:pictograph].merge(:format => :jpg))
     elsif params[:commit] == "preview"
       redirect_to view_pictographs_path(params[:pictograph])
+    elsif params[:commit] == "remove this color"
+      if advanced
+        redirect_to advanced_path(params[:pictograph])
+      else
+        redirect_to new_pictograph_path(params[:pictograph])
+      end
     # NOTE: at this point, we never actually save a picto
     else
       @pictograph = Pictograph.new(params[:pictograph])
