@@ -22,7 +22,7 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 
 	var cmpRisk = passInRisk || curRisk;
 	var thisTab = passInTab || $('.tab-content div.active');
-
+	
 	if (debug) {
 		alert('curRisk: ' + cmpRisk + ' thisRisk: ' + thisRisk);
 	}
@@ -36,21 +36,11 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 	var curVal = $('table.pictograph td.picto-cell').index(el);
 	var el2 = $('table.pictograph td#cell' + adjRisk)
 	var val = $('table.pictograph td.picto-cell').index(el2);
+	
 	var parts = thisFill.split('.');
 	var colorIndex = $('form ul.nav li.active a').attr('href').replace('#color', '');
-	
-	var prevRisk = $('div[data-color="' + thisFill + '"]').parent().prevAll('dt:last');
+		
 	var diff = adjRisk - adjCurRisk;
-	// This is usually the case
-	if (prevRisk.next('dd').children('input.risk-val').length > 0) {
-		var prevLeg = prevRisk.next('dd').children('input.risk-val');
-		var prevVal = prevLeg.val();
-		prevLeg.val(prevVal - diff);
-	} else { // This is for the off value
-		var prevLeg = prevRisk.next('dd').children('span.risk-val');
-		var prevVal = prevLeg.html();
-		prevLeg.html(prevVal - diff);
-	}
 			
 	var col2 = el.col();
   var row2 = el.row();
@@ -107,16 +97,17 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 			updateMultiple(thisRisk + Number(tabRisk), color, thisRisk + 1, hiTabs.first());
 		}
 		
-		// TODO: when this adjustment is made, we're not bringing down the top value
-		// In that event, there are essentially three values,
-		// the passed in min, max, and current val
-		// We're current grabbing the range where we'd like the vals to be,
-		// but not setting cells that fall beyond the range.
-		
 	// We're decreasing
 	// row2 is the first row here
 	} else {
-		var color = $('input#pictograph_risks_attributes_0_hex').val();
+		// var color = $('input#pictograph_risks_attributes_0_hex').val();
+		var colorTab = thisTab.nextAll('div.color-pane:first');
+		if (colorTab.attr('id') == undefined) {
+			var colorTab = $('div#color0');
+		}
+		var color = colorTab.find('input.color-field').val();
+		var colorTabIndex = colorTab.attr('id').replace('color', '');
+		
 		for(i = row2; i <= row1; i++) {
 			endRow = (i + 1) * cols;
 			startRow = (i * cols);
@@ -138,7 +129,7 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 			var range = $('table.pictograph td.picto-cell').slice(startVal, endVal);
 			change_color(range, color);
 			range.attr('data-color', color);
-			range.removeClass().addClass('picto-cell fill' + 0);
+			range.removeClass().addClass('picto-cell fill' + colorTabIndex);
 			startVal = endVal;
 		}
 		
@@ -146,9 +137,18 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 		// If there are, we move those too--sheesh!
 		var hiTabs = thisTab.nextAll("div.color-pane:not('.off')");
 		if (hiTabs.length > 0) {
-			var color = hiTabs.first().find('input.color-field').val();
-			var tabRisk = hiTabs.first().find('input.value-field').val();
-			updateMultiple(thisRisk + Number(tabRisk), color, thisRisk, hiTabs.first());
+			var hiTab = hiTabs.first();
+			var color = hiTab.find('input.color-field').val();
+			var tabRisk = hiTab.find('input.value-field').val();
+
+			var htColor = hiTab.find('input.color-field').val();
+			var htCell = $('table.pictograph td.picto-cell[data-color="' + htColor + '"]:last');
+			
+			var val = $('table.pictograph td.picto-cell').index(htCell) - diff;
+
+			// TODO: don't use 50
+			alert("VAL: " + val);
+			updateMultiple(thisRisk + Number(tabRisk), color, val, hiTabs.first());
 		}
 	}
 	
