@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120510173829) do
+ActiveRecord::Schema.define(:version => 20121001214711) do
 
   create_table "pictographs", :force => true do |t|
     t.string   "title"
