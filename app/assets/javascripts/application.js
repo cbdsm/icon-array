@@ -45,6 +45,16 @@ $(document).ready(function() {
 		$(this).next('div.risk-fill').toggle();
 	});
 	
+	$('body').on('click', 'input.remove-color', function( event ) {
+		var r = confirm("Are you sure? This cannot be undone.");
+		if (r) {
+			$(this).prev('input').val(1);
+			return true;
+		} else {
+			return false;
+		}
+	});
+	
 	$("body").on("shown", 'a[data-toggle="tab"]', function(e){
 		$('a.submittable:visible').hide();
 		// If this is a risk/color tab

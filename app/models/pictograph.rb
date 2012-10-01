@@ -1,7 +1,7 @@
 class Pictograph < ActiveRecord::Base
   has_many :risks, :dependent => :destroy, :order => "position ASC"
   
-  accepts_nested_attributes_for :risks
+  accepts_nested_attributes_for :risks, :allow_destroy => true
   
   after_initialize :set_attr
   
