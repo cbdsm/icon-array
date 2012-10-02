@@ -127,8 +127,9 @@ class PictographsController < ApplicationController
       format.xml  { render :xml => @pictograph }   
 
       format.jpg {
-        @kit = IMGKit.new(render_to_string('show', :layout => 'embed'), 'crop-w' => @pictograph.export_width)
+        @kit = IMGKit.new(render_to_string('show', :layout => false), 'crop-w' => @pictograph.export_width)
         @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/application.css'
+        @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/print.css'
         image = @kit.to_jpg
         send_data(image, :type => "image/jpeg", :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.jpg")
       }

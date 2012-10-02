@@ -1,4 +1,4 @@
-<div id="editor" style="font-family: '<%=@pictograph.legend_font%>'; font-size: <%=@pictograph.legend_font_size%>px; width: <%=@pictograph.legend_width%>px;">
+<div id="editor" style="font-family: '<%=@pictograph.legend_font%>'; font-size: <%=@pictograph.legend_font_size%>px; width: <%=@pictograph.legend_width%>px; margin-left: <%=@pictograph.cell_width * 2%>px;">
 	<dl id="risk-legend">
 		<% off = @pictograph.risks.shift
     @pictograph.risks.push(off) %>
