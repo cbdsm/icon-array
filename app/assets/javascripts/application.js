@@ -40,7 +40,16 @@ $(document).ready(function() {
 	
 	// This allows us to set the li active for any active a tag
 	$('.nav a.active').parent('li').addClass('active');
-
+	
+	
+	// Disabled 'disabled' links
+	$('a.disabled').livequery(function(){
+		$(this).click(function(){
+			return false;
+		});
+	});
+	
+	// I think this is deprecated
 	$('div.legend-icon').on('click', function(event){
 		$(this).next('div.risk-fill').toggle();
 	});

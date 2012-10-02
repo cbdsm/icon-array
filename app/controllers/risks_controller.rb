@@ -26,7 +26,7 @@ class RisksController < ApplicationController
   def new
     # we _may_ want to check against existing colors
     # @risk = Risk.new(:value => 0, :hex => Risk.random_hex)
-    @pictograph = Pictograph.new(:risks_attributes => {0 => {:value => 0, :hex => Risk.random_hex}})
+    @pictograph = Pictograph.new(:risks_attributes => {0 => {:value => 0, :hex => Risk.random_hex, :display => true}})
     @tab = params[:tab]
     respond_to do |format|
       format.html # new.html.erb

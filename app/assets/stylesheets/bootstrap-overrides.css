@@ -6,9 +6,9 @@ ul.nav-tabs > li > a {
 
 .nav-tabs li.color-tab a,
 .nav-tabs li.icons-tab a{
-	border: solid 1px #ddd !important;
+/*	border: solid 1px #ddd !important;*/
 /*	background-color: #F7F7F7;*/
-	border-color: #F7F7F7 #F7F7F7 #DDD !important;
+/*	border-color: #F7F7F7 #F7F7F7 #DDD !important;*/
 }
 
 .nav-tabs > li.active > a {
