@@ -1,9 +1,28 @@
 <h2>Examples</h2>
 <ul id="examples">
-	<% for i in 1..6 %>
 	<li>
-		<h4>Example <%=i%></h4>
-		<%=link_to image_tag('icon-array-example.jpg'), "/pictographs/view/?title=&risks_attributes[0][description]=out+of+100+people+don't+exhibit+this+property&risks_attributes[0][hex]=%23DCDCDC&risks_attributes[0][display]=true&risks_attributes[1][value]=74&risks_attributes[1][description]=out+of+100+people+exhibit+this+property&risks_attributes[1][hex]=%230000FF&risks_attributes[1][display]=true&cell_width=22&cell_height=40&cell_spacing=5&cols=10&rows=10&axis_labels=0&axis_labels=1&axis_position=left&axis_font=Arial&axis_font_size=12&title_alignment=left&title_font=Helvetica&title_font_size=18&legend_font=Arial&legend_font_size=12" %>
+		<h4>Incremental Risk</h4>
+		<%=link_to image_tag('examples/icon-array-standard-incremental.jpeg'), "/pictographs/view?axis_font=Arial&axis_font_size=12&axis_labels=1&axis_position=left&cell_height=40&cell_spacing=5&cell_width=22&cols=10&icon=&legend_font=Arial&legend_font_size=12&risks_attributes%5B0%5D%5Bdescription%5D=out+of+100+people+don%27t+exhibit+this+property&risks_attributes%5B0%5D%5Bdisplay%5D=0&risks_attributes%5B0%5D%5Bhex%5D=%23DCDCDC&risks_attributes%5B1%5D%5Bdescription%5D=out+of+100+people+exhibit+this+property&risks_attributes%5B1%5D%5Bdisplay%5D=0&risks_attributes%5B1%5D%5Bhex%5D=%2364BEFF&risks_attributes%5B1%5D%5Bvalue%5D=12.0&risks_attributes%5B2%5D%5B_destroy%5D=0&risks_attributes%5B2%5D%5Bdescription%5D=&risks_attributes%5B2%5D%5Bdisplay%5D=0&risks_attributes%5B2%5D%5Bhex%5D=%230000FF&risks_attributes%5B2%5D%5Bvalue%5D=4.0&rows=10&title=&title_alignment=left&title_font=Helvetica&title_font_size=18" %>
 	</li>
-	<% end %>
+	
+	<li>
+		<h4>Person Icons</h4>
+		<%=link_to image_tag('examples/icon-array-bathroom.jpeg'), "http://localhost:3000/pictographs/view?axis_font=Arial&axis_font_size=12&axis_labels=0&axis_position=left&cell_height=40&cell_spacing=5&cell_width=22&cols=10&icon=http%3A%2F%2Fstaging.iconarray.com%2Fimages%2Ficons%2Fmale.png&legend_font=Arial&legend_font_size=12&risks_attributes%5B0%5D%5Bdescription%5D=out+of+100+people+don%27t+exhibit+this+property&risks_attributes%5B0%5D%5Bdisplay%5D=0&risks_attributes%5B0%5D%5Bhex%5D=%23DCDCDC&risks_attributes%5B1%5D%5Bdescription%5D=out+of+100+people+exhibit+this+property&risks_attributes%5B1%5D%5Bdisplay%5D=0&risks_attributes%5B1%5D%5Bhex%5D=%239826E3&risks_attributes%5B1%5D%5Bvalue%5D=6&rows=10&title=&title_alignment=left&title_font=Helvetica&title_font_size=18" %>
+	</li>
+	
+	<li>
+		<h4>Ovals in Larger Grid</h4>
+		<%=link_to image_tag('examples/icon-array-ovals.jpeg'), "http://localhost:3000/pictographs/view?axis_font=Arial&axis_font_size=12&axis_labels=0&axis_position=left&cell_height=40&cell_spacing=5&cell_width=22&cols=10&icon=http%3A%2F%2Fstaging.iconarray.com%2Fimages%2Ficons%2Fmale.png&legend_font=Arial&legend_font_size=12&risks_attributes%5B0%5D%5Bdescription%5D=out+of+100+people+don%27t+exhibit+this+property&risks_attributes%5B0%5D%5Bdisplay%5D=0&risks_attributes%5B0%5D%5Bhex%5D=%23DCDCDC&risks_attributes%5B1%5D%5Bdescription%5D=out+of+100+people+exhibit+this+property&risks_attributes%5B1%5D%5Bdisplay%5D=0&risks_attributes%5B1%5D%5Bhex%5D=%239826E3&risks_attributes%5B1%5D%5Bvalue%5D=6&rows=10&title=&title_alignment=left&title_font=Helvetica&title_font_size=18" %>
+	</li>
+	
+	<li>
+		<h4>20 x 5 Grid</h4>
+		<%=link_to image_tag('examples/icon-array-horizontal.jpeg'), "http://localhost:3000/pictographs/view?axis_font=Arial&axis_font_size=12&axis_labels=0&axis_position=left&cell_height=40&cell_spacing=5&cell_width=22&cols=10&icon=http%3A%2F%2Fstaging.iconarray.com%2Fimages%2Ficons%2Fmale.png&legend_font=Arial&legend_font_size=12&risks_attributes%5B0%5D%5Bdescription%5D=out+of+100+people+don%27t+exhibit+this+property&risks_attributes%5B0%5D%5Bdisplay%5D=0&risks_attributes%5B0%5D%5Bhex%5D=%23DCDCDC&risks_attributes%5B1%5D%5Bdescription%5D=out+of+100+people+exhibit+this+property&risks_attributes%5B1%5D%5Bdisplay%5D=0&risks_attributes%5B1%5D%5Bhex%5D=%239826E3&risks_attributes%5B1%5D%5Bvalue%5D=6&rows=10&title=&title_alignment=left&title_font=Helvetica&title_font_size=18" %>
+	</li>
+	
+	<li>
+		<h4>4 Risks</h4>
+		<%=link_to image_tag('examples/icon-array-adjuvant.jpeg'), "/pictographs/view?axis_font=Arial&axis_font_size=12&axis_labels=1&axis_position=left&cell_height=40&cell_spacing=5&cell_width=22&cols=10&icon=&legend_font=Arial&legend_font_size=12&risks_attributes%5B0%5D%5Bdescription%5D=out+of+100+people+don%27t+exhibit+this+property&risks_attributes%5B0%5D%5Bdisplay%5D=0&risks_attributes%5B0%5D%5Bhex%5D=%23DCDCDC&risks_attributes%5B1%5D%5Bdescription%5D=out+of+100+women+are+alive+in+10+years+.&risks_attributes%5B1%5D%5Bdisplay%5D=1&risks_attributes%5B1%5D%5Bhex%5D=%230d7a0d&risks_attributes%5B1%5D%5Bvalue%5D=67.0&risks_attributes%5B2%5D%5B_destroy%5D=0&risks_attributes%5B2%5D%5Bdescription%5D=more+women+out+of+100+are+alive+due+to+additional+therapy.&risks_attributes%5B2%5D%5Bdisplay%5D=1&risks_attributes%5B2%5D%5Bhex%5D=%23f4fc17&risks_attributes%5B2%5D%5Bvalue%5D=5.0&risks_attributes%5B3%5D%5B_destroy%5D=0&risks_attributes%5B3%5D%5Bdescription%5D=out+of+100+women+die+because+of+cancer.&risks_attributes%5B3%5D%5Bdisplay%5D=1&risks_attributes%5B3%5D%5Bhex%5D=%23b51f1f&risks_attributes%5B3%5D%5Bvalue%5D=20.0&risks_attributes%5B4%5D%5B_destroy%5D=0&risks_attributes%5B4%5D%5Bdescription%5D=out+of+100+women+die+because+of+other+causes.&risks_attributes%5B4%5D%5Bdisplay%5D=1&risks_attributes%5B4%5D%5Bhex%5D=%232014a0&risks_attributes%5B4%5D%5Bvalue%5D=8.0&rows=10&title=Chemotherapy+and+Hormonal+Therapy&title_alignment=left&title_font=Helvetica&title_font_size=18" %>
+	</li>
+	
 </ul>
