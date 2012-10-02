@@ -34,7 +34,7 @@
 					</a></li>
 				<% end %>
 				<% if advanced %>
-					<li id="new-risk"><%=link_to '+', new_risk_path(:tab => @pictograph.risks.length), {:remote => true}%></li>
+					<li id="new-risk"><%=link_to '+', new_risk_path(:tab => @pictograph.risks.length), {:remote => true, :class => ('disabled' if @tab_risks.length >= 4)}%></li>
 				<% end %>
 				<li class='color-tab'><a href="#color0" data-toggle="tab" data-color="<%=@off_risk.hex%>">
 				<% if !@pictograph.icon.blank? %>
@@ -44,16 +44,16 @@
 				<% end %>
 				</a></li>
 				<% if advanced %>
-					<li class="icons-tab"><a href="#icons" data-toggle="tab">
-				    <% Pictograph.icons.each_with_index do |icon, i| %>
-							<%=image_tag icon, :style => "height: 12px; margin-right: 2px; background-color: #000; #{'float:left' unless i == Pictograph.icons.length - 1}" %>
-						<% end %>
+					<li class="icons-tab" ><a href="#icons" data-toggle="tab" style="width:25px">
+						<%=image_tag "/assets/icons/oval.png", {:alt => "Oval", :style => "height: 12px; margin-right: 2px; background-color: #000; float:left"} %>
+						<%=image_tag "/assets/icons/avatar.png", {:alt => "Avatar", :style => "height: 12px; margin-right: 2px; background-color: #000; float:left"} %>
+						<%=image_tag "/assets/icons/male.png", {:alt => "Male", :style => "height: 12px; background-color: #000;"} %>
 						</a></li>
 				<% end %>
 				<% if advanced %>
 					<li class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#finetuning">
-			      fine-tuning
+			      <i class="icon-wrench"></i>
 			      <b class="caret"></b>
 			    </a>
 			    <ul class="dropdown-menu">

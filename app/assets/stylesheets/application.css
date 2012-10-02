@@ -55,6 +55,12 @@ a#reset {
 	margin-top: -50px;
 }
 
+.nav-tabs a.disabled {
+	cursor: not-allowed;
+	color: #c3c3c3;
+	background-color: #e2e2e2;
+}
+
 div#branding {
 	width: 940px;
 	position: relative;

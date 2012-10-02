@@ -10,3 +10,7 @@ var tab = $('li#new-risk a').attr('href');
 var new_tab = tab.replace(/tab=\d+/, 'tab=<%=@tab.to_i + 1%>');
 $('li#new-risk a').attr('href', new_tab);
 $("a[href='#color<%=i%>']").click();
+if ($('li.color-tab').length >= 5) {
+	$('li#new-risk a').removeClass('disabled');
+	$('li#new-risk a').addClass('disabled');
+}
