@@ -8,8 +8,9 @@ module ApplicationHelper
 		end
   end
   
-  def icon(icon, color, height=45)
+  def icon(icon, color, height=45, width=nil)
     icon_file = icon.split('/').last
+    css_width = width.blank? ? '' : "width: #{width}px; "
     url = case Rails.env
       when 'production'
         'http://www.iconarray.com'
@@ -17,12 +18,12 @@ module ApplicationHelper
         'http://staging.iconarray.com'
     end
     # out = image_tag icon, :style => "height:#{height}px; background-color: #{color}", :class => 'overlay'
-    out = "<img src='#{url}/images/icons/#{icon_file}' style='height:#{height}px; background-color: #{color}' class='overlay' />"
+    out = "<img src='#{url}/images/icons/#{icon_file}' style='#{css_width}height:#{height}px; background-color: #{color}' class='overlay' />"
 		return out.html_safe
   end
   
-  def box(color, height=45)
-    width = (height / 1.8).round
+  def box(color, height=45, width=nil)
+    width ||= (height / 1.8).round
     return "<div class='box-icon' style='width:#{width}px; height: #{height}px; background-color: #{color};'></div>".html_safe
   end
   

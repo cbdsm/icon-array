@@ -25,12 +25,14 @@ class Risk < ActiveRecord::Base
     # should we also accept SVGs? Probably yes! 
          
   def self.random_hex
-    r = rand(255)
-    g = rand(255)
-    b = rand(255)
-    out = '#' + r.to_s(16) + g.to_s(16) + b.to_s(16)
+    out = '#'
+    for i in 1..3
+      x = rand(255).to_s(16)
+      x = '0' + x if x.length < 2
+      out += x
+    end
     if out == '#ffffff'
-      out = random_hex
+      out = self.random_hex
     end
     return out
   end

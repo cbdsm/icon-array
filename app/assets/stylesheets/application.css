@@ -153,6 +153,9 @@ table.pictograph td.picto-cell div {
 /*	position: absolute;
 	bottom: 0;*/
 }
+table.pictograph td.picto-cell img {
+	vertical-align: bottom;
+}
 td.picto-axis-label {
   text-align: right;
 }
