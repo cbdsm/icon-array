@@ -151,7 +151,7 @@ class PictographsController < ApplicationController
         `#{bin} --format tiff --user-style-sheet #{Rails.root.to_s + '/app/assets/stylesheets/application.css'} #{inpath} #{outpath}`
 
         send_file outpath, :type => 'image/tiff', :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.tiff", :stream => false
-        File.unlink(inpath)
+        # File.unlink(inpath)
         File.unlink(outpath)
       }
       

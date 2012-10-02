@@ -268,7 +268,7 @@ $(document).ready(function() {
 				//$(this).parent().prev('div.legend-icon').css('background-color', hex);
 				
 				$('form ul.nav li.active a').attr('data-color', hex);
-				$('form ul.nav li.active a div.icon-box').css('background-color', hex);
+				$('form ul.nav li.active a div.box-icon').css('background-color', hex);
 				$('form ul.nav li.active a img').css('background-color', hex);
 		 }
 		});
@@ -357,7 +357,7 @@ $(document).ready(function() {
 	});
 	
 	// When someone clicks on the box
-	$('.field div.icon-box').click(function(){
+	$('.field div.box-icon').click(function(){
 		var td = $('td.picto-cell:first');
 		var height = td.children(':first').height();
 		var width = td.width();
@@ -369,8 +369,8 @@ $(document).ready(function() {
 		// TODO: we're not allowing for partial cells in this case:
 		//  margin-top: #{@pictograph.cell_height * (1.0 - dec)}px;
 		
-		$('li.color-tab a').html("<div class='icon-box' style='width:9px; height: 15px;'></div>");
-		$('li.color-tab a div.icon-box').each(function(){
+		$('li.color-tab a').html("<div class='box-icon' style='width:9px; height: 15px;'></div>");
+		$('li.color-tab a div.box-icon').each(function(){
 			var color = $(this).closest('a').attr('data-color');
 			$(this).css('background-color', color);
 		});

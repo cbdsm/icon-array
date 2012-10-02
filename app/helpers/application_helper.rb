@@ -9,13 +9,15 @@ module ApplicationHelper
   end
   
   def icon(icon, color, height=45)
-    out = image_tag icon, :style => "height:#{height}px; background-color: #{color}", :class => 'overlay'
+    # out = image_tag icon, :style => "height:#{height}px; background-color: #{color}", :class => 'overlay'
+    out = "<img src='/images/icons/#{icon.gsub('assets/', '')}' style='height:#{height}px; background-color: #{color}' class='overlay' />"
+    # out = "<img src='http://staging.iconarray.com/assets/icons/avatar-37abea39ec0b33f7132ee86a470ceaa6.png' style='height:#{height}px; background-color: #{color}' class='overlay' />"
 		return out.html_safe
   end
   
   def box(color, height=45)
     width = (height / 1.8).round
-    return "<div class='icon-box' style='width:#{width}px; height: #{height}px; background-color: #{color};'></div>".html_safe
+    return "<div class='box-icon' style='width:#{width}px; height: #{height}px; background-color: #{color};'></div>".html_safe
   end
   
   def hex2rgb(hex)
