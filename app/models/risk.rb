@@ -28,7 +28,11 @@ class Risk < ActiveRecord::Base
     r = rand(255)
     g = rand(255)
     b = rand(255)
-    return '#' + r.to_s(16) + g.to_s(16) + b.to_s(16)
+    out = '#' + r.to_s(16) + g.to_s(16) + b.to_s(16)
+    if out == '#ffffff'
+      out = random_hex
+    end
+    return out
   end
 
   # private
