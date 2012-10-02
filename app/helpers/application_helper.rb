@@ -9,9 +9,15 @@ module ApplicationHelper
   end
   
   def icon(icon, color, height=45)
+    icon_file = icon.split('/').last
+    url = case Rails.env
+      when 'production'
+        'http://www.iconarray.com'
+      else 'staging'
+        'http://staging.iconarray.com'
+    end
     # out = image_tag icon, :style => "height:#{height}px; background-color: #{color}", :class => 'overlay'
-    out = "<img src='/images/icons/#{icon.gsub('assets/', '')}' style='height:#{height}px; background-color: #{color}' class='overlay' />"
-    # out = "<img src='http://staging.iconarray.com/assets/icons/avatar-37abea39ec0b33f7132ee86a470ceaa6.png' style='height:#{height}px; background-color: #{color}' class='overlay' />"
+    out = "<img src='#{url}/images/icons/#{icon_file}' style='height:#{height}px; background-color: #{color}' class='overlay' />"
 		return out.html_safe
   end
   
