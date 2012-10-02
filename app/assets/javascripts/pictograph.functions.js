@@ -146,8 +146,6 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 			
 			var val = $('table.pictograph td.picto-cell').index(htCell) - diff;
 
-			// TODO: don't use 50
-			alert("VAL: " + val);
 			updateMultiple(thisRisk + Number(tabRisk), color, val, hiTabs.first());
 		}
 	}

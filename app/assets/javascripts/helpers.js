@@ -69,9 +69,7 @@ function change_color(el, color) {
 		var testImg = el;
 	}
 	if (testImg.find('img').length > 0) {
-		var colors = hex2rgb(color);
-		var rgba = 'rgba(' + colors[0] + ',' + colors[1] + ',' + colors[2] + ', ' + overlay_opacity + ')';
-		el.find('img.overlay').css('background-color', rgba);
+		el.find('img').css('background-color', color);
 	} else {
 		el.find('div').css('background-color', color);
 	}
