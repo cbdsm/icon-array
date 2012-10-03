@@ -7,7 +7,7 @@
 			<%=link_to 'ok', "#", {:id => "risks_#{i}_value_submit", :class => 'btn submittable hide description-field'}%>
 
 	
-			<%= text_field_tag "pictograph[risks_attributes][#{i}][description]", description, {:class => 'span3 editable description-field', :id => "risks_#{i}_description", :placeholder => "exhibit this property"} %>
+			<%= text_field_tag "pictograph[risks_attributes][#{i}][description]", description, {:class => 'span4 editable description-field', :id => "risks_#{i}_description", :placeholder => "exhibit this property"} %>
 			<%=link_to 'ok', "#", {:id => "risks_#{i}_description_submit", :class => 'btn submittable hide'}%>
 	  </div>
 	<% end %>
