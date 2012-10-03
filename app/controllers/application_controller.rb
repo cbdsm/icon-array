@@ -44,8 +44,10 @@ class ApplicationController < ActionController::Base
         # @p.delete(:advanced)
       end
       
+      cells = (!@p[:rows].blank? and !@p[:cols].blank?) ? (@p[:rows].to_i * @p[:cols].to_i) : 100
+      
       if @p[:risks_attributes].nil? or @p[:risks_attributes].empty?
-        @p[:risks_attributes] = {'0' => {:hex => '#DCDCDC', :population => "out of #{@pictograph.cells} people", :description => "out of #{@pictograph.cells} people don't exhibit this property"}, '1' => {:hex => '#0000FF', :value => 32, :population => "out of #{@pictograph.cells} people", :description => "out of #{@pictograph.cells} people exhibit this property"}}
+        @p[:risks_attributes] = {'0' => {:hex => '#DCDCDC', :population => "out of #{cells} people", :description => "out of #{cells} people don't exhibit this property"}, '1' => {:hex => '#0000FF', :value => 32, :population => "out of #{cells} people", :description => "out of #{cells} people exhibit this property"}}
       end
       
       if params[:action] == 'new' and !request.format.js?
