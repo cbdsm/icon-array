@@ -1,0 +1,27 @@
+ul#examples {
+	list-style-type: none;
+	padding: none;
+	margin: none;
+}
+ul#examples li {
+	display: block;
+	float: left;
+	width: 420px;
+	margin: 10px;
+}
+#examples li img {
+	float: left;
+	width: 200px;
+}
+#examples li div.example-info {
+	margin: 10px 0 0 210px;
+	width: 200px;
+}
+
+#examples li#adjuvant img {
+	width: 400px;
+}
+#examples li#adjuvant div.example-info {
+	margin: 10px 0 0 410px;
+	width: 200px;
+}

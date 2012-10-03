@@ -338,20 +338,3 @@ img#why-icon-array,
 #why ol li a {
 	font-size: .9em;
 }
-
-
-/* EXAMPLES PAGE */
-ul#examples {
-	list-style-type: none;
-	padding: none;
-	margin: none;
-}
-ul#examples li {
-	display: block;
-	float: left;
-	width: 250px;
-	margin: 10px;
-}
-ul#examples li h4 {
-	padding-left: 45px;
-}
