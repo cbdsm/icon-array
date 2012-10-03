@@ -23,10 +23,17 @@ class ApplicationController < ActionController::Base
         end
         
         @p[:risks_attributes].each do |i, risk|
-          logger.info risk.inspect
           @p[:risks_attributes].delete(i) if risk['_destroy'] == '1' or risk['_destroy'] == 1
         end
-        logger.info @p[:risks_attributes].inspect
+        session[:pictograph] = @p
+      elsif !%w[http://www.iconarray.com http://staging.iconarray.com http://localhost:3000].include? request.env["HTTP_REFERER"]
+        @p = params
+        @advanced = true
+        session[:advanced] = @advanced
+        @p.delete :action
+        @p.delete :controller
+        @p.delete :advanced
+        @p.delete :format
         session[:pictograph] = @p
       else
         @p = session[:pictograph] || {}
@@ -59,7 +66,6 @@ class ApplicationController < ActionController::Base
       
       # pare out some attributes if this is basic mode
       unless @advanced == true
-        logger.info "NO ADVANCED!"
         @p = {:title => @p[:title], :risks_attributes => {0 => @p[:risks_attributes]['0'], 1 => @p[:risks_attributes]['1']}}
       end
             
