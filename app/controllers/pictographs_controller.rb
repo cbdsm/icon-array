@@ -1,4 +1,5 @@
 class PictographsController < ApplicationController
+  before_filter :set_params
   
   # GET /pictographs
   # GET /pictographs.json

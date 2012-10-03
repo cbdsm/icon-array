@@ -1,14 +1,16 @@
+var cells = $('input#pictograph_cols').val() * $('input#pictograph_rows').val();
+
 <% i = @tab %>
 <% hex = @pictograph.risks[0].hex %>
 <% value = @pictograph.risks[0].value %>
 <% description = @pictograph.risks[0].description %>
 <% population = @pictograph.risks[0].population %>
 <% display = @pictograph.risks[0].display %>
-$("form div.tab-content").append("<%= escape_javascript render('/risks/new_form', :i => i, :hex => hex, :value => value, :description => description, :population => population) %>");
+$("form div.tab-content").append("<%= escape_javascript render('/risks/new_form', :i => i, :hex => hex, :value => value, :description => description, :population => population, :display => display) %>");
+
+$('input#risks_<%=i%>_description').val('out of ' + cells + ' people exhibit this property');
 
 var tab_content = $('li.color-tab a:first').html().replace(/background-color\:\s*.+;/, 'background-color: <%=@pictograph.risks[0].hex%>;');
-
-
 
 $('form ul li#new-risk').before("<li class='color-tab'><a href='#color<%=i%>' data-toggle='tab' data-color='<%=@pictograph.risks[0].hex%>'>" + tab_content + "</a></li>");
 var tab = $('li#new-risk a').attr('href');

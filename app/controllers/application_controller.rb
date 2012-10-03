@@ -4,8 +4,6 @@ class ApplicationController < ActionController::Base
   helper_method :advanced
   attr_reader   :advanced
   
-  before_filter :set_params
-  
   private
     def set_params
       if params[:reset]
@@ -26,7 +24,7 @@ class ApplicationController < ActionController::Base
           @p[:risks_attributes].delete(i) if risk['_destroy'] == '1' or risk['_destroy'] == 1
         end
         session[:pictograph] = @p
-      elsif !%w[http://www.iconarray.com http://staging.iconarray.com http://localhost:3000].include? request.env["HTTP_REFERER"]
+      elsif !%w[http://www.iconarray.com/ http://staging.iconarray.com/ http://localhost:3000/].include? request.env["HTTP_REFERER"]
         @p = params
         @advanced = true
         session[:advanced] = @advanced
@@ -34,6 +32,7 @@ class ApplicationController < ActionController::Base
         @p.delete :controller
         @p.delete :advanced
         @p.delete :format
+        @p.delete :tab
         session[:pictograph] = @p
       else
         @p = session[:pictograph] || {}
@@ -46,7 +45,7 @@ class ApplicationController < ActionController::Base
       end
       
       if @p[:risks_attributes].nil? or @p[:risks_attributes].empty?
-        @p[:risks_attributes] = {'0' => {:hex => '#DCDCDC', :population => 'out of 100 people', :description => "out of 100 people don't exhibit this property"}, '1' => {:hex => '#0000FF', :value => 32, :population => 'out of 100 people', :description => 'out of 100 people exhibit this property'}}
+        @p[:risks_attributes] = {'0' => {:hex => '#DCDCDC', :population => "out of #{@pictograph.cells} people", :description => "out of #{@pictograph.cells} people don't exhibit this property"}, '1' => {:hex => '#0000FF', :value => 32, :population => "out of #{@pictograph.cells} people", :description => "out of #{@pictograph.cells} people exhibit this property"}}
       end
       
       if params[:action] == 'new' and !request.format.js?
