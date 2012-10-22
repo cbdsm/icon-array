@@ -189,8 +189,14 @@ $(document).ready(function() {
 	    });
 	
 			var thisRisk = totalRisk + Number(val);
-			
-			if (thisRisk > cells || thisRisk < 0 || !isNumber(thisRisk) || !thisRisk) {
+			var curTotal = current_total();
+			var availableRisk = cells - tmpRisk;
+			if (curTotal > cells) {
+				alert("The number you've entered is out of range--we've adjusted accordingly.");
+				thisRisk -= (curTotal - cells);
+				$(edit).val(thisRisk);
+				updateMultiple(thisRisk, color);
+			} else if (thisRisk > cells || thisRisk < 0 || !isNumber(thisRisk) || !thisRisk) {
 				alert("Please enter a number between 0 and " + cells);
 				$(edit).val(tmpRisk);
 				$(edit).focus();

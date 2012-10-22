@@ -20,6 +20,7 @@
 
 	<div class="field">
 		<label for="pictograph_risks_attributes_<%=i%>_display" class="checkbox">show this legend</label>
+		<%= hidden_field_tag "pictograph[risks_attributes][#{i}][display]", 0 %> 
 	  <%= check_box_tag "pictograph[risks_attributes][#{i}][display]", 1, display %> 
 	</div>
 	

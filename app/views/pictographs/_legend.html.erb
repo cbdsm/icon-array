@@ -1,4 +1,8 @@
-<div id="editor" style="font-family: '<%=@pictograph.legend_font%>'; font-size: <%=@pictograph.legend_font_size%>px; width: <%=@pictograph.legend_width%>px; margin-left: <%=@pictograph.cell_width * 2%>px;">
+<% if @pictograph.legend_position == 'below' %>
+	<div id="legend" style="font-family: '<%=@pictograph.legend_font%>'; font-size: <%=@pictograph.legend_font_size%>px; width: <%=@pictograph.table_width%>px; margin-left: <%=@pictograph.axis_width * 5 / 3%>px;">
+<% else %>
+	<div id="legend" style="font-family: '<%=@pictograph.legend_font%>'; font-size: <%=@pictograph.legend_font_size%>px; width: <%=@pictograph.legend_width%>px; margin-left: <%=@pictograph.cell_width * 2%>px;	margin-top: 25px; float: left; width: 410px;">
+<% end %>
 	<dl id="risk-legend">
 		<% off = @pictograph.risks.shift
     @pictograph.risks.push(off) %>

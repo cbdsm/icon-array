@@ -12,6 +12,10 @@ class Pictograph < ActiveRecord::Base
     Dir.glob(Rails.root.to_s + '/public/images/icons/*.png').collect{|i| i.gsub(Rails.root.to_s + '/public/images/icons/', '')}
   end
     
+  def self.legend_positions  
+    %w[right below]
+  end
+
   def cells
     rows * cols
   end
