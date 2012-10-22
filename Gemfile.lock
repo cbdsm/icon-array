@@ -177,8 +177,8 @@ DEPENDENCIES
   deep_merge
   heroku
   imgkit
-  jquery-rails
-  jquery-ui-rails
+  jquery-rails (>= 2.0.2)
+  jquery-ui-rails (>= 2.0.2)
   mini_magick
   mysql2 (~> 0.3.11)
   paperclip

@@ -34,10 +34,10 @@ group :assets do
   # gem 'therubyracer'
 
   gem 'uglifier', '>= 1.0.3'
-  gem 'jquery-ui-rails'
+  
 end
-
-gem 'jquery-rails'
+gem 'jquery-ui-rails', '>=2.0.2'
+gem 'jquery-rails', '>=2.0.2'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
