@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   
   private
     def set_params
-      if params[:reset]
+      if params[:reset] or (request.env["HTTP_REFERER"].blank? and request.fullpath['?'].nil?)
         session.delete(:pictograph)
         @p = Hash.new
       elsif !params[:pictograph].blank?
