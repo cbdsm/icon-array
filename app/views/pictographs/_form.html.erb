@@ -20,7 +20,7 @@
 
 	<%= render 'graph' %>
 
-	<div id="editor">
+	<div id="editor" class="<%='wide-editor' if @pictograph.table_width > 400 %>">
 			<ul class="nav nav-tabs">
 				<% @tab_risks = @pictograph.risks.clone %>
 				<% @off_risk = @tab_risks.shift %>
@@ -60,7 +60,7 @@
 			      <li><a href="#cells" data-toggle="tab">Cell size and spacing</a></li>
 			      <li><a href="#axis" data-toggle="tab">Axis labels</a></li>
 			      <li><a href="#title" data-toggle="tab">Title font, size, and alignment</a></li>
-						<li><a href="#legend" data-toggle="tab">Legend font and size</a></li>
+						<li><a href="#legend" data-toggle="tab">Legend font, size, and position</a></li>
 			    </ul>
 				<% end %>
 			</ul>
@@ -126,6 +126,11 @@
 				    <%= f.check_box :axis_labels %> 
 				  </div>
 				  <div class="field">
+				  	<br clear="left"/>
+						<%= f.label :axis_endpoints, "Endpoints only" %> 
+				    <%= f.check_box :axis_endpoints %> 
+				  </div>
+				  <div class="field">
 						<br clear="left"/>
 				    <%= f.label :axis_position_left, 'left' %><%= f.radio_button :axis_position, 'left' %><br clear="left"/>
 						<%= f.label :axis_position_right, 'right' %><%= f.radio_button :axis_position, 'right' %><br clear="left"/>
@@ -176,6 +181,10 @@
 				  <div class="field">
 				    <%= f.label :legend_font_size, 'Legend font size' %>
 				    <%= f.number_field :legend_font_size, {:class => 'span1'} %>px
+				  </div>
+				  <div class="field">
+				    <%= f.label :legend_position, 'location' %>
+						<%= f.select :legend_position, Pictograph.legend_positions %>
 				  </div>
 					<p class="ft-help">
 					  Click the "Preview" button below the graph to see your changes.
