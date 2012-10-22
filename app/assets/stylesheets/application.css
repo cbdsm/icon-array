@@ -175,6 +175,20 @@ div#editor {
 	width: 410px;
 }
 
+div.wide-editor {
+	padding: 10px;
+	-moz-box-shadow: 5px 5px 3px #888;
+	-webkit-box-shadow: 5px 5px 3px #888;
+	box-shadow: 5px 5px 3px #888;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	right: 50px;
+	background-color: white;
+	border: solid 1px darkGray;
+	position: absolute;
+	cursor: move;
+}
+
 div.tiff div#editor {
 	margin-top: 125px;
 	float: left;
@@ -324,6 +338,9 @@ img.overlay {
 
 .color-tab div.tint {
 	float: none;
+}
+li.color-tab a {
+	padding-bottom: 6px;
 }
 
 /* WHY PAGE */

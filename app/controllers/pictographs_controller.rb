@@ -128,6 +128,8 @@ class PictographsController < ApplicationController
       format.xml  { render :xml => @pictograph }   
 
       format.jpg {
+        @pictograph.icon.gsub!('png', 'svg')
+        @pictograph.print = true
         @kit = IMGKit.new(render_to_string('show', :layout => false), 'crop-w' => @pictograph.export_width)
         @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/application.css'
         @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/print.css'
@@ -135,6 +137,8 @@ class PictographsController < ApplicationController
         send_data(image, :type => "image/jpeg", :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.jpg")
       }
       format.tif {
+        @pictograph.print = true
+        @pictograph.icon.gsub!('png', 'svg')
         @pictograph.cell_width = @pictograph.cell_width * 5
         @pictograph.cell_height = @pictograph.cell_height * 5
         @pictograph.cell_spacing = @pictograph.cell_spacing * 5
@@ -164,6 +168,7 @@ class PictographsController < ApplicationController
   # GET /pictographs/embed.json
   def embed
     @pictograph = Pictograph.new(@p)
+    logger.info @pictograph.inspect
     
     respond_to do |format|
       format.html { render 'show', :layout => 'embed' }

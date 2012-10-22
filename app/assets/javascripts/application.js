@@ -23,6 +23,7 @@
 //= require jquery.livequery
 //= require jquery.jeditable.min
 //= require jquery.row-column
+//= require jquery.ui.draggable
 //= require modernizr.svg.js
 //= require globals
 //= require helpers
@@ -334,11 +335,13 @@ $(document).ready(function() {
 		$('input.value-field:visible').focus();
 	});
 	
+	$("div.wide-editor").draggable();
+
 	// When someone clicks on an icon
 	$('img.overlay').click(function(){
 		var img = $(this).attr('src');
 		
-		// Turning this off until Ryan can weigh in on the weird lines
+		// // Turning this off until Ryan can weigh in on the weird lines
 		// if(Modernizr.svg) {
 		// 	img = img.replace('png','svg')
 		// }

@@ -5,7 +5,7 @@ class Pictograph < ActiveRecord::Base
   
   after_initialize :set_attr
   
-  attr_accessor :legend_width
+  attr_accessor :legend_width, :print
   
   def self.icons
     # Dir.glob(Rails.root.to_s + '/app/assets/images/icons/*.png').collect{|i| i.gsub(Rails.root.to_s + '/app/assets/images/', '')}
@@ -26,7 +26,7 @@ class Pictograph < ActiveRecord::Base
   
   def axis_width
     if axis_labels
-      axis_font_size * 4
+      axis_font_size * 5
     else
       0
     end
