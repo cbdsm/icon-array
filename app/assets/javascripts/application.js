@@ -196,12 +196,15 @@ $(document).ready(function() {
 				alert("The number you've entered is out of range--we've adjusted accordingly.");
 				thisRisk -= (curTotal - cells);
 				$(edit).val(thisRisk);
+				$(edit).closest('div.color-pane').find('input.destroy').val('0');
 				updateMultiple(thisRisk, color);
 			} else if (thisRisk > cells || thisRisk < 0 || !isNumber(thisRisk) || !thisRisk) {
 				alert("Please enter a number between 0 and " + cells);
 				$(edit).val(tmpRisk);
 				$(edit).focus();
+				$(edit).closest('div.color-pane').find('input.destroy').val('1');
 			} else {
+				$(edit).closest('div.color-pane').find('input.destroy').val('0');
 				updateMultiple(thisRisk, color);
 			}
 		}
