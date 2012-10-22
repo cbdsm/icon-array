@@ -25,7 +25,7 @@
 	</div>
 	
 	<br />
-	<%= hidden_field_tag "pictograph[risks_attributes][#{i}][_destroy]", 0 %>
+	<%= hidden_field_tag "pictograph[risks_attributes][#{i}][_destroy]", 1, {:class => 'destroy'} %>
 	<%= submit_tag 'remove this color', {:class => 'remove-color btn btn-danger'} %>
 	
 </div>

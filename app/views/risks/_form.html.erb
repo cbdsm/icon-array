@@ -32,7 +32,7 @@
 
 	<% if i > 1 %>
 		<br />
-		<%= r.hidden_field '_destroy', :value => 0 %>
+		<%= r.hidden_field '_destroy', :value => 0, :class => 'destroy' %>
 		<%= submit_tag 'remove this color', {:class => 'remove-color btn btn-danger'} %>
 	<% end %>
 </div>

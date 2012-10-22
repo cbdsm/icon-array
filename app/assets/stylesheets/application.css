@@ -340,7 +340,10 @@ img.overlay {
 	float: none;
 }
 li.color-tab a {
-	padding-bottom: 6px;
+	padding-bottom: 7px;
+}
+li.icons-tab a {
+	padding-bottom: 7px;
 }
 
 /* WHY PAGE */
