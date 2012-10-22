@@ -66,11 +66,7 @@
 	        if @pictograph.axis_endpoints and axis_num != @pictograph.cells and axis_num != 0
 	        	content = '&nbsp;'
 	        else
-	        	if @pictograph.axis_position == 'left'
-	        		content = "#{axis_num} ---"
-	        	else
-	        		content = "--- #{axis_num}"
-	        	end
+	        	content = @pictograph.axis_format.gsub('%n', axis_num.to_s)
 	        end
 	        if @pictograph.axis_position == 'left'
 	          row.push "<td class='picto-axis-label' style='text-align:right; width: #{@pictograph.axis_width}px;'><div style='font-size: #{@pictograph.axis_font_size}px; line-height: #{@pictograph.axis_line_height}px; margin-top: -#{@pictograph.axis_margin_top}px;'>#{content}</div></td>"
@@ -89,10 +85,11 @@
 
   <tr class='bottom-row'>
 		<% if @pictograph.axis_labels %>
+			<% content = @pictograph.axis_format.gsub('%n', '0') %>
 			<% if @pictograph.axis_position == 'left' %>
-	    	<td class='picto-axis-label' style="text-align:right; width: <%=@pictograph.axis_width%>px;"><div style='font-size: <%=@pictograph.axis_font_size%>px; line-height: <%=@pictograph.axis_line_height%>px; margin-top: -<%=@pictograph.bottom_axis_margin_top%>px;'>0 ---</div></td>
+	    	<td class='picto-axis-label' style="text-align:right; width: <%=@pictograph.axis_width%>px;"><div style='font-size: <%=@pictograph.axis_font_size%>px; line-height: <%=@pictograph.axis_line_height%>px; margin-top: -<%=@pictograph.bottom_axis_margin_top%>px;'><%=content%></div></td>
 	    <% else %>
-	      <td class='picto-axis-label' style="text-align:left; width: <%=@pictograph.axis_width%>px;"><div style='font-size: <%=@pictograph.axis_font_size%>px; line-height: <%=@pictograph.axis_line_height%>px; margin-top: -<%=@pictograph.bottom_axis_margin_top%>px;'> --- 0</div></td>
+	      <td class='picto-axis-label' style="text-align:left; width: <%=@pictograph.axis_width%>px;"><div style='font-size: <%=@pictograph.axis_font_size%>px; line-height: <%=@pictograph.axis_line_height%>px; margin-top: -<%=@pictograph.bottom_axis_margin_top%>px;'><%=content%></div></td>
 	    <% end %>
 		<% end %>
 		<td colspan='<%=@pictograph.cols%>' class='legend'>&nbsp;</td>

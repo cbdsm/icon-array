@@ -143,6 +143,12 @@
 				    <%= f.label :axis_font_size %>
 				    <%= f.number_field :axis_font_size, {:class => 'span1'} %>px
 				  </div>	
+				  <div class="field">
+				    <%= f.label :axis_format %>
+				    <%= f.text_field :axis_format %>
+				    <br />
+				    <span class="instructions"><strong>%n</strong> will be replaced with the appropriate number (i.e. 50, 100, etc)</span>
+				  </div>
 				
 					<p class="ft-help">
 					  Click the "Preview" button below the graph to see your changes.

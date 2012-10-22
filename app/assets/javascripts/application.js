@@ -384,5 +384,13 @@ $(document).ready(function() {
 			$(this).css('background-color', color);
 		});
 	});
+
+	// Try to set the axis format when we switch from left to right
+	$('body').on('click', 'input#pictograph_axis_position_left', function( event ) {
+		$('input#pictograph_axis_format').val('%n ---');
+	});
+	$('body').on('click', 'input#pictograph_axis_position_right', function( event ) {
+		$('input#pictograph_axis_format').val('--- %n');
+	});
 	
 });
