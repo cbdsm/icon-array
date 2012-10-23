@@ -11,9 +11,12 @@ $(document).ready(function() {
 			formvars = formvars.replace(/&authenticity_token=/, '');
 			formvars = formvars.replace(AUTH_TOKEN + '&', '');
 			// formvars = formvars.replace(/pictograph\[(\w+)\]/gi, "$1");
-			formvars = formvars.replace(/\#/gi, "%23");
 			// $('#save-share div.modal-body p').html(url + '/pictographs/view?' + formvars);
 			// $('#save-share').modal('show');
+			formvars = encodeURI(formvars)
+				.replace(/%5B/gi, '[')
+				.replace(/%5D/gi, ']')
+				.replace(/\#/gi, "%23");
 			$(this).attr('href', $(this).attr('href') + '?' + formvars);
 		}
 	});
@@ -26,8 +29,11 @@ $(document).ready(function() {
 			formvars = formvars.replace(/&authenticity_token=/, '');
 			formvars = formvars.replace(AUTH_TOKEN + '&', '');
 			formvars = formvars.replace(/pictograph\[(\w+)\]/gi, "$1");
-			formvars = formvars.replace(/\#/gi, "%23");
-		
+			formvars = encodeURI(formvars)
+				.replace(/%5B/gi, '[')
+				.replace(/%5D/gi, ']')
+				.replace(/\#/gi, "%23");
+
 			url = 'http://icon-array.heroku.com';
 			full_url = url + '/pictographs/view/?' + formvars, '#save-share div.modal-body p';
 			// bit_url(full_url);
@@ -44,7 +50,10 @@ $(document).ready(function() {
 			formvars = formvars.replace(/&authenticity_token=/, '');
 			formvars = formvars.replace(AUTH_TOKEN + '&', '');
 			formvars = formvars.replace(/pictograph\[(\w+)\]/gi, "$1");
-			formvars = formvars.replace(/\#/gi, "%23");
+			formvars = encodeURI(formvars)
+				.replace(/%5B/gi, '[')
+				.replace(/%5D/gi, ']')
+				.replace(/\#/gi, "%23");
 	
 			// We check to see if the first risk has text
 			// If not, don't show the legend (i.e. width is just table width)
