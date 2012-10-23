@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
           @p[:risks_attributes].delete(i) if risk['_destroy'] == '1' or risk['_destroy'] == 1
         end
         session[:pictograph] = @p
-      elsif !%w[http://www.iconarray.com/ http://staging.iconarray.com/ http://localhost:3000/].include? request.env["HTTP_REFERER"]
+      elsif !%w[www.iconarray.com staging.iconarray.com localhost iconarray-staging.herokuapp.com].include? URI.parse(request.env["HTTP_REFERER"]).host
         @p = params
         @advanced = true
         session[:advanced] = @advanced
@@ -43,7 +43,6 @@ class ApplicationController < ActionController::Base
         # @p.delete(:action)
         # @p.delete(:advanced)
       end
-      
       cells = (!@p[:rows].blank? and !@p[:cols].blank?) ? (@p[:rows].to_i * @p[:cols].to_i) : 100
       
       if @p[:risks_attributes].nil? or @p[:risks_attributes].empty?
