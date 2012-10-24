@@ -25,11 +25,12 @@
 //= require jquery.row-column
 //= require jquery.ui.draggable
 //= require modernizr.svg.js
+//= require jquery.zclip
 //= require globals
 //= require helpers
 //= require save_share
 //= require pictograph.functions
-	
+
 $(document).ready(function() {
 	if (debug) {
 		$('td.picto-cell').livequery(function(){
@@ -327,6 +328,7 @@ $(document).ready(function() {
 			}
 		
 			$('form .tab-content div.active input.value-field').val(thisRisk - totalRisk);
+			$('form .tab-content div.active input.destroy').val('0');
 			updateMultiple(thisRisk, $('div.tab-content div.active').find('input.color-field').val());
 
 			$('a.submittable:visible').hide();

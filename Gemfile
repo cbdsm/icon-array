@@ -14,6 +14,7 @@ gem 'imgkit'
 gem 'mini_magick'
 gem 'rack-canonical-host'
 gem "deep_merge", :require => 'deep_merge/rails_compat'
+gem 'bitly'
 
 group :production do
 	gem "pg"

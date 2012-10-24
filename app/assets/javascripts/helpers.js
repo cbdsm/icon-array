@@ -1,19 +1,3 @@
-//bit_url function
-function bit_url(url, element) { 
-	var url=url;
-	var username="ideaoforder"; // bit.ly username
-	var key="ENV['BITLY_KEY']";
-	$.ajax({
-		url:"http://api.bit.ly/v3/shorten",
-		data:{longUrl:url,apiKey:key,login:username},
-		dataType:"jsonp",
-		success:function(v) {
-			var bit_url=v.data.url;
-			$(element).html(bit_url);
-		}
-	});
-}
-
 function current_risk() {
 	var curRisk = Number($('.tab-content div.active input.value-field').val());
 	$('.tab-content div.active').prevAll("div.color-pane:not('.off')").each(function() {

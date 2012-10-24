@@ -6,12 +6,16 @@ class ApplicationController < ActionController::Base
   
   private
     def set_params
-      if params[:reset] or (request.env["HTTP_REFERER"].blank? and request.fullpath['?'].nil?)
+      # This is either a manual reset or a request like http://www.iconarray.com
+      if params[:reset] or (request.env["HTTP_REFERER"].nil? and request.fullpath['?'].nil?)
         session.delete(:pictograph)
         @p = Hash.new
+      # This is a link containing a valid picto, like so: ?pictograph[title]=XXX
       elsif !params[:pictograph].blank?
+        logger.info params[:pictograph].inspect
         if session[:pictograph]
-          session[:pictograph].deep_merge!(params[:pictograph])
+          session[:pictograph] = params[:pictograph]
+          # session[:pictograph].deep_merge!(params[:pictograph])
           # session[:pictograph][:title] = params[:pictograph][:title]
           # session[:pictograph][:risks_attributes]['0'].merge!(params[:pictograph][:risks_attributes]['0'])
           # session[:pictograph][:risks_attributes]['1'].merge!(params[:pictograph][:risks_attributes]['1'])
@@ -24,7 +28,9 @@ class ApplicationController < ActionController::Base
           @p[:risks_attributes].delete(i) if risk['_destroy'] == '1' or risk['_destroy'] == 1
         end
         session[:pictograph] = @p
-      elsif !%w[www.iconarray.com staging.iconarray.com localhost iconarray-staging.herokuapp.com].include? URI.parse(request.env["HTTP_REFERER"]).host
+      # We have a non-local referrrer OR a valid query string and NO referrer 
+      # (i.e. we're being linked to or enbedded)
+      elsif (!request.env["HTTP_REFERER"].nil? and !%w[www.iconarray.com iconarray.com staging.iconarray.com localhost iconarray-staging.herokuapp.com].include? URI.parse(request.env["HTTP_REFERER"]).host) or (request.env["HTTP_REFERER"].nil? and !request.fullpath['?'].nil?)
         @p = params
         @advanced = true
         session[:advanced] = @advanced
@@ -34,6 +40,7 @@ class ApplicationController < ActionController::Base
         @p.delete :format
         @p.delete :tab
         session[:pictograph] = @p
+      # otherwise, we just need to grab what's in the session or start fresh
       else
         @p = session[:pictograph] || {}
         # TODO: we need to decide if we'll allow any sort of api request

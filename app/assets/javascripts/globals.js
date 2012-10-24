@@ -4,14 +4,15 @@ $(document).ready(function() {
 	// This stuff is mostly for embedding/linking
 	 debug = false;
 	
-	 host = window.location.hostname;
-	 port = window.location.port;
-	if (port != 80) {
-		url = host + ':' + port;
-	} else {
-		url = host;
-	}
-	 overlay_opacity = 1.0;
+	//  host = window.location.hostname;
+	//  port = window.location.port;
+	// if (port != 80) {
+	// 	url = host + ':' + port;
+	// } else {
+	// 	url = host;
+	// }
+	url = window.location.protocol + '//' + window.location.host;
+	overlay_opacity = 1.0;
 
 	// semi-globals
 	 curRisk = $('input#risks_1_value').val(); //$('form .tab-content div.active input.risk-field').val();
