@@ -118,10 +118,22 @@ class PictographsController < ApplicationController
   # GET /pictographs/view.json
   def view
     @pictograph = Pictograph.new(@p)
-    
     respond_to do |format|
       format.html { 
         @url = request.url
+        @embed_url = @url.gsub('view', 'embed')
+
+        bitly_url = 'http://www.iconarray.com/' + request.fullpath
+        embed_url = bitly_url.gsub('view', 'embed')
+        begin
+          Bitly.use_api_version_3
+          bitly = Bitly.new("ideaoforder", "R_8d6c2265f9e37f9d332547673e8610d6")
+          @short_url = bitly.shorten(bitly_url).short_url
+          @short_embed_url = bitly.shorten(embed_url).short_url
+        rescue
+          @short_url = @url
+          @short_embed_url = @embed_url
+        end
         render 'show'
       }
       format.json { render json: @pictograph }
