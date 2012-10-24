@@ -71,7 +71,7 @@
 	        if @pictograph.axis_position == 'left'
 	          row.push "<td class='picto-axis-label' style='text-align:right; width: #{@pictograph.axis_width}px;'><div style='font-size: #{@pictograph.axis_font_size}px; line-height: #{@pictograph.axis_line_height}px; margin-top: -#{@pictograph.axis_margin_top}px;'>#{content}</div></td>"
 	        else
-	          row.shift "<td class='picto-axis-label' style='text-align:left; width: #{@pictograph.axis_width}px;'><div style='font-size: #{@pictograph.axis_font_size}px; line-height: #{@pictograph.axis_line_height}px; margin-top: -#{@pictograph.axis_margin_top}px;'>#{content}</div></td>"
+	          row.unshift "<td class='picto-axis-label' style='text-align:left; width: #{@pictograph.axis_width}px;'><div style='font-size: #{@pictograph.axis_font_size}px; line-height: #{@pictograph.axis_line_height}px; margin-top: -#{@pictograph.axis_margin_top}px;'>#{content}</div></td>"
 	        end
 	      end
 	      out = "<tr>#{row.reverse.join()}</tr>".html_safe
@@ -88,10 +88,11 @@
 			<% content = @pictograph.axis_format.gsub('%n', '0') %>
 			<% if @pictograph.axis_position == 'left' %>
 	    	<td class='picto-axis-label' style="text-align:right; width: <%=@pictograph.axis_width%>px;"><div style='font-size: <%=@pictograph.axis_font_size%>px; line-height: <%=@pictograph.axis_line_height%>px; margin-top: -<%=@pictograph.bottom_axis_margin_top%>px;'><%=content%></div></td>
+	    	<td colspan='<%=@pictograph.cols%>' class='legend'>&nbsp;</td>
 	    <% else %>
-	      <td class='picto-axis-label' style="text-align:left; width: <%=@pictograph.axis_width%>px;"><div style='font-size: <%=@pictograph.axis_font_size%>px; line-height: <%=@pictograph.axis_line_height%>px; margin-top: -<%=@pictograph.bottom_axis_margin_top%>px;'><%=content%></div></td>
+	    	<td colspan='<%=@pictograph.cols%>' class='legend'>&nbsp;</td>
+	      <td class='picto-axis-label' style="text-align:left; width: <%=@pictograph.axis_width%>px;"><div style='font-size: <%=@pictograph.axis_font_size%>px; line-height: <%=@pictograph.axis_line_height%>px; margin-top: -<%=@pictograph.bottom_axis_margin_top%>px;text-align:left;'><%=content%></div></td>
 	    <% end %>
 		<% end %>
-		<td colspan='<%=@pictograph.cols%>' class='legend'>&nbsp;</td>
 	</tr>
 </table>
