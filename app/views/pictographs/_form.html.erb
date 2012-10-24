@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 <% okay = false %>
 
-<%= form_for(@pictograph, :html => {:class => 'form-horizontal picto-form', :multipart => true}) do |f| %>
+<%= form_for(@pictograph, :html => {:class => 'form-horizontal picto-form', :id => 'picto-form', :multipart => true}) do |f| %>
   <% if @pictograph.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@pictograph.errors.count, "error") %> prohibited this pictograph from being saved:</h2>
@@ -235,15 +235,15 @@
 	  </div>
 	  <div class="modal-body">
 	  	<ul class="nav nav-tabs">
-	  		<li class='active'><a href="#short-link" data-toggle="tab">Short URL</a></li>
-	  		<li><a href="#full-link" data-toggle="tab">Full URL</a></li>
+	  		<li class='active'><a href="#full-link" data-toggle="tab">Full URL</a></li>
+	  		<li><a href="#short-link" data-toggle="tab">Short URL</a></li>
 	  	</ul>
 	  	<div class="tab-content">
 	  		<div class="tab-pane" id="short-link">
-	    		<p>Here is the SHORT URL <%=request.url.gsub('view', 'link')%></p>
+	    		<p>There was a problem generating the short url</p>
 	    	</div>
 	    	<div class="tab-pane" id="full-link">
-	    		<p>Here is the FULL URL <%=request.url.gsub('view', 'link')%></p>
+	    		<p>There was a problem generating the full url></p>
 	    	</div>
 	    </div>
 	  </div>
@@ -259,15 +259,15 @@
 	  </div>
 	  <div class="modal-body">
 	    <ul class="nav nav-tabs">
-	  		<li class='active'><a href="#short-embed" data-toggle="tab">Short URL</a></li>
-	  		<li><a href="#full-embed" data-toggle="tab">Full URL</a></li>
+	  		<li class='active'><a href="#full-embed" data-toggle="tab">Full URL</a></li>
+	  		<li><a href="#short-embed" data-toggle="tab">Short URL</a></li>
 	  	</ul>
 	  	<div class="tab-content">
 	  		<div class="tab-pane" id="short-embed">
-	    		<p></p>
+	    		<p>There was a problem generating the short embed code</p>
 	    	</div>
 	    	<div class="tab-pane" id="full-embed">
-	    		<p></p>
+	    		<p>There was a problem generating the long embed code</p>
 	    	</div>
 	    </div>
 	  </div>

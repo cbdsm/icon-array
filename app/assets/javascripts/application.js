@@ -25,7 +25,6 @@
 //= require jquery.row-column
 //= require jquery.ui.draggable
 //= require modernizr.svg.js
-//= require jquery.zclip
 //= require globals
 //= require helpers
 //= require save_share

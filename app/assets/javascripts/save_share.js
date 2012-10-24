@@ -26,7 +26,8 @@ $(document).ready(function() {
 		if ($(this).parent().hasClass('preview-actions')) {
 
 		} else {
-			var formvars = decodeURIComponent($(this).parents("form").serialize());
+
+			var formvars = decodeURIComponent($('form#picto-form').serialize());
 			formvars = formvars.replace(/utf8=./, '');
 			formvars = formvars.replace(/&authenticity_token=/, '');
 			formvars = formvars.replace(AUTH_TOKEN + '&', '');
@@ -39,12 +40,11 @@ $(document).ready(function() {
 			full_url = url + '/pictographs/view/?' + formvars;
 			biturl = 'http://www.iconarray.com' + '/pictographs/view/?' + formvars;
 			$('#save-share div#full-link p').html(full_url);
-			bit_url(biturl + '/pictographs/view/?' + formvars, '#save-share div#short-link p');
+			bit_url(biturl, '#save-share div#short-link p');
 		}
-		// $('#save-share ul.nav-tabs li.active a').tab('show');
 		$('#save-share').modal('show');
-		$('a[href="#full-link"]').click();
 		$('a[href="#short-link"]').click();
+		$('a[href="#full-link"]').click();
 		return false;
 	});
 
@@ -78,8 +78,8 @@ $(document).ready(function() {
 			// http://' + url + '/pictographs/embed?' + formvars + '
 		}
 		$('#embed').modal('show');
-		$('a[href="#full-embed"]').click();
 		$('a[href="#short-embed"]').click();
+		$('a[href="#full-embed"]').click();
 
 		return false;
 	});
@@ -114,17 +114,5 @@ $(document).ready(function() {
 			}
 		});
 	}
-
-  $('a[href="#copy"]').zclip({
-    path:"http://www.steamdev.com/zclip/js/ZeroClipboard.swf",
-    // copy:$(this).closest('tab-content').find('div.active p').text(),
-    copy:$('#short-link p').text(),
-    beforeCopy:function(){
-          alert('HUH?');
-      },
-    afterCopy:function(){
-          alert($('#short-link p').text());
-      }
-  });
 
 });

@@ -6,7 +6,7 @@ var cells = $('input#pictograph_cols').val() * $('input#pictograph_rows').val();
 <% description = @pictograph.risks[0].description %>
 <% population = @pictograph.risks[0].population %>
 <% display = @pictograph.risks[0].display %>
-$("form div.tab-content").append("<%= escape_javascript render('/risks/new_form', :i => i, :hex => hex, :value => value, :description => description, :population => population, :display => display) %>");
+$("form div.color-pane:last").after("<%= escape_javascript render('/risks/new_form', :i => i, :hex => hex, :value => value, :description => description, :population => population, :display => display) %>");
 
 $('input#risks_<%=i%>_description').val('out of ' + cells + ' people exhibit this property');
 
