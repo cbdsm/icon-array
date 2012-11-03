@@ -140,7 +140,7 @@ class PictographsController < ApplicationController
       format.xml  { render :xml => @pictograph }   
 
       format.jpg {
-        @pictograph.icon.gsub!('png', 'svg')
+        @pictograph.icon.gsub!('png', 'svg') unless @pictograph.icon.blank?
         @pictograph.print = true
         @kit = IMGKit.new(render_to_string('show', :layout => false), 'crop-w' => @pictograph.export_width)
         @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/application.css'
