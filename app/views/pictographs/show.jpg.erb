@@ -1,6 +1,9 @@
-<% unless @pictograph.title.blank? %>
-	<h3 style="text-align: <%=@pictograph.title_alignment%>;font-size: <%=@pictograph.title_font_size%>px;font-family: '<%=@pictograph.title_font%>'; width: <%=@pictograph.table_width%>px; margin-left: <%=@pictograph.axis_width + 25%>px; margin-bottom: <%=@pictograph.title_font_size%>px;" id="pictograph-title"><%= @pictograph.title %></h3>
-<% end %>
+<div style="background-color: <%=@pictograph.background_color%>; margin: 0px; position:absolute; top: 0; left: 0; padding: 10px 0 0 30px;">
+	<% unless @pictograph.title.blank? %>
+		<h3 style="text-align: <%=@pictograph.title_alignment%>;font-size: <%=@pictograph.title_font_size%>px;font-family: '<%=@pictograph.title_font%>'; width: <%=@pictograph.table_width%>px; margin-left: <%=@pictograph.axis_width + 25%>px; margin-bottom: <%=@pictograph.title_font_size%>px;" id="pictograph-title"><%= @pictograph.title %></h3>
+	<% end %>
 
-<%= render 'graph.html.erb' %>
-<%= render 'legend.html.erb' %>
+	<%= render 'graph.html.erb' %>
+	<%= render 'legend.html.erb' %>
+	<br clear="left" />
+</div>

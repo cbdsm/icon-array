@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121022180432) do
+ActiveRecord::Schema.define(:version => 20121214211156) do
 
   create_table "pictographs", :force => true do |t|
     t.string   "title"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(:version => 20121022180432) do
     t.boolean  "axis_endpoints",   :default => false
     t.string   "legend_position",  :default => "right"
     t.string   "axis_format",      :default => "%n ---"
+    t.string   "background_color", :default => "#ffffff"
   end
 
   create_table "risks", :force => true do |t|

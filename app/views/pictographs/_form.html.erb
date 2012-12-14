@@ -61,6 +61,7 @@
 			      <li><a href="#axis" data-toggle="tab">Axis labels</a></li>
 			      <li><a href="#title" data-toggle="tab">Title font, size, and alignment</a></li>
 						<li><a href="#legend" data-toggle="tab">Legend font, size, and position</a></li>
+						<li><a href="#bg" data-toggle="tab">Background</a></li>
 			    </ul>
 				<% end %>
 			</ul>
@@ -197,6 +198,21 @@
 					</p>
 				</fieldset>
 			</div>
+
+			<div class="tab-pane" id="bg">
+				<fieldset id="bg">
+					<legend>Background</legend>
+				  <div class="field">
+				    <%= f.label :background_color %>
+				    <%= f.text_field :background_color, {:class => 'color-field'} %>
+				  </div>
+					<p class="ft-help">
+					  Leave this blank for a transparent background.<br />
+					  Print format does not support transparency.
+					</p>
+				</fieldset>
+			</div>
+
 		<% end %><%# end advanced tabs %>	
 			
 		</div><!-- End tab content -->

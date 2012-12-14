@@ -1,11 +1,12 @@
-<% unless @pictograph.title.blank? %>
-	<h3 style="text-align: <%=@pictograph.title_alignment%>;font-size: <%=@pictograph.title_font_size%>px;font-family: '<%=@pictograph.title_font%>'; width: <%=@pictograph.table_width%>px; margin-left: <%=@pictograph.axis_width + 30%>px;" id="pictograph-title"><%= @pictograph.title %></h3>
-<% end %>
+<div style="background-color: <%=@pictograph.background_color%>;">
+	<% unless @pictograph.title.blank? %>
+		<h3 style="text-align: <%=@pictograph.title_alignment%>;font-size: <%=@pictograph.title_font_size%>px;font-family: '<%=@pictograph.title_font%>'; width: <%=@pictograph.table_width%>px; margin-left: <%=@pictograph.axis_width + 30%>px;" id="pictograph-title"><%= @pictograph.title %></h3>
+	<% end %>
 
-<%= render 'graph' %>
-<%= render 'legend' %>
-
-<br clear="left" />
+	<%= render 'graph' %>
+	<%= render 'legend' %>
+	<br clear="left" />
+</div>
 
 <% if %[view link].include? controller.action_name %>
 	<div class="actions preview-actions" id="poo">
