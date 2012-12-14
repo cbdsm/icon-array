@@ -58,7 +58,7 @@
 				row << td.html_safe
 				# also, the fill class won't work with icons
 			else
-	    	row << "<td id='cell#{@pictograph.cells - i + 1}' style='background-color: #{@pictograph.risks[0].hex};padding:0; width: #{@pictograph.cell_width}px; height: #{@pictograph.cell_height}px;' class='picto-cell fill#{fill_risk}' data-color='#{fill_color}'><div style='background-color: #{fill_color}; width: #{@pictograph.cell_width }px; height: #{@pictograph.cell_height * dec}px; margin-top: #{@pictograph.cell_height * (1.0 - dec)}px;'></div></td>"
+	    	row << "<td id='cell#{@pictograph.cells - i + 1}' style='background-color: #{@pictograph.risks[0].hex};padding:0; width: #{@pictograph.cell_width}px; height: #{@pictograph.cell_height}px;' class='picto-cell fill#{fill_risk}' data-color='#{fill_color}'><div style='background-color: #{fill_color};  height: #{@pictograph.cell_height * dec}px; margin-top: #{@pictograph.cell_height * (1.0 - dec)}px;'></div></td>"
 			end
 	    if i % @pictograph.cols == 0
 	      if @pictograph.axis_labels

@@ -56,6 +56,8 @@ class PictographsController < ApplicationController
   def create
     if params[:commit] == "export for print"
       redirect_to view_pictographs_path(params[:pictograph].merge(:format => :tif))
+    elsif params[:commit] == "export for web" and params[:pictograph][:background_color].blank?
+     redirect_to view_pictographs_path(params[:pictograph].merge(:format => :png))
     elsif params[:commit] == "export for web"
      redirect_to view_pictographs_path(params[:pictograph].merge(:format => :jpg))
     elsif params[:commit] == "preview"
@@ -140,7 +142,9 @@ class PictographsController < ApplicationController
       format.xml  { render :xml => @pictograph }   
 
       format.jpg {
-        @pictograph.icon.gsub!('png', 'svg') unless @pictograph.icon.blank?
+        if @pictograph.icon and !@pictograph.icon.blank?
+          @pictograph.icon.gsub!('png', 'svg')
+        end
         @pictograph.print = true
         @kit = IMGKit.new(render_to_string('show', :layout => false), 'crop-w' => @pictograph.export_width)
         @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/application.css'
@@ -148,9 +152,22 @@ class PictographsController < ApplicationController
         image = @kit.to_jpg
         send_data(image, :type => "image/jpeg", :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.jpg")
       }
+      format.png {
+        if @pictograph.icon and !@pictograph.icon.blank?
+          @pictograph.icon.gsub!('png', 'svg')
+        end
+        @pictograph.print = true
+        @kit = IMGKit.new(render_to_string('show', :layout => false), {'crop-w' => @pictograph.export_width, 'transparent' => true})
+        @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/application.css'
+        @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/print.css'
+        image = @kit.to_png
+        send_data(image, :type => "image/png", :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.png")
+      }
       format.tif {
         @pictograph.print = true
-        @pictograph.icon.gsub!('png', 'svg')
+        if @pictograph.icon and !@pictograph.icon.blank?
+          @pictograph.icon.gsub!('png', 'svg')
+        end
         @pictograph.cell_width = @pictograph.cell_width * 5
         @pictograph.cell_height = @pictograph.cell_height * 5
         @pictograph.cell_spacing = @pictograph.cell_spacing * 5
