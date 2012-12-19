@@ -11,15 +11,14 @@ module ApplicationHelper
   def icon(icon, color, height=45, width=nil)
     icon_file = icon.split('/').last
     css_width = width.blank? ? '' : "width: #{width}px; "
-    url = case Rails.env
-      when 'production'
-        'http://www.iconarray.com'
-      else 'staging'
-        'http://staging.iconarray.com'
-    end
-    out = image_tag 'icons/' + icon, :style => "height:#{height}px; background-color: #{color}", :class => 'overlay'
+    out = image_tag asset_url('icons/' + icon), :style => "height:#{height}px; background-color: #{color}", :class => 'overlay'
     # out = "<img src='#{url}/images/icons/#{icon_file}' style='#{css_width}height:#{height}px; background-color: #{color}' class='overlay' />"
 		return out.html_safe
+  end
+
+  def asset_url(asset)
+      "http://www.iconarray.com#{asset_path(asset)}"
+      # "#{request.protocol}#{request.host_with_port}#{asset_path(asset)}"
   end
   
   def box(color, height=45, width=nil)
