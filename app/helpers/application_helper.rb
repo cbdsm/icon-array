@@ -17,8 +17,8 @@ module ApplicationHelper
       else 'staging'
         'http://staging.iconarray.com'
     end
-    # out = image_tag icon, :style => "height:#{height}px; background-color: #{color}", :class => 'overlay'
-    out = "<img src='#{url}/images/icons/#{icon_file}' style='#{css_width}height:#{height}px; background-color: #{color}' class='overlay' />"
+    out = image_tag 'icons/' + icon, :style => "height:#{height}px; background-color: #{color}", :class => 'overlay'
+    # out = "<img src='#{url}/images/icons/#{icon_file}' style='#{css_width}height:#{height}px; background-color: #{color}' class='overlay' />"
 		return out.html_safe
   end
   
