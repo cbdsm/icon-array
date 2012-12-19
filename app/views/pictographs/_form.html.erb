@@ -81,8 +81,9 @@
 					<legend>Icon</legend>
 				  <div class="field">
 						<%=box(@pictograph.risks.first.hex, 45)%>
-				    <% for icon in Pictograph.icons %>
-							<%=icon(icon, @pictograph.risks.first.hex, 45) %>
+				    <% for icon in %w[oval avatar male female] %>
+				    	<% url = "https://s3.amazonaws.com/icon-array/icons/#{icon}.png" %>
+							<%=icon(url, @pictograph.risks.first.hex, 45) %>
 						<% end %>
 						<%= f.hidden_field :icon %>
 				  </div>
