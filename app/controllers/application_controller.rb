@@ -6,13 +6,15 @@ class ApplicationController < ActionController::Base
   
   private
     def set_params
+      get_host = request.protocol + request.host
+      get_host += ":#{request.port}" if ![80, 443].include? request.port
+
       # This is either a manual reset or a request like http://www.iconarray.com
       if params[:reset] or (request.env["HTTP_REFERER"].nil? and request.fullpath['?'].nil?)
         session.delete(:pictograph)
         @p = Hash.new
       # This is a link containing a valid picto, like so: ?pictograph[title]=XXX
       elsif !params[:pictograph].blank?
-        logger.info params[:pictograph].inspect
         if session[:pictograph]
           session[:pictograph] = params[:pictograph]
           # session[:pictograph].deep_merge!(params[:pictograph])
@@ -28,9 +30,9 @@ class ApplicationController < ActionController::Base
           @p[:risks_attributes].delete(i) if risk['_destroy'] == '1' or risk['_destroy'] == 1
         end
         session[:pictograph] = @p
-      # We have a non-local referrrer OR a valid query string and NO referrer 
+      # We have a non-local referrer OR a valid query string and NO referrer 
       # (i.e. we're being linked to or enbedded)
-      elsif (!request.env["HTTP_REFERER"].nil? and !%w[www.iconarray.com iconarray.com staging.iconarray.com localhost iconarray-staging.herokuapp.com].include? URI.parse(request.env["HTTP_REFERER"]).host) or (request.env["HTTP_REFERER"].nil? and !request.fullpath['?'].nil?)
+      elsif (!request.env["HTTP_REFERER"].nil? and !%w[www.iconarray.com iconarray.com staging.iconarray.com localhost iconarray-staging.herokuapp.com].include? URI.parse(request.env["HTTP_REFERER"]).host) or (request.env["HTTP_REFERER"].nil? and !request.fullpath['?'].nil?) or (request.env["HTTP_REFERER"] == "#{get_host}/examples")
         @p = params
         @advanced = true
         session[:advanced] = @advanced
