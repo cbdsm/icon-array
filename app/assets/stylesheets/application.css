@@ -346,9 +346,15 @@ li.icons-tab a {
 	padding-bottom: 7px;
 }
 
+/* ABOUT PAGE */
+#bzf-image,
+#how-image {
+	float: right;
+	margin: 5px 0 15px 15px;
+}
+
 /* WHY PAGE */
-img#why-icon-array,
-#about-image {
+img#why-icon-array {
 	float: right;
 	margin: 15px 0 15px 15px;
 }
