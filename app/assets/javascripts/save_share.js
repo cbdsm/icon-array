@@ -66,12 +66,15 @@ $(document).ready(function() {
 			// We check to see if the first risk has text
 			// If not, don't show the legend (i.e. width is just table width)
 			var width = $('table.pictograph').width();
-			if ($('input#risks_1_description').val() != '') {
+			var height = $('table.pictograph').height();
+			if ($('#pictograph_legend_position').val() == 'below') {
+				height += 200; // FIXME: This should be dependent on the number of viewable risks
+			} else if ($('input#risks_1_description').val() != '') {
 				width += 420;
 			}
 			// NOTE: width and height need to be calculated
 			// and to depend on whether there is a legend or not (i.e. whether there are risk descriptions)
-			$('#embed div#full-embed p').text('<iframe src="' + url + '/pictographs/embed?' + formvars + '" type="text/html" width="' + width + '" height="550" scrolling="no" frameborder="0"></iframe>');
+			$('#embed div#full-embed p').text('<iframe src="' + url + '/pictographs/embed?' + formvars + '" type="text/html" width="' + width + '" height="' + height + '" scrolling="no" frameborder="0"></iframe>');
 			// $('#embed div.modal-body p').text('<iframe src="" type="text/html" width="' + width + '" height="550" scrolling="no" frameborder="0"></iframe>');
 			biturl = 'http://www.iconarray.com' + '/pictographs/embed/?' + formvars;
 			bit_embed(biturl, '#embed div#short-embed p');

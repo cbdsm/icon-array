@@ -60,10 +60,10 @@
 	  	</ul>
 	  	<div class="tab-content">
 	  		<div class="tab-pane" id="short-embed">
-	    		<p><%= "<iframe src='#{@short_embed_url}' type='text/html' width='#{@pictograph.export_width}' height='550' scrolling='no' frameborder='0'></iframe>" %></p>
+	    		<p><%= "<iframe src='#{@short_embed_url}' type='text/html' width='#{@pictograph.export_width}' height='#{@pictograph.export_height}' scrolling='no' frameborder='0'></iframe>" %></p>
 	    	</div>
 	    	<div class="tab-pane" id="full-embed">
-	    		<p><%= "<iframe src='#{@embed_url}' type='text/html' width='#{@pictograph.export_width}' height='550' scrolling='no' frameborder='0'></iframe>" %></p>
+	    		<p><%= "<iframe src='#{@embed_url}' type='text/html' width='#{@pictograph.export_width}' height='#{@pictograph.export_height}' scrolling='no' frameborder='0'></iframe>" %></p>
 	    	</div>
 	    </div>
 	  </div>

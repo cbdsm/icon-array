@@ -41,12 +41,6 @@ GEM
       httparty (>= 0.7.6)
       oauth2 (>= 0.5.0, < 0.9)
     builder (3.0.4)
-    capistrano (2.13.4)
-      highline
-      net-scp (>= 1.0.0)
-      net-sftp (>= 2.0.0)
-      net-ssh (>= 2.0.14)
-      net-ssh-gateway (>= 1.1.0)
     cocaine (0.4.2)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
@@ -73,7 +67,6 @@ GEM
       rubyzip
     heroku-api (0.3.5)
       excon (~> 0.16.1)
-    highline (1.6.15)
     hike (1.2.1)
     httparty (0.9.0)
       multi_json (~> 1.0)
@@ -104,13 +97,6 @@ GEM
     multi_xml (0.5.1)
     multipart-post (1.1.5)
     mysql2 (0.3.11)
-    net-scp (1.0.4)
-      net-ssh (>= 1.99.1)
-    net-sftp (2.0.5)
-      net-ssh (>= 2.0.9)
-    net-ssh (2.6.1)
-    net-ssh-gateway (1.1.0)
-      net-ssh (>= 1.99.1)
     netrc (0.7.7)
     nokogiri (1.5.5)
     oauth2 (0.8.0)
@@ -193,7 +179,6 @@ DEPENDENCIES
   acts_as_list
   aws-sdk
   bitly
-  capistrano
   coffee-rails (~> 3.2.1)
   deep_merge
   heroku

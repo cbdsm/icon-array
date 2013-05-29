@@ -35,6 +35,10 @@ class Pictograph < ActiveRecord::Base
   def table_width
     (cell_width  * cols) + (cell_spacing * (cols - 1)) + axis_width + (cols * 2)
   end
+
+  def table_height
+    (cell_height  * rows) + (cell_spacing * (rows - 1))
+  end
   
   def axis_margin_top
     ((cell_height + axis_line_height + cell_spacing) / 2).round
@@ -46,11 +50,17 @@ class Pictograph < ActiveRecord::Base
   
   def export_width
     out = table_width + axis_width
-    out += legend_width if show_legend?
+    out += legend_width if show_legend? and legend_position != 'below'
     out += axis_adjustment if axis_width == 0 # export margin
     return out
   end
   
+  def export_height
+    out = table_height + 100 
+    out += (50 * risks.length) if show_legend? and legend_position == 'below'
+    return out
+  end
+
   def bottom_axis_margin_top
     (cell_spacing + axis_line_height).round
   end
