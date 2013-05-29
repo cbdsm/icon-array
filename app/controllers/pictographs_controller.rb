@@ -1,5 +1,5 @@
 class PictographsController < ApplicationController
-  before_filter :set_params
+  before_filter :set_params, :except => [:embed]
   
   # GET /pictographs
   # GET /pictographs.json
@@ -196,6 +196,13 @@ class PictographsController < ApplicationController
   # GET /pictographs/embed
   # GET /pictographs/embed.json
   def embed
+    @p = params
+    @advanced = true
+    @p.delete :action
+    @p.delete :controller
+    @p.delete :advanced
+    @p.delete :format
+    @p.delete :tab
     @pictograph = Pictograph.new(@p)
     logger.info @pictograph.inspect
     
