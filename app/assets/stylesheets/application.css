@@ -158,6 +158,12 @@ table.pictograph td.picto-cell div {
 table.pictograph td.picto-cell img {
 	vertical-align: bottom;
 }
+div.no-axis-labels {
+	margin-left: 80px;
+}
+.no-axis-labels table.pictograph {
+	margin: 20px 40px 0 -5px;
+}
 td.picto-axis-label {
   text-align: right;
 }
@@ -251,6 +257,9 @@ div.actions {
 	padding-top: 10px;
 	width: 290px;
 	margin-left: 75px;
+}
+.no-axis-labels div.actions {
+	margin-left: 25px;
 }
 div.actions a, div.actions input {
 	display: block;
