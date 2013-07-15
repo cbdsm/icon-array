@@ -20,7 +20,7 @@
 
 	<%= render 'graph' %>
 
-	<div id="editor" class="<%='wide-editor' if @pictograph.table_width > 400 %>">
+	<div id="editor" class="<%='wide-editor' if @pictograph.table_width > 400 %> <%='no-axis-labels' if !@pictograph.axis_labels%>">
 			<ul class="nav nav-tabs">
 				<% @tab_risks = @pictograph.risks.clone %>
 				<% @off_risk = @tab_risks.shift %>

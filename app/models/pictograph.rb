@@ -52,6 +52,7 @@ class Pictograph < ActiveRecord::Base
     out = table_width + axis_width
     out += legend_width if show_legend? and legend_position != 'below'
     out += axis_adjustment if axis_width == 0 # export margin
+    out += 30 if axis_width == 0 and legend_position == 'below'
     return out
   end
   

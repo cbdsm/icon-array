@@ -1,4 +1,4 @@
-<table class='pictograph <%='no-axis-labels' if !@pictograph.axis_labels%>' style="border-spacing: <%=@pictograph.cell_spacing%>px; width: <%=@pictograph.table_width%>px; <%="margin-left: #{@pictograph.axis_font_size * 6}px;" if !@pictograph.axis_labels and !@pictograph.print%>">
+<table class='pictograph' style="border-spacing: <%=@pictograph.cell_spacing%>px; width: <%=@pictograph.table_width%>px; ">
 	<% row = Array.new %>
 	<% all = Array.new %>
 	<%# we always set the off color to 0 %>

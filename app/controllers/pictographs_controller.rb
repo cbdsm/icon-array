@@ -118,6 +118,10 @@ class PictographsController < ApplicationController
   
   # GET /pictographs/view
   # GET /pictographs/view.json
+  # GET /pictographs/view.xml
+  # GET /pictographs/view.jpg
+  # GET /pictographs/view.png
+  # GET /pictographs/view.tif
   def view
     @pictograph = Pictograph.new(@p)
     respond_to do |format|
