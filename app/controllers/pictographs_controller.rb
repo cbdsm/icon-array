@@ -179,19 +179,25 @@ class PictographsController < ApplicationController
         @pictograph.title_font_size = @pictograph.title_font_size * 5
         @pictograph.legend_font_size = @pictograph.legend_font_size * 5
         @pictograph.legend_width = @pictograph.legend_width * 5
-        
-        # We have to do all of this with files, since stdin/stdout don't seem to work with wkhtmltoimage
-        inpath = "#{Rails.root.to_s}/tmp/tiff_#{Time.now.to_i}.html"
-        outpath = "#{Rails.root.to_s}/tmp/tiff_#{Time.now.to_i}.tiff"
-        infile = File.open(inpath,'w:ASCII-8BIT') {|file| file << render_to_string('show.tif.erb')}
-        
-        bin = ENV['RACK_ENV'] == 'production' ? Rails.root.join('bin', 'wkhtmltoimage-amd64').to_s : 'wkhtmltoimage'       
-                
-        `#{bin} --format tiff --user-style-sheet #{Rails.root.to_s + '/app/assets/stylesheets/application.css'} #{inpath} #{outpath}`
 
-        send_file outpath, :type => 'image/tiff', :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.tiff", :stream => false
-        # File.unlink(inpath)
-        File.unlink(outpath)
+        @kit = IMGKit.new(render_to_string('show', :layout => false), 'crop-w' => @pictograph.export_width)
+        @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/application.css'
+        @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/print.css'
+        image = @kit.to_jpg
+        send_data(image, :type => "image/tiff", :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.tiff")
+        
+        # # We have to do all of this with files, since stdin/stdout don't seem to work with wkhtmltoimage
+        # inpath = "#{Rails.root.to_s}/tmp/tiff_#{Time.now.to_i}.html"
+        # outpath = "#{Rails.root.to_s}/tmp/tiff_#{Time.now.to_i}.tiff"
+        # infile = File.open(inpath,'w:ASCII-8BIT') {|file| file << render_to_string('show.tif.erb')}
+        
+        # bin = ENV['RACK_ENV'] == 'production' ? Rails.root.join('bin', 'wkhtmltoimage-amd64').to_s : 'wkhtmltoimage'       
+                
+        # `#{bin} --format tiff --user-style-sheet #{Rails.root.to_s + '/app/assets/stylesheets/application.css'} #{inpath} #{outpath}`
+
+        # send_file outpath, :type => 'image/tiff', :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.tiff", :stream => false
+        # # File.unlink(inpath)
+        # File.unlink(outpath)
       }
       
     end
