@@ -112,7 +112,7 @@ $(document).ready(function() {
 		$('input').removeClass('active');
 		$(this).addClass('active');
 		
-		if ($(this).hasClass('value-field')) {
+		if ($(this).hasClass('value-field') && !decimal) {
 			curRisk = current_risk();
 			$('table.pictograph').addClass('active');
 			$('.help:visible').hide();
@@ -258,6 +258,8 @@ $(document).ready(function() {
 		if ($(this).val() % 1 != 0) {
 			decimal = true;
 			$('#decimal-alert').show();
+		} else if (!decimal) {
+			$('#decimal-alert').hide();
 		}
 	   // updateMultiple($(this).val(), $('div.tab-content div.active').find('input.color-field').val());
 	});
