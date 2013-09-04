@@ -3,7 +3,7 @@
 		<div class="field">
 			<h4 class="field-title">Number/Risk/Frequency</h4>
 			
-	    <%= number_field_tag "pictograph[risks_attributes][#{i}][value]", value, {:step => '.01', :class => 'span1 risk-field editable value-field', :id => "risks_#{i}_value", :autofocus => true} %>
+	    <%= text_field_tag "pictograph[risks_attributes][#{i}][value]", value, {:class => 'span1 risk-field editable value-field', :id => "risks_#{i}_value", :autofocus => true} %>
 			<%=link_to 'ok', "#", {:id => "risks_#{i}_value_submit", :class => 'btn submittable hide description-field'}%>
 
 	

@@ -22,5 +22,6 @@ $(document).ready(function() {
 	 cells = rows * cols;
 	 width = $('td#cell1').width();
 	 height = $('td#cell1').height();
+	 decimal = false;
 
 });

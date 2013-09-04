@@ -221,8 +221,13 @@
 		<p class="help hide" id="value-help">
 		  Click on any square/icon in the array to set the number of risk events, or just set the number in the highlighted box.
 		</p>
+
 		<p class="help hide" id="off-help">
 		  Click on the number in the highlighted yellow box to change the number of risk events.
+		</p>
+
+		<p class="alert alert-error" style="display: none;" id="decimal-alert">
+			If you are using decimal risks, you won't be able to click on the icon array to set a value.
 		</p>
 		
 	</div>
@@ -239,8 +244,8 @@
 		    <%=image_tag('icons-download.png', :alt => 'download') %>
 		  </a>
 		  <ul class="dropdown-menu">
-		    <li><%= image_submit_tag("icons-web.png", :name => 'commit', :value => 'export for web', :alt => "download this icon array as an image optimized for use on the web") %></li>
-				<li><%= image_submit_tag("icons-print.png", :name => 'commit', :value => 'export for print', :alt => "download this icon array as an image optimized for use in a print document") %></li>
+		    <li><%= html5_image_submit_tag("icons-web.png", :name => 'commit', :value => 'export for web', :alt => "download this icon array as an image optimized for use on the web") %></li>
+				<li><%= html5_image_submit_tag("icons-print.png", :name => 'commit', :value => 'export for print', :alt => "download this icon array as an image optimized for use in a print document") %></li>
 		  </ul>
 		</div>
   </div>

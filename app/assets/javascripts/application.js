@@ -254,9 +254,13 @@ $(document).ready(function() {
 	//    updateMultiple($(this).val(), $('div.tab-content div.active').find('input.color-field').val());
 	// });
 	// 
-	// $('form .tab-content div.active input.risk-field').keyup(function(){
-	//    updateMultiple($(this).val(), $('div.tab-content div.active').find('input.color-field').val());
-	// });
+	$('form .tab-content div.active input.risk-field').keyup(function(){
+		if ($(this).val() % 1 != 0) {
+			decimal = true;
+			$('#decimal-alert').show();
+		}
+	   // updateMultiple($(this).val(), $('div.tab-content div.active').find('input.color-field').val());
+	});
 	// 
 	// $('form .tab-content div.active input.risk-field').mousewheel(function(){
 	// 	var val = $(this).val();
@@ -288,24 +292,26 @@ $(document).ready(function() {
 	$('body').on('hover', 'table.pictograph.active td.picto-cell', function( event ) {
 		// in
 		if ( event.type === 'mouseenter' ) {
-			var index = $('form ul.nav li.active a').attr('href').replace('#color', '');
-			
-			// Form values
-			var thisRisk = $(this).attr('id').replace('cell', ''); // value of the cell we're on
-			tmpRisk = current_risk();
-			prevRisk = previous_risk();
-			var prevTotal = previous_total();
-			
-			if (thisRisk > prevTotal) {
-				// If we're moving up
-				if (thisRisk > tmpRisk) {
-					var color = $('form ul.nav li.active a').attr('data-color');
-				// Otherwise we're moving back
-				} else {			
-					var color = $('input#pictograph_risks_attributes_0_hex').val();
-				}
-				change_color($(this), color);
-			}	   
+			if (!decimal) {
+				var index = $('form ul.nav li.active a').attr('href').replace('#color', '');
+				
+				// Form values
+				var thisRisk = $(this).attr('id').replace('cell', ''); // value of the cell we're on
+				tmpRisk = current_risk();
+				prevRisk = previous_risk();
+				var prevTotal = previous_total();
+				
+				if (thisRisk > prevTotal) {
+					// If we're moving up
+					if (thisRisk > tmpRisk) {
+						var color = $('form ul.nav li.active a').attr('data-color');
+					// Otherwise we're moving back
+					} else {			
+						var color = $('input#pictograph_risks_attributes_0_hex').val();
+					}
+					change_color($(this), color);
+				}	 
+			}  
 
 		} else { // Mouse exit
 			var curColor = $(this).attr('data-color');
@@ -315,27 +321,29 @@ $(document).ready(function() {
 	
 	// This actually sets the value
 	$('body').on('click', 'table.pictograph.active td.picto-cell', function( event ) {
-		var thisRisk = Number($(this).attr('id').replace('cell', '')); // value of the cell we're on
-		var totalRisk = previous_total();
-		var curRisk = current_risk();
+		if (!decimal) {
+			var thisRisk = Number($(this).attr('id').replace('cell', '')); // value of the cell we're on
+			var totalRisk = previous_total();
+			var curRisk = current_risk();
 
-		// We only allow updates down to the end of the previous color
-		// Except if we're on the last color
-		if (thisRisk > totalRisk) {
-			if (thisRisk <= curRisk) {
-				thisRisk--;
+			// We only allow updates down to the end of the previous color
+			// Except if we're on the last color
+			if (thisRisk > totalRisk) {
+				if (thisRisk <= curRisk) {
+					thisRisk--;
+				}
+			
+				$('form .tab-content div.active input.value-field').val(thisRisk - totalRisk);
+				$('form .tab-content div.active input.destroy').val('0');
+				updateMultiple(thisRisk, $('div.tab-content div.active').find('input.color-field').val());
+
+				$('a.submittable:visible').hide();
+				$('table.pictograph').removeClass('active');
+				$('p#off-help').show();
+				$('input.value-field:visible').addClass('highlight');
 			}
-		
-			$('form .tab-content div.active input.value-field').val(thisRisk - totalRisk);
-			$('form .tab-content div.active input.destroy').val('0');
-			updateMultiple(thisRisk, $('div.tab-content div.active').find('input.color-field').val());
-
-			$('a.submittable:visible').hide();
-			$('table.pictograph').removeClass('active');
-			$('p#off-help').show();
-			$('input.value-field:visible').addClass('highlight');
+			// This is a start to keep the picto active at all times
 		}
-		// This is a start to keep the picto active at all times
 		$('input.value-field:visible').focus();
 	});
 	
