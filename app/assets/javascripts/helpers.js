@@ -70,4 +70,5 @@ function change_color(el, color) {
 	} else {
 		el.find('div').css('background-color', color);
 	}
+	el.css('background-color', $('input#pictograph_risks_attributes_0_hex').val());
 }

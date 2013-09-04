@@ -57,8 +57,8 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 	}
 	
 	// reset the inner div height
-	$('td.picto-cell div').height(height);
-	$('td.picto-cell div').css('margin-top', '0');
+	// $('td.picto-cell div').height(height);
+	// $('td.picto-cell div').css('margin-top', '0');
 	
 	// We're increasing
 	if (diff > 0) {
@@ -96,6 +96,14 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 			var tabRisk = hiTabs.first().find('input.value-field').val();
 			updateMultiple(thisRisk + Number(tabRisk), color, thisRisk + 1, hiTabs.first());
 		}
+
+	if (Math.round(curRisk) != curRisk) {
+		if (debug) alert('bottom dec');
+		var diff = Math.ceil(curRisk) - curRisk;
+		var nextColor = el2.children('div:first').css('background-color');
+		el.children('div').height(height * (1.0 - diff)).css('margin-top', height * diff);
+		el.css('background-color', nextColor);
+	}
 		
 	// We're decreasing
 	// row2 is the first row here
@@ -151,8 +159,10 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 	}
 	
 	// If we need to adjust the value for a decimal
-	if (decRisk > 0.0) {
-		el2.children('div').height(height * (1.0 - decRisk)).css('margin-top', height * decRisk);
+	if (Math.round(thisRisk) != thisRisk) {
+		if (debug) alert('top dec');
+		var diff = Math.ceil(thisRisk) - thisRisk;
+		el2.children('div').height(height * (1.0 - diff)).css('margin-top', height * diff);
 		el2.css('background-color', $('input#pictograph_risks_attributes_0_hex').val());
 	}
 	

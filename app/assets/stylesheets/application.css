@@ -284,7 +284,8 @@ div.actions ul.dropdown-menu {
 	display: inline;
 }
 
-p.help {
+p.help,
+p.alert {
 	margin-top: 30px;
 	display: block;
 	width: 280px;

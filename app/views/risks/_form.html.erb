@@ -3,7 +3,7 @@
 		<h4 class="field-title">Number/Risk/Frequency</h4>
 		
 		<!-- Risk field -->
-    <%= r.number_field :value, {:step => '.01', :class => 'span1 risk-field editable value-field', :id => "risks_#{i}_value", :autofocus => (i == 1), :disabled => i == 0, :value => (i == 0 ? @pictograph.off_value : r.object.value )  } %>
+    <%= r.text_field :value, {:class => 'span1 risk-field editable value-field', :id => "risks_#{i}_value", :autofocus => (i == 1), :disabled => i == 0, :value => (i == 0 ? @pictograph.off_value : r.object.value )  } %>
 		<%=link_to 'ok', "#", {:id => "risks_#{i}_value_submit", :class => 'btn submittable hide description-field'}%>
 		
 		<!-- Population field (i.e. 'out of 100' )-->
