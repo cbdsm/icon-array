@@ -17,15 +17,13 @@ var updateSingle = function(val) {
 };
 
 var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
-	// alert(thisRisk);
+	
 	// Table index values
 
 	var cmpRisk = passInRisk || curRisk;
 	var thisTab = passInTab || $('.tab-content div.active');
 	
-	if (debug) {
-		alert('curRisk: ' + cmpRisk + ' thisRisk: ' + thisRisk);
-	}
+	debug_log('\ncurRisk: ' + cmpRisk + ' thisRisk: ' + thisRisk);
 	
 	var adjRisk = Math.ceil(thisRisk); // integer risk
 	var decRisk = adjRisk - thisRisk; // leftover decimal risk
@@ -51,10 +49,9 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 	var endVal;
 	var endRow;
 			
-	if (debug) {
-		alert('Row1: ' + row1 + ', Column1: ' + col1 + 'Row2: ' + row2 + ', Column2: ' + col2);	
-		alert("just clicked: " + val + " current value: " + curVal);
-	}
+	debug_log("just clicked: " + val + " current value: " + curVal);		
+	debug_log('Row1: ' + row1 + ', Column1: ' + col1);
+	debug_log('Row2: ' + row2 + ', Column2: ' + col2);	
 	
 	// reset the inner div height
 	// $('td.picto-cell div').height(height);
@@ -95,15 +92,34 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 			var color = hiTabs.first().find('input.color-field').val();
 			var tabRisk = hiTabs.first().find('input.value-field').val();
 			updateMultiple(thisRisk + Number(tabRisk), color, thisRisk + 1, hiTabs.first());
+		} else {
+			var color = $('input#pictograph_risks_attributes_0_hex').val();
 		}
 
-	if (Math.round(curRisk) != curRisk) {
-		if (debug) alert('bottom dec');
-		var diff = Math.ceil(curRisk) - curRisk;
-		var nextColor = el2.children('div:first').css('background-color');
-		el.children('div').height(height * (1.0 - diff)).css('margin-top', height * diff);
-		el.css('background-color', nextColor);
-	}
+		if (Math.round(curRisk) != curRisk) {
+			debug_log('decimalizing lower value: ' + el.children('div:first').html());
+			var bgColor = el2.children('div:first').css('background-color');
+			var fgColor = el.children('div').css('background-color');
+			debug_log("BG color: " + bgColor + ', FG color: ' + fgColor);
+
+			if (fgColor == bgColor) {
+				el.children('div').height(height).css('margin-top', 0);
+				el.css('background-color', $('input#pictograph_risks_attributes_0_hex').val());
+			} else {
+				var diff = Math.ceil(curRisk) - curRisk;
+				el.children('div').height(height * (1.0 - diff)).css('margin-top', height * diff);
+				el.css('background-color', bgColor);
+			}
+		}
+
+		// If we need to adjust the value for a decimal
+		if (Math.round(thisRisk) != thisRisk) {
+			debug_log('decimalizing higher value: ' + el2.children('div:first').html());
+			var diff = Math.ceil(thisRisk) - thisRisk;
+			var bgColor = el2.children('div:first').css('background-color');
+			el2.children('div').height(height * (1.0 - diff)).css('margin-top', height * diff);
+			el2.css('background-color', color);
+		}
 		
 	// We're decreasing
 	// row2 is the first row here
@@ -155,15 +171,40 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 			var val = $('table.pictograph td.picto-cell').index(htCell) - diff;
 
 			updateMultiple(thisRisk + Number(tabRisk), color, val, hiTabs.first());
+		} else {
+			var color = $('input#pictograph_risks_attributes_0_hex').val();
 		}
-	}
-	
-	// If we need to adjust the value for a decimal
-	if (Math.round(thisRisk) != thisRisk) {
-		if (debug) alert('top dec');
-		var diff = Math.ceil(thisRisk) - thisRisk;
-		el2.children('div').height(height * (1.0 - diff)).css('margin-top', height * diff);
-		el2.css('background-color', $('input#pictograph_risks_attributes_0_hex').val());
+
+		if (Math.round(curRisk) != curRisk) {
+			debug_log('decimalizing lower value: ' + el.children('div:first').html());
+			el.children('div').height(height).css('margin-top', 0);
+			el.css('background-color', $('input#pictograph_risks_attributes_0_hex').val());
+		}
+
+		// if (Math.round(curRisk) != curRisk) {
+			
+		// 	var bgColor = el2.children('div:first').css('background-color');
+		// 	var fgColor = el.children('div').css('background-color');
+		// 	debug_log("BG color: " + bgColor + ', FG color: ' + fgColor);
+
+		// 	if (fgColor == bgColor) {
+		// 		el.children('div').height(height).css('margin-top', 0);
+		// 		el.css('background-color', color);
+		// 	} else {
+		// 		var diff = Math.ceil(curRisk) - curRisk;
+		// 		el.children('div').height(height * (1.0 - diff)).css('margin-top', height * diff);
+		// 		el.css('background-color', bgColor);
+		// 	}
+		// }
+
+		// If we need to adjust the value for a decimal
+		if (Math.round(thisRisk) != thisRisk) {
+			debug_log('decimalizing higher value: ' + el2.children('div:first').html());
+			var diff = Math.ceil(thisRisk) - thisRisk;
+			el2.children('div').height(height * (1.0 - diff)).css('margin-top', height * diff);
+			el2.css('background-color', htColor);
+		}
+
 	}
 	
 	// Set the form val

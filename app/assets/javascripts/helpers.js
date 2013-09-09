@@ -65,10 +65,33 @@ function change_color(el, color) {
 	} else {
 		var testImg = el;
 	}
+	var height = testImg.height();
+
 	if (testImg.find('img').length > 0) {
 		el.find('img').css('background-color', color);
 	} else {
 		el.find('div').css('background-color', color);
 	}
 	el.css('background-color', $('input#pictograph_risks_attributes_0_hex').val());
+
+	el.each(function(){
+		$(this).find('div:first').height(height).css('margin-top', '0');
+	});
+}
+
+function num_decimals() {
+	var decs = 0;
+	$('form .tab-content div.active input.risk-field').each(function(){
+		if ($(this).val() % 1 != 0) {
+			decs++;
+		}
+	});
+	return decs;
+}
+
+function debug_log(message) {
+	// This allows for easy console
+	if(window.console && debug){ 
+		console.log(message);
+	}
 }
