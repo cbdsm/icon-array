@@ -112,12 +112,14 @@ $(document).ready(function() {
 		$('input').removeClass('active');
 		$(this).addClass('active');
 		
-		if ($(this).hasClass('value-field') && !decimal) {
+		if ($(this).hasClass('value-field')) {
 			curRisk = current_risk();
-			$('table.pictograph').addClass('active');
-			$('.help:visible').hide();
-			$('p#value-help').show();
-			$(this).removeClass('highlight');
+			if (decimals < 1) {
+				$('table.pictograph').addClass('active');
+				$('.help:visible').hide();
+				$('p#value-help').show();
+				$(this).removeClass('highlight');
+			}
 		} else {
 			$('input.value-field:visible').addClass('highlight');
 			$('table.pictograph').removeClass('active');
@@ -254,14 +256,20 @@ $(document).ready(function() {
 	//    updateMultiple($(this).val(), $('div.tab-content div.active').find('input.color-field').val());
 	// });
 	// 
-	$('form .tab-content div.active input.risk-field').keyup(function(){
-		if ($(this).val() % 1 != 0) {
-			decimal = true;
-			$('#decimal-alert').show();
-		} else if (!decimal) {
-			$('#decimal-alert').hide();
+	$("body").on("keyup", "form .tab-content div.active input.risk-field", function(event){
+		decimals = num_decimals();
+		if (decimals > 0) {
+			$('input.value-field:visible').addClass('highlight');
+			$('table.pictograph').removeClass('active');
+			$('.help:visible').hide();
+			$('p#off-help').show();
+		} else {
+			$('table.pictograph').addClass('active');
+			$('.help:visible').hide();
+			$('p#value-help').show();
+			$(this).removeClass('highlight');
 		}
-	   // updateMultiple($(this).val(), $('div.tab-content div.active').find('input.color-field').val());
+
 	});
 	// 
 	// $('form .tab-content div.active input.risk-field').mousewheel(function(){
@@ -291,10 +299,23 @@ $(document).ready(function() {
 	});
 	
 	// This gives us the cell hover effect for choosing a value
+	$('body').on('hover', 'table.pictograph', function( event ) {
+		// in
+		if ( event.type === 'mouseenter' ) {
+			if (decimals > 0) {
+				$('#decimal-alert').show();
+			} 
+		// out
+		} else {
+			$('#decimal-alert').hide();
+		}
+	});
+
+	// This gives us the cell hover effect for choosing a value
 	$('body').on('hover', 'table.pictograph.active td.picto-cell', function( event ) {
 		// in
 		if ( event.type === 'mouseenter' ) {
-			if (!decimal) {
+			if (decimals < 1) {
 				var index = $('form ul.nav li.active a').attr('href').replace('#color', '');
 				
 				// Form values
@@ -323,7 +344,7 @@ $(document).ready(function() {
 	
 	// This actually sets the value
 	$('body').on('click', 'table.pictograph.active td.picto-cell', function( event ) {
-		if (!decimal) {
+		if (decimals < 1) {
 			var thisRisk = Number($(this).attr('id').replace('cell', '')); // value of the cell we're on
 			var totalRisk = previous_total();
 			var curRisk = current_risk();

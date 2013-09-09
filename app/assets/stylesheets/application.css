@@ -356,6 +356,19 @@ li.icons-tab a {
 	padding-bottom: 7px;
 }
 
+#decimal-alert {
+	display: none; 
+	position:absolute; 
+	left: 270px; 
+	top: 200px;
+}
+#thousand-alert {
+	display: none; 
+	position:absolute; 
+	left: 270px; 
+	top: 250px;
+}
+
 /* ABOUT PAGE */
 #bzf-image,
 #how-image {
