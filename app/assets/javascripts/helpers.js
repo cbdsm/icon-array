@@ -59,6 +59,20 @@ function hex2rgb(hexStr){
 	}	    
 }
 
+function hex2rgbstr(hexStr){
+   // note: hexStr should be #rrggbb
+	if (hexStr[0] != '#') {
+		var rgb = hexStr.replace('rgb(', '').replace(')', '')
+		return rgb.split(',');
+	} else {
+		var hex = parseInt(hexStr.substring(1), 16);
+    var r = (hex & 0xff0000) >> 16;
+    var g = (hex & 0x00ff00) >> 8;
+    var b = hex & 0x0000ff;
+		return 'rgb(' + r + ', ' + g + ', ' + b + ')';
+	}	    
+}
+
 function change_color(el, color) {
 	if (el.length > 1) {
 		var testImg = el.first();

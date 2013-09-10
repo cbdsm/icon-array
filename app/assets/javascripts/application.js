@@ -149,6 +149,10 @@ $(document).ready(function() {
 		$('a.submittable:visible').hide();
 		$('table.pictograph').removeClass('active');
 		$('.help:visible').hide();
+
+		color = hex2rgbstr($("input.color-field:visible").val());
+		color_cells = $('td.picto-cell div').filter(function() { return ( $(this).css('background-color') == color )});
+		color_bgs = $('td.picto-cell').filter(function() { return ( $(this).css('background-color') == color )});
 	});
 	
 	
@@ -285,10 +289,9 @@ $(document).ready(function() {
 		$(this).miniColors({
 	    change: function(hex, rgb) {
 				$(this).val(hex);
-				var klass = $(this).attr('id').replace('pictograph_risks_attributes_', '').replace('_hex', '');
-				$('td.fill' + klass + ' div').css('background-color', hex);
-				$('td.fill' + klass + ' img').css('background-color', hex);
-				$('td.fill' + klass).attr('data-color', hex);
+				color_cells.css('background-color', hex); 
+				color_bgs.css('background-color', hex);
+
 				//$(this).parent().prev('div.legend-icon').css('background-color', hex);
 				
 				$('form ul.nav li.active a').attr('data-color', hex);

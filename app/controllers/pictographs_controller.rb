@@ -39,6 +39,8 @@ class PictographsController < ApplicationController
   def new    
     @pictograph = Pictograph.new(@p)
 
+    logger.info @pictograph.risks.inspect
+
     respond_to do |format|
       format.html # new.html.erb 
       format.xml  { render :xml => @pictograph }

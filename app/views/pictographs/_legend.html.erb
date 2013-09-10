@@ -21,7 +21,7 @@
 					<% unless risk.value.blank? %>
 						<span id="#risks_<%=risk.position%>_value" class="risk-val"><%= risk.value == risk.value.round ? risk.value.to_i : risk.value %></span>
 					<% else%>
-						<span id="#risks_<%=risk.position%>_value" class="risk-val"><%= @pictograph.off_value == @pictograph.off_value.round ? @pictograph.off_value.to_i : @pictograph.off_value %></span>
+						<span id="#risks_<%=risk.position%>_value" class="risk-val"><%= @pictograph.off_value == @pictograph.off_value.round ? @pictograph.off_value.to_i : @pictograph.off_value.round(1) %></span>
 					<% end %>
 						<%= risk.population %> <%= risk.description %>
 				</dd>
