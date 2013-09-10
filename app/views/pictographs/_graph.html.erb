@@ -14,8 +14,10 @@
 			end
 			
 			# decimal handling
-			if @pictograph.risks[fill_risk + 1]
-				dval = @pictograph.risks[fill_risk + 1].value
+			bg_color = @pictograph.risks[0].hex
+			j = @pictograph.risks.length - 1 - fill_index
+			if @pictograph.risks[j] and @pictograph.risks[j].value
+				dval = @pictograph.risks[j].value
 				d = dval - dval.floor
 				if d > 0.0 
 					is_dec = true
@@ -35,6 +37,7 @@
 				fill_risk = @pictograph.risks.length - fill_index
 				current_fill_index = 0
 				dec = d
+				bg_color = @fill_color if defined? @fill_color and dec < 1.0
 			else
 				dec = 1.0
 			end
@@ -46,6 +49,7 @@
 			fill_color = @pictograph.risks[fill_risk].hex
 			fill_color = '#' + fill_color if fill_color[0] != '#'
 			current_fill_index += 1
+			@fill_color = fill_color
 		%>
 
 		<%
@@ -58,7 +62,7 @@
 				row << td.html_safe
 				# also, the fill class won't work with icons
 			else
-	    	row << "<td id='cell#{@pictograph.cells - i + 1}' style='background-color: #{@pictograph.risks[0].hex};padding:0; width: #{@pictograph.cell_width}px; height: #{@pictograph.cell_height}px;' class='picto-cell fill#{fill_risk}' data-color='#{fill_color}'><div style='background-color: #{fill_color};  height: #{@pictograph.cell_height * dec}px; margin-top: #{@pictograph.cell_height * (1.0 - dec)}px;'></div></td>"
+	    	row << "<td id='cell#{@pictograph.cells - i + 1}' style='background-color: #{bg_color};padding:0; width: #{@pictograph.cell_width}px; height: #{@pictograph.cell_height}px;' class='picto-cell fill#{fill_risk}' data-color='#{fill_color}'><div style='background-color: #{fill_color};  height: #{@pictograph.cell_height * dec}px; margin-top: #{@pictograph.cell_height * (1.0 - dec)}px;'></div></td>"
 			end
 	    if i % @pictograph.cols == 0
 	      if @pictograph.axis_labels
