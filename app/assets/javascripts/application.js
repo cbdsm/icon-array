@@ -273,7 +273,6 @@ $(document).ready(function() {
 			$('p#value-help').show();
 			$(this).removeClass('highlight');
 		}
-
 	});
 	// 
 	// $('form .tab-content div.active input.risk-field').mousewheel(function(){
@@ -350,7 +349,7 @@ $(document).ready(function() {
 		if (decimals < 1) {
 			var thisRisk = Number($(this).attr('id').replace('cell', '')); // value of the cell we're on
 			var totalRisk = previous_total();
-			var curRisk = current_risk();
+			curRisk = current_risk();
 
 			// We only allow updates down to the end of the previous color
 			// Except if we're on the last color
@@ -358,7 +357,6 @@ $(document).ready(function() {
 				if (thisRisk <= curRisk) {
 					thisRisk--;
 				}
-			
 				$('form .tab-content div.active input.value-field').val(thisRisk - totalRisk);
 				$('form .tab-content div.active input.destroy').val('0');
 				updateMultiple(thisRisk, $('div.tab-content div.active').find('input.color-field').val());
@@ -388,12 +386,13 @@ $(document).ready(function() {
 		var alt = $(this).attr('alt');
 		var height = $('td.picto-cell:first').children(':first').height();
 		var color;
-		$('td.picto-cell').html('<img class="picto-cell-icon" alt="' + alt + '" src="' + img + '" style="height:' + height + 'px;"></div>');
-		$('td.picto-cell').css('background-color', 'white');
-		$('td.picto-cell img.picto-cell-icon').each(function(){
-			color = $(this).parent().attr('data-color');
-			$(this).css('background-color', color);
-		});
+
+		// If we have an image, replace it
+		if ($('td.picto-cell:first').find('img').length > 0) {
+			$('td.picto-cell img').attr('src', img);
+		} else {
+			$('td.picto-cell').append('<img class="picto-cell-icon" alt="' + alt + '" src="' + img + '" style="height:' + height + 'px;"></div>');
+		}
 		
 		// Set the tab icon too
 		$('li.color-tab a').html('<img alt="' + alt + '" src="' + img + '" style="height:15px;">');
@@ -409,13 +408,9 @@ $(document).ready(function() {
 		var height = td.children(':first').height();
 		var width = td.width();
 		$('#pictograph_icon').val(null);
-		$('td.picto-cell').each(function() {
-			var color = $(this).attr('data-color');
-			$(this).html("<div style='background-color: " + color + "; width: " + width + "px; height: " + height + "px;'></div>");
-		});
-		// TODO: we're not allowing for partial cells in this case:
-		//  margin-top: #{@pictograph.cell_height * (1.0 - dec)}px;
-		
+
+		$('td.picto-cell img').remove();
+
 		$('li.color-tab a').html("<div class='box-icon' style='width:9px; height: 15px;'></div>");
 		$('li.color-tab a div.box-icon').each(function(){
 			var color = $(this).closest('a').attr('data-color');

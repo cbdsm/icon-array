@@ -157,6 +157,9 @@ table.pictograph td.picto-cell div {
 }
 table.pictograph td.picto-cell img {
 	vertical-align: bottom;
+	position: absolute;
+	top: 0px;
+	width: 100%;
 }
 div.no-axis-labels {
 	margin-left: 80px;

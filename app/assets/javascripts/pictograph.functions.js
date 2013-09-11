@@ -17,12 +17,10 @@ var updateSingle = function(val) {
 };
 
 var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
-	
 	// Table index values
 
 	var cmpRisk = passInRisk || curRisk;
 	var thisTab = passInTab || $('.tab-content div.active');
-	
 	debug_log('\ncurRisk: ' + cmpRisk + ' thisRisk: ' + thisRisk);
 	
 	var adjRisk = Math.ceil(thisRisk); // integer risk
@@ -91,7 +89,7 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 		if (hiTabs.length > 0) {
 			var color = hiTabs.first().find('input.color-field').val();
 			var tabRisk = hiTabs.first().find('input.value-field').val();
-			updateMultiple(thisRisk + Number(tabRisk), color, thisRisk + 1, hiTabs.first());
+			updateMultiple(thisRisk + Number(tabRisk), color, thisRisk, hiTabs.first());
 		} else {
 			var color = $('input#pictograph_risks_attributes_0_hex').val();
 		}

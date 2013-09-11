@@ -3,6 +3,7 @@ function current_risk() {
 	$('.tab-content div.active').prevAll("div.color-pane:not('.off')").each(function() {
     curRisk += Number($(this).find('input.value-field').val());
   });
+  debug_log(curRisk);
 	return curRisk;
 }
 
@@ -81,11 +82,7 @@ function change_color(el, color) {
 	}
 	var height = testImg.height();
 
-	if (testImg.find('img').length > 0) {
-		el.find('img').css('background-color', color);
-	} else {
-		el.find('div').css('background-color', color);
-	}
+	el.find('div').css('background-color', color);
 	el.css('background-color', $('input#pictograph_risks_attributes_0_hex').val());
 
 	el.each(function(){
