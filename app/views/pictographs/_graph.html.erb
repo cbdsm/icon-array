@@ -23,7 +23,10 @@
 		<% @dec = (j == val and risk.decimal?) ? dval : 1.0 %>
 		<% bg_color = risks[index + 1].hex if @dec < 1.0 %>
 
-		<% rows[current_row] << "<td id='cell#{i}' style='background-color: #{bg_color};padding:0; width: #{@pictograph.cell_width}px; height: #{@pictograph.cell_height}px;' class='picto-cell fill#{risk.position}' data-color='#{risk.hex}'><div style='background-color: #{risk.hex};  height: #{@pictograph.cell_height * @dec}px; margin-top: #{@pictograph.cell_height * (1.0 - @dec)}px;'></div></td>" %>
+		<% content = "<td id='cell#{i}' style='background-color: #{bg_color};padding:0;  height: #{@pictograph.cell_height}px;' class='picto-cell fill#{risk.position}' data-color='#{risk.hex}'><div style='background-color: #{risk.hex};  height: #{@pictograph.cell_height * @dec}px; margin-top: #{@pictograph.cell_height * (1.0 - @dec)}px;'></div>" %>
+		<% content += icon_overlay(@pictograph.icon, @pictograph.cell_height, @pictograph.cell_width) if @pictograph.icon? %>
+		<% content += "</td>" %>
+		<% rows[current_row] << content %>
 
 		<%
 			# axis labels
