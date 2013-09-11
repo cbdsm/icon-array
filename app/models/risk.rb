@@ -37,6 +37,22 @@ class Risk < ActiveRecord::Base
     return out
   end
 
+  def decimal?
+    if self.value.blank?
+      false 
+    else
+      self.value % 1.0 != 0.0
+    end
+  end
+
+  def decimal_value
+    if self.value.blank?
+      0.0
+    else
+      self.value - self.value.floor
+    end
+  end
+
   # private
   #   def init
   #     self.population ||= "out of #{self.pictograph.cells}"
