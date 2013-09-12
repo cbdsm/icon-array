@@ -157,7 +157,8 @@ table.pictograph td.picto-cell div {
 }
 table.pictograph td.picto-cell img {
 	vertical-align: bottom;
-	position: absolute;
+	/*position: absolute;*/
+	float: left;
 	top: 0px;
 	width: 100%;
 }
