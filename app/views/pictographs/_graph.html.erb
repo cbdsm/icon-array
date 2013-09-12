@@ -14,18 +14,18 @@
 	<% val = risk.value.nil? ? @pictograph.off_value : risk.value %>
 
 	<%# every once in a while, we end up back on 0, so we need to add 1 %>
-	<% val += 1 if @dec > 0 and ((val - @dec) % 1.0 == 0.0) %>
+	<%# val += 1 if @dec < 1.0 and ((val - @dec) % 1.0 == 0.0) %>
 
 	<%# adjust for decimal value %>
 	<% val -= (1.0 - @dec) %>
-	
+
 	<% dval = val - val.floor %>
 	<% val = val.ceil unless risk.value.nil? %>
 	<% for j in 1..val %>
 		<% current_row = @pictograph.rows - ((i - 1) / @pictograph.cols) %>
 		<% rows[current_row] = Array.new if (i - 1) % @pictograph.cols == 0 %>
 
-		<% @dec = (j == val and risk.decimal?) ? dval : 1.0 %>
+		<% @dec = (j == val and dval > 0.0) ? dval : 1.0 %>
 		<% bg_color = risks[index + 1].hex if @dec < 1.0 %>
 
 		<% content = "<td id='cell#{i}' style='background-color: #{bg_color};padding:0;  height: #{@pictograph.cell_height}px;' class='picto-cell fill#{risk.position}' data-color='#{risk.hex}'><div style='background-color: #{risk.hex};  height: #{@pictograph.cell_height * @dec}px; margin-top: #{@pictograph.cell_height * (1.0 - @dec)}px;'></div>" %>
