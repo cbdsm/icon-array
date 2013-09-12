@@ -12,7 +12,13 @@
 <% risks.each_with_index do |risk, index| %>
 
 	<% val = risk.value.nil? ? @pictograph.off_value : risk.value %>
+
+	<%# every once in a while, we end up back on 0, so we need to add 1 %>
+	<% val += 1 if @dec > 0 and ((val - @dec) % 1.0 == 0.0) %>
+
+	<%# adjust for decimal value %>
 	<% val -= (1.0 - @dec) %>
+	
 	<% dval = val - val.floor %>
 	<% val = val.ceil unless risk.value.nil? %>
 	<% for j in 1..val %>
