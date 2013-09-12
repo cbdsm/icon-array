@@ -17,7 +17,7 @@ module ApplicationHelper
 
   def icon_overlay(icon, height=45, width=nil)
     css_width = width.blank? ? '' : "width: #{width}px; "
-    out = image_tag icon, :style => "height:#{height}px;", :class => 'picto-cell-icon'
+    out = image_tag icon, :style => "height:#{height}px; margin-top: -#{height}px;", :class => 'picto-cell-icon'
     return out.html_safe
   end
 
