@@ -53,6 +53,11 @@ class Risk < ActiveRecord::Base
     end
   end
 
+  def thousand_value
+    pictograph.thousand? ? (value / 4) : value
+  end
+
+
   # private
   #   def init
   #     self.population ||= "out of #{self.pictograph.cells}"

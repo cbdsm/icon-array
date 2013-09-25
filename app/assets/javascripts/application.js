@@ -194,10 +194,14 @@ $(document).ready(function() {
 			$('.tab-content div.active').prevAll("div.color-pane:not('.off')").each(function() {
 		    totalRisk += Number($(this).find('input.value-field').val());
 	    });
-	
+
 			var thisRisk = totalRisk + Number(val);
 			var curTotal = current_total();
 			var availableRisk = cells - tmpRisk;
+			// If this is a thousand unit picto, adjust accordingly
+			if (thousand()) {
+				cells *= 4;
+			}
 			if (curTotal > cells) {
 				alert("The number you've entered is out of range--we've adjusted accordingly.");
 				thisRisk -= (curTotal - cells);
@@ -425,5 +429,27 @@ $(document).ready(function() {
 	$('body').on('click', 'input#pictograph_axis_position_right', function( event ) {
 		$('input#pictograph_axis_format').val('--- %n');
 	});
+
+	// Disable rows/cols and set default options for 1000 unit picto
+	$('body').on('change', 'select#pictograph_cell_grouping', function( event ) {
+		if ($(this).val() == 'thousand') {
+			$('input#pictograph_cols').val('25');
+			$('input#pictograph_rows').val('40');
+			$('input#pictograph_cell_height').val('10');
+			$('input#pictograph_cell_width').val('6');
+			$('input#pictograph_cell_spacing').val('2');
+			$('input#pictograph_cols').attr('readonly', true);
+			$('input#pictograph_rows').attr('readonly', true);
+		} else {
+			$('input#pictograph_cols').val('10');
+			$('input#pictograph_rows').val('10');
+			$('input#pictograph_cell_height').val('40');
+			$('input#pictograph_cell_width').val('22');
+			$('input#pictograph_cell_spacing').val('5');
+			$('input#pictograph_cols').attr('readonly', false);
+			$('input#pictograph_rows').attr('readonly', false);
+		}
+	});
+	
 	
 });

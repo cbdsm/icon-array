@@ -21,6 +21,15 @@ module ApplicationHelper
     return out.html_safe
   end
 
+  def icon_overlay_thousand(icon, height=45, width=nil, spacing=2)
+    css_width = width.blank? ? '' : "width: #{width}px; "
+    out = ''
+    for i in 0..3
+      out += image_tag icon, :style => "height:#{height}px; bottom: #{(i * height) + (i * spacing)}px; border-top: solid #ffffff #{spacing}px; position:absolute; top: auto;", :class => 'picto-cell-icon'
+    end
+    return out.html_safe
+  end
+
   def asset_url(asset)
     "http://www.iconarray.com#{asset_path(asset)}"
       # "#{request.protocol}#{request.host_with_port}#{asset_path(asset)}"
