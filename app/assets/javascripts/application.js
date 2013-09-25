@@ -50,6 +50,15 @@ $(document).ready(function() {
 		});
 	});
 	
+	// Set proper help menu
+
+	if (decimals > 1 || thousand()) {
+		$('input.value-field:visible').addClass('highlight');
+		$('table.pictograph').removeClass('active');
+		$('.help:visible').hide();
+		$('p#off-help').show();
+	}
+
 	// I think this is deprecated
 	$('div.legend-icon').on('click', function(event){
 		$(this).next('div.risk-fill').toggle();
@@ -114,11 +123,16 @@ $(document).ready(function() {
 		
 		if ($(this).hasClass('value-field')) {
 			curRisk = current_risk();
-			if (decimals < 1) {
+			if (decimals < 1 && !thousand()) {
 				$('table.pictograph').addClass('active');
 				$('.help:visible').hide();
 				$('p#value-help').show();
 				$(this).removeClass('highlight');
+			} else {
+				$('input.value-field:visible').addClass('highlight');
+				$('table.pictograph').removeClass('active');
+				$('.help:visible').hide();
+				$('p#off-help').show();
 			}
 		} else {
 			$('input.value-field:visible').addClass('highlight');
@@ -266,7 +280,7 @@ $(document).ready(function() {
 	// 
 	$("body").on("keyup", "form .tab-content div.active input.risk-field", function(event){
 		decimals = num_decimals();
-		if (decimals > 0) {
+		if (decimals > 0 || thousand()) {
 			$('input.value-field:visible').addClass('highlight');
 			$('table.pictograph').removeClass('active');
 			$('.help:visible').hide();
@@ -308,12 +322,15 @@ $(document).ready(function() {
 	$('body').on('hover', 'table.pictograph', function( event ) {
 		// in
 		if ( event.type === 'mouseenter' ) {
-			if (decimals > 0) {
+			if (thousand()) {
+				$('#thousand-alert').show();
+			} else if (decimals > 0) {
 				$('#decimal-alert').show();
 			} 
 		// out
 		} else {
 			$('#decimal-alert').hide();
+			$('#thousand-alert').hide();
 		}
 	});
 
@@ -321,7 +338,7 @@ $(document).ready(function() {
 	$('body').on('hover', 'table.pictograph.active td.picto-cell', function( event ) {
 		// in
 		if ( event.type === 'mouseenter' ) {
-			if (decimals < 1) {
+			if (decimals < 1 && !thousand()) {
 				var index = $('form ul.nav li.active a').attr('href').replace('#color', '');
 				
 				// Form values
@@ -350,7 +367,7 @@ $(document).ready(function() {
 	
 	// This actually sets the value
 	$('body').on('click', 'table.pictograph.active td.picto-cell', function( event ) {
-		if (decimals < 1) {
+		if (decimals < 1 && !thousand()) {
 			var thisRisk = Number($(this).attr('id').replace('cell', '')); // value of the cell we're on
 			var totalRisk = previous_total();
 			curRisk = current_risk();

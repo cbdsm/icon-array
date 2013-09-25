@@ -80,8 +80,8 @@
 				<fieldset id="icons">
 					<legend>Icon</legend>
 				  <div class="field">
-						<%=box(@pictograph.risks.first.hex, 45)%>
-				    <% for icon in %w[oval avatar male female] %>
+						<%#=box(@pictograph.risks.first.hex, 45)%>
+				    <% for icon in %w[box oval avatar male female] %>
 				    	<% url = "https://s3.amazonaws.com/icon-array/icons/#{icon}.png" %>
 							<%=icon(url, @pictograph.risks.first.hex, 45) %>
 						<% end %>
@@ -111,11 +111,11 @@
 				  </div>
 				  <div class="field">
 				    <%= f.label :cols %>
-				    <%= f.number_field :cols, {:class => 'span1'} %>
+				    <%= f.number_field :cols, {:class => 'span1', :readonly => @pictograph.thousand?} %>
 				  </div>
 				  <div class="field">
 				    <%= f.label :rows %>
-				    <%= f.number_field :rows, {:class => 'span1'} %>
+				    <%= f.number_field :rows, {:class => 'span1', :readonly => @pictograph.thousand?} %>
 				  </div>
 				
 					<p class="ft-help">

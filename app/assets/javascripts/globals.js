@@ -23,6 +23,7 @@ $(document).ready(function() {
 	width = $('td#cell1').width();
 	height = $('td#cell1').height();
 	decimals = num_decimals();
+	is_thousand = thousand();
 	var color_cells;
 	var color_bgs;
 });
