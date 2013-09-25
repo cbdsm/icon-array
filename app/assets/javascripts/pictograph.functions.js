@@ -23,6 +23,14 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 	var thisTab = passInTab || $('.tab-content div.active');
 	debug_log('\ncurRisk: ' + cmpRisk + ' thisRisk: ' + thisRisk);
 	
+	// If this is a thousand unit picto, adjust accordingly
+	if (thousand()) {
+		curRisk /= 4.0;
+		cmpRisk /= 4.0;
+		thisRisk /= 4.0;
+		debug_log('\nADJUSTED curRisk: ' + cmpRisk + ' thisRisk: ' + thisRisk);
+	}
+
 	var adjRisk = Math.ceil(thisRisk); // integer risk
 	var decRisk = adjRisk - thisRisk; // leftover decimal risk
 	var adjCurRisk = Math.ceil(cmpRisk); // integer risk

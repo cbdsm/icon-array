@@ -105,6 +105,10 @@
 				    <%= f.label :cell_spacing %>
 				    <%= f.number_field :cell_spacing, {:class => 'span1'} %>
 				  </div>
+					<div class="field">
+				    <%= f.label :cell_grouping %>
+						<%= f.select :cell_grouping, Pictograph.cell_groupings.invert %>
+				  </div>
 				  <div class="field">
 				    <%= f.label :cols %>
 				    <%= f.number_field :cols, {:class => 'span1'} %>

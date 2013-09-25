@@ -100,6 +100,14 @@ function num_decimals() {
 	return decs;
 }
 
+function thousand() {
+	if ($('select#pictograph_cell_grouping').val() == 'thousand') {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 function debug_log(message) {
 	// This allows for easy console
 	if(window.console && debug){ 

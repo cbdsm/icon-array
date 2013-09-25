@@ -1,76 +1,80 @@
-<% rows = Hash.new %>
-<% i = 1 %>
-<% @dec = 1.0 %>
-<%
-	# put the off risk at the end
-	risks = @pictograph.risks.dup
-	off_risk = risks.shift
-	bg_color = off_risk.hex
-	risks.push off_risk
-%>
+<% if @pictograph.thousand? %>
+	<%= render 'thousand' %>
+<% else %>
+	<% rows = Hash.new %>
+	<% i = 1 %>
+	<% @dec = 1.0 %>
+	<%
+		# put the off risk at the end
+		risks = @pictograph.risks.dup
+		off_risk = risks.shift
+		bg_color = off_risk.hex
+		risks.push off_risk
+	%>
 
-<% risks.each_with_index do |risk, index| %>
+	<% risks.each_with_index do |risk, index| %>
 
-	<% val = risk.value.nil? ? @pictograph.off_value : risk.value %>
+		<% val = risk.value.nil? ? @pictograph.off_value : risk.value %>
 
-	<%# every once in a while, we end up back on 0, so we need to add 1 %>
-	<%# val += 1 if @dec < 1.0 and ((val - @dec) % 1.0 == 0.0) %>
+		<%# every once in a while, we end up back on 0, so we need to add 1 %>
+		<%# val += 1 if @dec < 1.0 and ((val - @dec) % 1.0 == 0.0) %>
 
-	<%# adjust for decimal value %>
-	<% val -= (1.0 - @dec) %>
+		<%# adjust for decimal value %>
+		<% val -= (1.0 - @dec) %>
 
-	<% dval = val - val.floor %>
-	<% val = val.ceil unless risk.value.nil? %>
-	<% for j in 1..val %>
-		<% current_row = @pictograph.rows - ((i - 1) / @pictograph.cols) %>
-		<% rows[current_row] = Array.new if (i - 1) % @pictograph.cols == 0 %>
+		<% dval = val - val.floor %>
+		<% val = val.ceil unless risk.value.nil? %>
+		<% for j in 1..val %>
+			<% current_row = @pictograph.rows - ((i - 1) / @pictograph.cols) %>
+			<% rows[current_row] = Array.new if (i - 1) % @pictograph.cols == 0 %>
 
-		<% @dec = (j == val and dval > 0.0) ? dval : 1.0 %>
-		<% bg_color = risks[index + 1].hex if @dec < 1.0 %>
+			<% @dec = (j == val and dval > 0.0) ? dval : 1.0 %>
+			<% bg_color = risks[index + 1].hex if @dec < 1.0 %>
 
-		<% content = "<td id='cell#{i}' style='background-color: #{bg_color};padding:0;  height: #{@pictograph.cell_height}px;' class='picto-cell fill#{risk.position}' data-color='#{risk.hex}'><div style='background-color: #{risk.hex};  height: #{@pictograph.cell_height * @dec}px; margin-top: #{@pictograph.cell_height * (1.0 - @dec)}px;'></div>" %>
-		<% content += icon_overlay(@pictograph.icon, @pictograph.cell_height, @pictograph.cell_width) if @pictograph.icon? %>
-		<% content += "</td>" %>
-		<% rows[current_row] << content %>
+			<% content = "<td id='cell#{i}' style='background-color: #{bg_color};padding:0;  height: #{@pictograph.cell_height}px;' class='picto-cell fill#{risk.position}' data-color='#{risk.hex}'><div style='background-color: #{risk.hex};  height: #{@pictograph.cell_height * @dec}px; margin-top: #{@pictograph.cell_height * (1.0 - @dec)}px;'></div>" %>
+			<% content += icon_overlay(@pictograph.icon, @pictograph.cell_height, @pictograph.cell_width) if @pictograph.icon? %>
+			<% content += "</td>" %>
+			<% rows[current_row] << content %>
 
-		<%
-			# axis labels
-	    if i % @pictograph.cols == 0
-	      if @pictograph.axis_labels
-	        axis_num = (@pictograph.rows + 1 - current_row) * @pictograph.cols
-	        if @pictograph.axis_endpoints and axis_num != @pictograph.cells and axis_num != 0
-	        	content = '&nbsp;'
-	        else
-	        	content = @pictograph.axis_format.gsub('%n', axis_num.to_s)
-	        end
-	        if @pictograph.axis_position == 'left'
-	          rows[current_row].unshift "<td class='picto-axis-label' style='text-align:right; width: #{@pictograph.axis_width}px;'><div style='font-size: #{@pictograph.axis_font_size}px; line-height: #{@pictograph.axis_line_height}px; margin-top: -#{@pictograph.axis_margin_top}px;'>#{content}</div></td>"
-	        else
-	          rows[current_row].push "<td class='picto-axis-label' style='text-align:left; width: #{@pictograph.axis_width}px;'><div style='font-size: #{@pictograph.axis_font_size}px; line-height: #{@pictograph.axis_line_height}px; margin-top: -#{@pictograph.axis_margin_top}px;'>#{content}</div></td>"
-	        end
-	      end
-	    end
-		%>
+			<%
+				# axis labels
+		    if i % @pictograph.cols == 0
+		      if @pictograph.axis_labels
+		        axis_num = (@pictograph.rows + 1 - current_row) * @pictograph.cols
+		        if @pictograph.axis_endpoints and axis_num != @pictograph.cells and axis_num != 0
+		        	content = '&nbsp;'
+		        else
+		        	content = @pictograph.axis_format.gsub('%n', axis_num.to_s)
+		        end
+		        if @pictograph.axis_position == 'left'
+		          rows[current_row].unshift "<td class='picto-axis-label' style='text-align:right; width: #{@pictograph.axis_width}px;'><div style='font-size: #{@pictograph.axis_font_size}px; line-height: #{@pictograph.axis_line_height}px; margin-top: -#{@pictograph.axis_margin_top}px;'>#{content}</div></td>"
+		        else
+		          rows[current_row].push "<td class='picto-axis-label' style='text-align:left; width: #{@pictograph.axis_width}px;'><div style='font-size: #{@pictograph.axis_font_size}px; line-height: #{@pictograph.axis_line_height}px; margin-top: -#{@pictograph.axis_margin_top}px;'>#{content}</div></td>"
+		        end
+		      end
+		    end
+			%>
 
-		<% i += 1 %>
-	<% end %>
-<% end %>
-
-<table class='pictograph' style="border-spacing: <%=@pictograph.cell_spacing%>px; width: <%=@pictograph.table_width%>px; ">
-	<% for i in 1..@pictograph.rows %>
-		<%= "<tr>#{rows[i].join()}</tr>".html_safe %>
-	<% end %>
-
-  <tr class='bottom-row'>
-		<% if @pictograph.axis_labels %>
-			<% content = @pictograph.axis_format.gsub('%n', '0') %>
-			<% if @pictograph.axis_position == 'left' %>
-	    	<td class='picto-axis-label' style="text-align:right; width: <%=@pictograph.axis_width%>px;"><div style='font-size: <%=@pictograph.axis_font_size%>px; line-height: <%=@pictograph.axis_line_height%>px; margin-top: -<%=@pictograph.bottom_axis_margin_top%>px;'><%=content%></div></td>
-	    	<td colspan='<%=@pictograph.cols%>' class='legend'>&nbsp;</td>
-	    <% else %>
-	    	<td colspan='<%=@pictograph.cols%>' class='legend'>&nbsp;</td>
-	      <td class='picto-axis-label' style="text-align:left; width: <%=@pictograph.axis_width%>px;"><div style='font-size: <%=@pictograph.axis_font_size%>px; line-height: <%=@pictograph.axis_line_height%>px; margin-top: -<%=@pictograph.bottom_axis_margin_top%>px;text-align:left;'><%=content%></div></td>
-	    <% end %>
+			<% i += 1 %>
 		<% end %>
-	</tr>
-</table>
+	<% end %>
+
+	<table class='pictograph' style="border-spacing: <%=@pictograph.cell_spacing%>px; width: <%=@pictograph.table_width%>px; ">
+		<% for i in 1..@pictograph.rows %>
+			<%= "<tr>#{rows[i].join()}</tr>".html_safe %>
+		<% end %>
+
+	  <tr class='bottom-row'>
+			<% if @pictograph.axis_labels %>
+				<% content = @pictograph.axis_format.gsub('%n', '0') %>
+				<% if @pictograph.axis_position == 'left' %>
+		    	<td class='picto-axis-label' style="text-align:right; width: <%=@pictograph.axis_width%>px;"><div style='font-size: <%=@pictograph.axis_font_size%>px; line-height: <%=@pictograph.axis_line_height%>px; margin-top: -<%=@pictograph.bottom_axis_margin_top%>px;'><%=content%></div></td>
+		    	<td colspan='<%=@pictograph.cols%>' class='legend'>&nbsp;</td>
+		    <% else %>
+		    	<td colspan='<%=@pictograph.cols%>' class='legend'>&nbsp;</td>
+		      <td class='picto-axis-label' style="text-align:left; width: <%=@pictograph.axis_width%>px;"><div style='font-size: <%=@pictograph.axis_font_size%>px; line-height: <%=@pictograph.axis_line_height%>px; margin-top: -<%=@pictograph.bottom_axis_margin_top%>px;text-align:left;'><%=content%></div></td>
+		    <% end %>
+			<% end %>
+		</tr>
+	</table>
+<% end %>

@@ -16,8 +16,20 @@ class Pictograph < ActiveRecord::Base
     %w[right below]
   end
 
+  def self.cell_groupings  
+    {:normal => "Standard Icon Array", :thousand => "Grouped cells (1000 unit)"}
+  end
+
   def cells
     rows * cols
+  end
+
+  def thousand?
+    cell_grouping == 'thousand'
+  end
+
+  def thousand_height
+    (cell_height * 4) + (cell_spacing * 3)
   end
   
   def axis_line_height
@@ -41,7 +53,11 @@ class Pictograph < ActiveRecord::Base
   end
   
   def axis_margin_top
-    ((cell_height + axis_line_height + cell_spacing) / 2).round
+    if thousand?
+      ((thousand_height + axis_line_height + cell_spacing) / 2).round
+    else
+      ((cell_height + axis_line_height + cell_spacing) / 2).round
+    end
   end
   
   def axis_adjustment
@@ -63,7 +79,11 @@ class Pictograph < ActiveRecord::Base
   end
 
   def bottom_axis_margin_top
-    (cell_spacing + axis_line_height).round
+    if thousand?
+      (cell_spacing + axis_line_height).round + cell_height
+    else
+      (cell_spacing + axis_line_height).round
+    end
   end
   
   def show_legend?
