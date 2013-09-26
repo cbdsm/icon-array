@@ -9,7 +9,7 @@
 </div>
 
 <% if %[view link].include? controller.action_name %>
-	<div class="actions preview-actions" id="poo">
+	<div class="actions preview-actions">
 		<%=link_to image_tag('icons-edit-02.png', :alt => 'edit'), (advanced ? '/advanced?' : '/?') + request.query_string, {:title => 'edit this icon array'} %>
 		<%=link_to image_tag('icons-link-03.png', :alt => 'save as link'), '#save-share', {:title => 'save a link to this icon array'} %> 
 		<%=link_to image_tag('icons-embed.png', :alt => 'embed'), '#embed', {:title => 'embed this icon array in another website'} %>

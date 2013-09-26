@@ -38,8 +38,9 @@ class PictographsController < ApplicationController
   # GET /pictographs/new.json
   def new    
     @pictograph = Pictograph.new(@p)
-
-    logger.info @pictograph.risks.inspect
+    if @pictograph.icon and !@pictograph.icon.blank?
+      @pictograph.icon.gsub!('svg', 'png')
+    end
 
     respond_to do |format|
       format.html # new.html.erb 
@@ -126,8 +127,13 @@ class PictographsController < ApplicationController
   # GET /pictographs/view.tif
   def view
     @pictograph = Pictograph.new(@p)
+    logger.info @pictograph.inspect
     respond_to do |format|
       format.html { 
+        if @pictograph.icon and !@pictograph.icon.blank?
+          @pictograph.icon.gsub!('svg', 'png')
+        end
+
         @url = request.url
         @embed_url = @url.gsub('view', 'embed')
 
@@ -151,7 +157,7 @@ class PictographsController < ApplicationController
         if @pictograph.icon and !@pictograph.icon.blank?
           @pictograph.icon.gsub!('png', 'svg')
         end
-        @pictograph.print = true
+        # @pictograph.print = true
         @kit = IMGKit.new(render_to_string('show', :layout => false), 'crop-w' => @pictograph.export_width)
         @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/application.css'
         @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/print.css'
@@ -162,7 +168,7 @@ class PictographsController < ApplicationController
         if @pictograph.icon and !@pictograph.icon.blank?
           @pictograph.icon.gsub!('png', 'svg')
         end
-        @pictograph.print = true
+        # @pictograph.print = true
         @kit = IMGKit.new(render_to_string('show', :layout => false), {'crop-w' => @pictograph.export_width, 'transparent' => true})
         @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/application.css'
         @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/print.css'
@@ -176,6 +182,8 @@ class PictographsController < ApplicationController
         end
         @pictograph.cell_width = @pictograph.cell_width * 5
         @pictograph.cell_height = @pictograph.cell_height * 5
+        @pictograph.scale_width = @pictograph.scale_width * 5
+        @pictograph.scale_height = @pictograph.scale_height * 5
         @pictograph.cell_spacing = @pictograph.cell_spacing * 5
         @pictograph.axis_font_size = @pictograph.axis_font_size * 5
         @pictograph.title_font_size = @pictograph.title_font_size * 5

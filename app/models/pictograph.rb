@@ -5,7 +5,7 @@ class Pictograph < ActiveRecord::Base
   
   after_initialize :set_attr
   
-  attr_accessor :legend_width, :print
+  attr_accessor :legend_width, :print, :scale_width, :scale_height
   
   def self.icons
     # Dir.glob(Rails.root.to_s + '/app/assets/images/icons/*.png').collect{|i| i.gsub(Rails.root.to_s + '/app/assets/images/', '')}
@@ -45,7 +45,11 @@ class Pictograph < ActiveRecord::Base
   end
   
   def table_width
-    (cell_width  * cols) + (cell_spacing * (cols - 1)) + axis_width + (cols * 2)
+    if thousand?
+      (cell_width  * cols) + (cell_spacing * (cols - 1)) + axis_width
+    else
+      (cell_width  * cols) + (cell_spacing * (cols - 1)) + axis_width + (cols * 2)
+    end
   end
 
   def table_height
@@ -80,10 +84,12 @@ class Pictograph < ActiveRecord::Base
 
   def bottom_axis_margin_top
     if thousand?
-      (cell_spacing + axis_line_height).round + cell_height
+      out = (cell_spacing + axis_line_height).round + cell_height
     else
-      (cell_spacing + axis_line_height).round
+      out = (cell_spacing + axis_line_height).round
     end
+
+    out -= cell_height if print
   end
   
   def show_legend?
@@ -98,6 +104,8 @@ class Pictograph < ActiveRecord::Base
   private
     def set_attr
       @legend_width = 410
+      @scale_width = legend_scale? ? cell_width : 16
+      @scale_height = legend_scale? ? cell_height : 30
     end
   
 end

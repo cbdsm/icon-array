@@ -198,6 +198,12 @@
 				    <%= f.label :legend_position, 'location' %>
 						<%= f.select :legend_position, Pictograph.legend_positions %>
 				  </div>
+			  	<div class="field">
+				  	<br clear="left"/>
+						<%= f.label :legend_scale, "Scale legend icons to match cell width and height" %> 
+				    <%= f.check_box :legend_scale %> 
+				    <br clear="left"/>
+				  </div>
 					<p class="ft-help">
 					  Click the "Preview" button below the graph to see your changes.
 					</p>

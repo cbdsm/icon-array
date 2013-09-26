@@ -29,8 +29,8 @@
 		<% @dec = (j == val and dval > 0.0) ? dval : 1.0 %>
 		<% bg_color = risks[index + 1].hex if @dec < 1.0 %>
 
-		<% content = "<td id='cell#{i}' style='background-color: #{bg_color};padding:0;  height: #{@pictograph.thousand_height}px;' class='picto-cell fill#{risk.position}' data-color='#{risk.hex}'><div style='background-color: #{risk.hex};  height: #{(@pictograph.thousand_height) * @dec}px; margin-top: #{(@pictograph.thousand_height * (1.0 - @dec))}px;'></div>" %>
-		<% content += icon_overlay_thousand(@pictograph.icon || 'https://s3.amazonaws.com/icon-array/icons/box.png', @pictograph.cell_height, @pictograph.cell_width) if @pictograph.thousand? %>
+		<% content = "<td id='cell#{i}' style='position:relative; background-color: #{bg_color};padding:0;  width: #{@pictograph.cell_width}px; height: #{@pictograph.thousand_height}px;' class='picto-cell fill#{risk.position}' data-color='#{risk.hex}'><div style='background-color: #{risk.hex};  height: #{(@pictograph.thousand_height) * @dec}px; margin-top: #{(@pictograph.thousand_height * (1.0 - @dec))}px;'></div>" %>
+		<% content += icon_overlay_thousand(@pictograph.icon.blank? ? 'https://s3.amazonaws.com/icon-array/icons/box.png' : @pictograph.icon, @pictograph.cell_height, @pictograph.cell_width, @pictograph.cell_spacing) if @pictograph.thousand? %>
 		<% content += "</td>" %>
 		<% rows[current_row] << content %>
 

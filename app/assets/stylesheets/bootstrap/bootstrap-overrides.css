@@ -26,3 +26,7 @@ ul.nav-tabs > li > a {
 	padding: 5px 10px 0 0;
 	text-align: right;
 }
+
+.actions ul.dropdown-menu {
+	width: 99px;
+}

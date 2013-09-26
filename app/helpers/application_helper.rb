@@ -10,7 +10,7 @@ module ApplicationHelper
   
   def icon(icon, color, height=45, width=nil)
     css_width = width.blank? ? '' : "width: #{width}px; "
-    out = image_tag icon, :style => "height:#{height}px; background-color: #{color}", :class => 'overlay'
+    out = image_tag icon, :style => "#{css_width}height:#{height}px; background-color: #{color}", :class => 'overlay'
     # out = "<img src='#{url}/images/icons/#{icon_file}' style='#{css_width}height:#{height}px; background-color: #{color}' class='overlay' />"
 		return out.html_safe
   end
@@ -24,8 +24,9 @@ module ApplicationHelper
   def icon_overlay_thousand(icon, height=45, width=nil, spacing=2)
     css_width = width.blank? ? '' : "width: #{width}px; "
     out = ''
-    for i in 0..3
-      out += image_tag icon, :style => "height:#{height}px; bottom: #{(i * height) + (i * spacing)}px; border-top: solid #ffffff #{spacing}px; position:absolute; top: auto;", :class => 'picto-cell-icon'
+    for i in 1..4
+      # out += image_tag icon, :style => "height:#{height}px; bottom: #{(i * height) + (i * spacing)}px; border-top: solid #ffffff #{spacing}px; position:absolute; top: auto; z-index:9999"
+      out += image_tag icon, :style => "height:#{height}px; margin-top: -#{(i * height) + (i * spacing)}px; border-top: solid #ffffff #{spacing}px;"
     end
     return out.html_safe
   end
