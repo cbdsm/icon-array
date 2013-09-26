@@ -1,3 +1,20 @@
+var debug;
+var url;
+var overlay_opacity;
+
+// semi-globals
+var curRisk; 
+var colorIndex;
+var cols;
+var rows;
+var cells;
+var width;
+var height;
+var decimals;
+var is_thousand ;
+var color_cells;
+var color_bgs;
+
 $(document).ready(function() {
 
 	// globals
@@ -24,6 +41,4 @@ $(document).ready(function() {
 	height = $('td#cell1').height();
 	decimals = num_decimals();
 	is_thousand = thousand();
-	var color_cells;
-	var color_bgs;
 });
