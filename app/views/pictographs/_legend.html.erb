@@ -10,14 +10,14 @@
     @pictograph.risks.push(off) %>
 		<% @pictograph.risks.each do |risk| %>
 			<% if risk.display? %>
-				<dt id="risky<%=risk.position%>" style="width: <%=@pictograph.cell_width + 20%>px;">
+				<dt id="risky<%=risk.position%>" style="width: <%=@pictograph.scale_width + 20%>px;">
 					<% if !@pictograph.icon.blank? %>
-						<%=icon(@pictograph.icon, risk.hex, @pictograph.cell_height)%>
+						<%=icon(@pictograph.icon, risk.hex, @pictograph.scale_height, @pictograph.scale_width)%>
 					<% else %>
 						<div class="legend-icon" id="test<%=risk.position%>" style="width: <%=@pictograph.cell_width%>px; height: <%=@pictograph.cell_height%>px; background-color: <%=risk.hex%>;" data-color="<%=risk.hex%>"></div>
 					<% end %>
 				</dt>
-				<dd id="frisky<%=risk.position%>" style="width:<%=@legend_width - @pictograph.cell_width - 20%>px;">
+				<dd id="frisky<%=risk.position%>" style="width:<%=@legend_width - @pictograph.scale_width - 20%>px;">
 					<% unless risk.value.blank? %>
 						<span id="#risks_<%=risk.position%>_value" class="risk-val"><%= risk.value == risk.value.round ? risk.value.to_i : risk.value %></span>
 					<% else%>

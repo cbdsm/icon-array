@@ -457,6 +457,7 @@ $(document).ready(function() {
 			$('input#pictograph_cell_spacing').val('2');
 			$('input#pictograph_cols').attr('readonly', true);
 			$('input#pictograph_rows').attr('readonly', true);
+			$('input#pictograph_legend_scale').attr('checked', false);
 		} else {
 			$('input#pictograph_cols').val('10');
 			$('input#pictograph_rows').val('10');
@@ -465,6 +466,15 @@ $(document).ready(function() {
 			$('input#pictograph_cell_spacing').val('5');
 			$('input#pictograph_cols').attr('readonly', false);
 			$('input#pictograph_rows').attr('readonly', false);
+			$('input#pictograph_legend_scale').attr('checked', true);
+
+			if (current_total() > 100){
+				alert("Your current total risk is over 100. We've adjusted accordingly.")
+				$('form .tab-content input.value-field').each(function(){
+					$(this).val(Math.round(Number($(this).val()) / 10));
+				});
+			}
+
 		}
 	});
 	
