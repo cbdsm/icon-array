@@ -90,6 +90,7 @@ class Pictograph < ActiveRecord::Base
     end
 
     out -= cell_height if print
+    return out
   end
   
   def show_legend?
