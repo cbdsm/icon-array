@@ -405,14 +405,14 @@ $(document).ready(function() {
 
 		$('#pictograph_icon').val(img);
 		var alt = $(this).attr('alt');
-		var height = $('td.picto-cell:first').children(':first').height();
+		var td = $('td.picto-cell:first').children(':first');
 		var color;
 
 		// If we have an image, replace it
 		if ($('td.picto-cell:first').find('img').length > 0) {
 			$('td.picto-cell img').attr('src', img);
 		} else {
-			$('td.picto-cell').append('<img class="picto-cell-icon" alt="' + alt + '" src="' + img + '" style="height:' + height + 'px; position: absolute; top: 0px;"></div>');
+			$('td.picto-cell').append('<img class="picto-cell-icon" alt="' + alt + '" src="' + img + '" style="height:' + td.height() + 'px; width: ' + td.width() + 'px; display: inline-block; margin-top: -' + td.height() + 'px;"></div>');
 		}
 		
 		// Set the tab icon too

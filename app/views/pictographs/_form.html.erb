@@ -27,7 +27,7 @@
 				<% @tab_risks.each_with_index do |risk, i| %>
 					<li class='<%="active" if i == 0 %> color-tab'><a href="#color<%=i + 1%>" data-toggle="tab" data-color="<%=risk.hex%>">
 						<% if !@pictograph.icon.blank? %>
-							<%=icon(@pictograph.icon, risk.hex, 15)%>
+							<%=icon(@pictograph.icon, risk.hex, 15, 7)%>
 						<% else %>
 							<%=box(risk.hex, 15)%>
 						<% end %>
@@ -38,16 +38,16 @@
 				<% end %>
 				<li class='color-tab'><a href="#color0" data-toggle="tab" data-color="<%=@off_risk.hex%>">
 				<% if !@pictograph.icon.blank? %>
-					<%=icon(@pictograph.icon, @off_risk.hex, 15)%>
+					<%=icon(@pictograph.icon, @off_risk.hex, 15, 7)%>
 				<% else %>
 					<%=box(@off_risk.hex, 15)%>
 				<% end %>
 				</a></li>
 				<% if advanced %>
 					<li class="icons-tab" ><a href="#icons" data-toggle="tab" style="width:25px">
-						<%=image_tag "/images/icons/oval.png", {:alt => "Oval", :style => "height: 12px; margin-right: 2px; background-color: #000; float:left"} %>
-						<%=image_tag "/images/icons/avatar.png", {:alt => "Avatar", :style => "height: 12px; margin-right: 2px; background-color: #000; float:left"} %>
-						<%=image_tag "/images/icons/male.png", {:alt => "Male", :style => "height: 12px; background-color: #000;"} %>
+						<%=image_tag "/images/icons/oval.png", {:alt => "Oval", :style => "height: 12px; width: 6px; margin-right: 2px; background-color: #000; float:left"} %>
+						<%=image_tag "/images/icons/avatar.png", {:alt => "Avatar", :style => "height: 12px; width: 6px; margin-right: 2px; background-color: #000; float:left"} %>
+						<%=image_tag "/images/icons/male.png", {:alt => "Male", :style => "height: 12px; width: 6px; background-color: #000;"} %>
 						</a></li>
 				<% end %>
 				<% if advanced %>
@@ -83,7 +83,7 @@
 						<%#=box(@pictograph.risks.first.hex, 45)%>
 				    <% for icon in %w[box oval avatar male female] %>
 				    	<% url = "https://s3.amazonaws.com/icon-array/icons/#{icon}.png" %>
-							<%=icon(url, @pictograph.risks.first.hex, 45) %>
+							<%=icon(url, @pictograph.risks.first.hex, 45, 22) %>
 						<% end %>
 						<%= f.hidden_field :icon %>
 				  </div>
