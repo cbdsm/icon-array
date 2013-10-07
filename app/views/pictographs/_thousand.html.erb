@@ -29,7 +29,7 @@
 		<% @dec = (j == val and dval > 0.0) ? dval : 1.0 %>
 		<% bg_color = risks[index + 1].hex if @dec < 1.0 %>
 
-		<% content = "<td id='cell#{i}' style='position:relative; background-color: #{bg_color};padding:0;  width: #{@pictograph.cell_width}px; height: #{@pictograph.thousand_height}px;' class='picto-cell fill#{risk.position}' data-color='#{risk.hex}'><div style='background-color: #{risk.hex};  height: #{(@pictograph.thousand_height) * @dec}px; margin-top: #{(@pictograph.thousand_height * (1.0 - @dec))}px;'></div>" %>
+		<% content = "<td id='cell#{i}' style='position:relative; background-color: #{bg_color};padding:0;  width: #{@pictograph.cell_width}px; height: #{@pictograph.thousand_height}px;' class='picto-cell fill#{risk.position}' data-color='#{risk.hex}'><div style='background-color: #{risk.hex};  height: #{(@pictograph.thousand_height) * @dec}px; margin-top: #{(@pictograph.thousand_height * (1.0 - @dec))}px; width: #{@pictograph.cell_width}px;'></div>" %>
 		<% content += icon_overlay_thousand(@pictograph.icon.blank? ? 'https://s3.amazonaws.com/icon-array/icons/box.png' : @pictograph.icon, @pictograph.cell_height, @pictograph.cell_width, @pictograph.cell_spacing) if @pictograph.thousand? %>
 		<% content += "</td>" %>
 		<% rows[current_row] << content %>
@@ -45,9 +45,9 @@
 	        	content = @pictograph.axis_format.gsub('%n', axis_num.to_s)
 	        end
 	        if @pictograph.axis_position == 'left'
-	          rows[current_row].unshift "<td class='picto-axis-label' style='text-align:right; width: #{@pictograph.axis_width}px;'><div style='font-size: #{@pictograph.axis_font_size}px; line-height: #{@pictograph.axis_line_height}px; margin-top: -#{@pictograph.axis_margin_top}px;'>#{content}</div></td>"
+	          rows[current_row].unshift "<td class='picto-axis-label' style='text-align:right;'><div style='font-size: #{@pictograph.axis_font_size}px; line-height: #{@pictograph.axis_line_height}px; margin-top: -#{@pictograph.axis_margin_top}px;'>#{content}</div></td>"
 	        else
-	          rows[current_row].push "<td class='picto-axis-label' style='text-align:left; width: #{@pictograph.axis_width}px;'><div style='font-size: #{@pictograph.axis_font_size}px; line-height: #{@pictograph.axis_line_height}px; margin-top: -#{@pictograph.axis_margin_top}px;'>#{content}</div></td>"
+	          rows[current_row].push "<td class='picto-axis-label' style='text-align:left;'><div style='font-size: #{@pictograph.axis_font_size}px; line-height: #{@pictograph.axis_line_height}px; margin-top: -#{@pictograph.axis_margin_top}px;'>#{content}</div></td>"
 	        end
 	      end
 	    end
@@ -57,7 +57,7 @@
 	<% end %>
 <% end %>
 
-<table class='pictograph' style="border-spacing: <%="#{@pictograph.cell_spacing}px #{@pictograph.cell_height}px"%>; width: <%=@pictograph.table_width%>px; ">
+<table class='pictograph' style="table-layout: fixed; border-spacing: <%="#{@pictograph.cell_spacing}px #{@pictograph.cell_height}px"%>; width: <%=@pictograph.table_width%>px; ">
 	<% for i in 1..10 %>
 		<%= "<tr>#{rows[i].join()}</tr>".html_safe %>
 	<% end %>
