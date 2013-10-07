@@ -75,7 +75,7 @@ class ApplicationController < ActionController::Base
       
       # pare out some attributes if this is basic mode
       unless @advanced == true
-        @p = {:title => @p[:title], :risks_attributes => {0 => @p[:risks_attributes]['0'], 1 => @p[:risks_attributes]['1']}}
+        @p = {:title => @p[:title], :icon => @p[:icon], :risks_attributes => {0 => @p[:risks_attributes]['0'], 1 => @p[:risks_attributes]['1']}}
       end
             
       @p.delete(:title) if @p[:title].blank?

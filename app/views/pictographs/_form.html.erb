@@ -74,7 +74,9 @@
 					<% i += 1 %>
 				<% end %>
 
-
+		<% if !advanced %>
+			<%= f.hidden_field :icon %>
+		<% end %>
 		<% if advanced %>
 			<div class="tab-pane" id="icons">
 				<fieldset id="icons">
