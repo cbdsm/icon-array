@@ -82,7 +82,7 @@ function change_color(el, color) {
 	}
 	var height = testImg.height();
 
-	el.find('div').css('background-color', color);
+	el.find('div:first').css('background-color', color);
 	el.css('background-color', $('input#pictograph_risks_attributes_0_hex').val());
 
 	el.each(function(){

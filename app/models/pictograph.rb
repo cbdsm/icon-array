@@ -29,7 +29,7 @@ class Pictograph < ActiveRecord::Base
   end
 
   def thousand_height
-    (cell_height * 4) + (cell_spacing * 3)
+    (cell_height * 4) + (cell_spacing * 4)
   end
   
   def axis_line_height

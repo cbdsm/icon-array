@@ -344,6 +344,14 @@ img.overlay {
 	left: 0;
 	background: rgba(0, 0, 255, 1.0);*/
 }
+td.picto-cell div.thousand {
+	vertical-align:bottom; 
+	box-sizing: border-box; 
+	-moz-box-sizing: border-box; 
+	background-repeat:no-repeat; 
+	height:25%;
+}
+
 
 .field div.box-icon {
   float: left; 

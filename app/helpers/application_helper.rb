@@ -22,13 +22,23 @@ module ApplicationHelper
     return out.html_safe
   end
 
-  def icon_overlay_thousand(icon, height=45, width=nil, spacing=2)
+  def icon_overlay_thousand_hack(icon, height=48, width=nil, spacing=2)
     css_width = width.blank? ? '' : "width: #{width}px; "
     out = ''
     for i in 1..4
       # out += image_tag icon, :style => "height:#{height}px; bottom: #{(i * height) + (i * spacing)}px; border-top: solid #ffffff #{spacing}px; position:absolute; top: auto; z-index:9999"
-      out += image_tag icon, :style => "height:#{height}px; width: #{width}px; margin-top: -#{(i * height) + (i * spacing)}px; border-top: solid #ffffff #{spacing}px;"
+      out += image_tag icon, :class => 'picto-cell-icon', :style => "height:#{height}px; width: #{width}px; margin-top: -#{(i * height) + (i * spacing)}px; border-top: solid #ffffff #{spacing}px;"
     end
+    return out.html_safe
+  end
+
+  def icon_overlay_thousand(icon, height=48, width=nil, spacing=2)
+    css_width = width.blank? ? '' : "width: #{width}px; "
+    out = "<div class=\"images\" style=\"float: left; height: #{height}px; margin-top: -#{height}px;\">"
+    for i in 1..4
+      out += content_tag 'div', ' ', :class => 'thousand picto-cell-icon', :style => "background:url(#{icon});  background-size: cover; -ms-behavior: url(/assets/backgroundsize.min.htc); width: #{width}px; border-top: solid #ffffff #{spacing}px;"
+    end
+    out += "</div>"
     return out.html_safe
   end
 

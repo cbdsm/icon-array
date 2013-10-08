@@ -409,8 +409,10 @@ $(document).ready(function() {
 		var color;
 
 		// If we have an image, replace it
-		if ($('td.picto-cell:first').find('img').length > 0) {
-			$('td.picto-cell img').attr('src', img);
+		if ($('td.picto-cell:first').find('.picto-cell-icon').length > 0) {
+			$('td.picto-cell .picto-cell-icon').attr('src', img);
+			$('td.picto-cell .picto-cell-icon').css('background', 'url(' + img + ')');
+			$('td.picto-cell .picto-cell-icon').css('background-size', 'cover');
 		} else {
 			$('td.picto-cell').append('<img class="picto-cell-icon" alt="' + alt + '" src="' + img + '" style="height:' + td.height() + 'px; width: ' + td.width() + 'px; display: inline-block; margin-top: -' + td.height() + 'px;"></div>');
 		}

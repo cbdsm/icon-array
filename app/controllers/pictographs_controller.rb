@@ -156,6 +156,7 @@ class PictographsController < ApplicationController
       format.xml  { render :xml => @pictograph }   
 
       format.jpg {
+        @export = true
         if @pictograph.icon and !@pictograph.icon.blank?
           @pictograph.icon.gsub!('png', 'svg')
         end
@@ -167,6 +168,7 @@ class PictographsController < ApplicationController
         send_data(image, :type => "image/jpeg", :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.jpg")
       }
       format.png {
+        @export = true
         if @pictograph.icon and !@pictograph.icon.blank?
           @pictograph.icon.gsub!('png', 'svg')
         end
@@ -178,6 +180,7 @@ class PictographsController < ApplicationController
         send_data(image, :type => "image/png", :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.png")
       }
       format.tif {
+        @export = true
         @pictograph.print = true
         if @pictograph.icon and !@pictograph.icon.blank?
           @pictograph.icon.gsub!('png', 'svg')
