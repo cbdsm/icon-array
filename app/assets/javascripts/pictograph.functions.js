@@ -105,15 +105,15 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 		if (Math.round(curRisk) != curRisk) {
 			debug_log('decimalizing lower value: ' + el.children('div:first').html());
 			var bgColor = el2.children('div:first').css('background-color');
-			var fgColor = el.children('div').css('background-color');
+			var fgColor = el.children('div:first').css('background-color');
 			debug_log("BG color: " + bgColor + ', FG color: ' + fgColor);
 
 			if (fgColor == bgColor) {
-				el.children('div').height(height).css('margin-top', 0);
+				el.children('div:first').height(height).css('margin-top', 0);
 				el.css('background-color', $('input#pictograph_risks_attributes_0_hex').val());
 			} else {
 				var diff = Math.ceil(curRisk) - curRisk;
-				el.children('div').height(height * (1.0 - diff)).css('margin-top', height * diff);
+				el.children('div:first').height(height * (1.0 - diff)).css('margin-top', height * diff);
 				el.css('background-color', bgColor);
 			}
 		}
@@ -123,7 +123,7 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 			debug_log('decimalizing higher value: ' + el2.children('div:first').html());
 			var diff = Math.ceil(thisRisk) - thisRisk;
 			var bgColor = el2.children('div:first').css('background-color');
-			el2.children('div').height(height * (1.0 - diff)).css('margin-top', height * diff);
+			el2.children('div:first').height(height * (1.0 - diff)).css('margin-top', height * diff);
 			el2.css('background-color', color);
 		}
 		
@@ -183,7 +183,7 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 
 		if (Math.round(curRisk) != curRisk) {
 			debug_log('decimalizing lower value: ' + el.children('div:first').html());
-			el.children('div').height(height).css('margin-top', 0);
+			el.children('div:first').height(height).css('margin-top', 0);
 			el.css('background-color', $('input#pictograph_risks_attributes_0_hex').val());
 		}
 
@@ -191,7 +191,7 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 		if (Math.round(thisRisk) != thisRisk) {
 			debug_log('decimalizing higher value: ' + el2.children('div:first').html());
 			var diff = Math.ceil(thisRisk) - thisRisk;
-			el2.children('div').height(height * (1.0 - diff)).css('margin-top', height * diff);
+			el2.children('div:first').height(height * (1.0 - diff)).css('margin-top', height * diff);
 			el2.css('background-color', htColor);
 		}
 
