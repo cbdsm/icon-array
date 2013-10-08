@@ -15,10 +15,18 @@ module ApplicationHelper
 		return out.html_safe
   end
 
-  def icon_overlay(icon, height=45, width=nil)
+  def icon_overlay_hack(icon, height=45, width=nil)
     css_width = width.blank? ? '' : "width: #{width}px; "
     # out = image_tag icon, :style => "height:#{height}px; margin-top: -#{height}px;", :class => 'picto-cell-icon'
     out = image_tag icon, :style => "height:#{height}px; width: #{width}px; margin-top: -#{height}px; display:inline-block;", :class => 'picto-cell-icon'
+    return out.html_safe
+  end
+
+  def icon_overlay(icon, height=45, width=nil)
+    css_width = width.blank? ? '' : "width: #{width}px; "
+    # out = image_tag icon, :style => "height:#{height}px; margin-top: -#{height}px;", :class => 'picto-cell-icon'
+    # out = image_tag icon, :style => "height:#{height}px; width: #{width}px; margin-top: -#{height}px; display:inline-block;", :class => 'picto-cell-icon'
+    out = content_tag 'div', '', :class => 'picto-cell-icon', :style => "background:url(#{icon});  background-size: cover; -ms-behavior: url(/assets/backgroundsize.min.htc);height:100%; width: #{width}px; margin-top: -#{height}px; display:inline-block; float: left;"
     return out.html_safe
   end
 
