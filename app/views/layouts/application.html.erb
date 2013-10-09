@@ -43,6 +43,24 @@
 	</div>
 	
 	<div class="container content">
+		<div class="row row-fluid">
+			<p class="alert alert-warning browser-warning span9" id="mozilla" style="display:none; margin-left: 80px;">
+				<a class="close" data-dismiss="alert" href="#">&times;</a>
+				Firefox users: please be sure to check that zoom is set to 0 for optimal performance. Image creation will be unaffected, but you will have the best experience without using zoom.
+			</p>
+			<p class="alert alert-warning browser-warning span9" id="msie7" style="display:none; margin-left: 80px;">
+				<a class="close" data-dismiss="alert" href="#">&times;</a>
+				IconArray.com requires Internet Explorer 9 or above. <%=link_to 'Chrome', 'https://www.google.com/intl/en/chrome/browser/', {:target => '_blank'} %> is available for most operating systems and will provide the optimal experience.
+			</p>
+			<p class="alert alert-warning browser-warning span9" id="msie8" style="display:none; margin-left: 80px;">
+				<a class="close" data-dismiss="alert" href="#">&times;</a>
+				IconArray.com requires Internet Explorer 9 or above for best experience. Some features will not work properly on Internet Explorer 8. <%=link_to 'Chrome', 'https://www.google.com/intl/en/chrome/browser/', {:target => '_blank'} %> is available for most operating systems and will provide the optimal experience.
+			</p>
+			<p class="alert alert-warning browser-warning span9" id="msie9" style="display:none; margin-left: 80px;">
+				<a class="close" data-dismiss="alert" href="#">&times;</a>
+				Internet Explorer users: please be sure to check that zoom is set to 0 for optimal performance. Image creation will be unaffected, but you will have the best experience without using zoom.
+			</p>
+		</div>
 		<%= yield %>
 		<%=yield(:actions)%>
 	

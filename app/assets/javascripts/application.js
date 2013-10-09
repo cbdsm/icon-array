@@ -24,6 +24,7 @@
 //= require jquery.jeditable.min
 //= require jquery.row-column
 //= require jquery.ui.draggable
+//= require jquery.cookie
 //= require modernizr.svg.js
 //= require globals
 //= require helpers
@@ -36,7 +37,28 @@ $(document).ready(function() {
 			$(this).children('div').html($('table.pictograph td.picto-cell').index($(this)));
 		});
 	}
-	
+
+	if ($.cookie('hide-browser-warning') != 1) {
+		if ( !$.browser.webkit ) {
+	    if ( $.browser.msie ) {
+	    	if (parseInt($.browser.version) < 8) {
+			  	$('#msie7.browser-warning').show();
+			 	} else if (parseInt($.browser.version) < 9) {
+			  	$('#msie8.browser-warning').show();
+			 	} else {
+			 		$('#msie9.browser-warning').show();
+			 	}
+			} else if ($.browser.mozilla) {
+				$('#mozilla.browser-warning').show();
+			}
+	  }
+	}
+
+  $('.browser-warning').alert();
+  $('.browser-warning').bind('closed', function () {
+	  $.cookie('hide-browser-warning', 1);
+	})
+
 	$('.dropdown-toggle').dropdown()
 	
 	// This allows us to set the li active for any active a tag
