@@ -38,7 +38,7 @@ class Pictograph < ActiveRecord::Base
   
   def axis_width
     if axis_labels
-      axis_font_size * axis_format.length
+      (axis_font_size / 2) * axis_format.length
     else
       0
     end
@@ -104,7 +104,7 @@ class Pictograph < ActiveRecord::Base
   
   private
     def set_attr
-      @legend_width = 410
+      @legend_width = legend_position == 'below' ? (table_width - 30) : 410
       @scale_width = legend_scale? ? cell_width : 16
       @scale_height = legend_scale? ? cell_height : 30
     end
