@@ -38,7 +38,8 @@ class Pictograph < ActiveRecord::Base
   
   def axis_width
     if axis_labels
-      (axis_font_size / 2) * axis_format.length
+      out = (axis_font_size / 2) * axis_format.length
+      return thousand? ? out * 2 : out
     else
       0
     end
@@ -84,7 +85,7 @@ class Pictograph < ActiveRecord::Base
 
   def bottom_axis_margin_top
     if thousand?
-      out = (cell_spacing + axis_line_height).round + cell_height
+      out = (cell_spacing + axis_line_height).round + (cell_height / 2)
     else
       out = (cell_spacing + axis_line_height).round
     end

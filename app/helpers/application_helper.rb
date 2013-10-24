@@ -12,6 +12,14 @@ module ApplicationHelper
     css_width = width.blank? ? '' : "width: #{width}px; "
     out = image_tag icon, :style => "#{css_width}height:#{height}px; background-color: #{color}", :class => 'overlay'
     # out = "<img src='#{url}/images/icons/#{icon_file}' style='#{css_width}height:#{height}px; background-color: #{color}' class='overlay' />"
+
+    out = "<div style='position: relative; #{css_width}height:#{height}px;'>"
+    out += content_tag 'div', '', :class => 'overlay', :style => "background:url(#{icon});  background-size: cover; -ms-behavior: url(/assets/backgroundsize.min.htc); #{css_width}height:#{height}px; background-color: #{color}"
+    out += '<div style="width:10%; position:absolute; left: -5%; bottom: 0px; height: 100%; background-color: white;"></div>
+        <div style="width:10%; position:absolute; right: -5%; bottom: 0px; height: 100%; background-color: white;"></div>
+        <div style="width:100%; position:absolute; top: -2%; height: 4%; left: 0px; background-color: white;"></div>
+        <div style="width:100%; position:absolute; bottom: -3%; left: 0px; height: 6%; background-color: white;"></div>'.html_safe
+    out += "</div>"
 		return out.html_safe
   end
 
@@ -27,6 +35,10 @@ module ApplicationHelper
     # out = image_tag icon, :style => "height:#{height}px; margin-top: -#{height}px;", :class => 'picto-cell-icon'
     # out = image_tag icon, :style => "height:#{height}px; width: #{width}px; margin-top: -#{height}px; display:inline-block;", :class => 'picto-cell-icon'
     out = content_tag 'div', '', :class => 'picto-cell-icon', :style => "background:url(#{icon});  background-size: cover; -ms-behavior: url(/assets/backgroundsize.min.htc);height:100%; width: #{width}px; margin-top: -#{height}px; display:inline-block; float: left;"
+    out += '<div style="width:10%; position:absolute; left: -5%; bottom: 0px; height: 100%; background-color: white;"></div>
+        <div style="width:10%; position:absolute; right: -5%; bottom: 0px; height: 100%; background-color: white;"></div>
+        <div style="width:100%; position:absolute; top: -2%; height: 4%; left: 0px; background-color: white;"></div>
+        <div style="width:100%; position:absolute; bottom: -3%; left: 0px; height: 6%; background-color: white;"></div>'.html_safe
     return out.html_safe
   end
 
