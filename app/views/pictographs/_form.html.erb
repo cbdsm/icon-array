@@ -27,7 +27,7 @@
 				<% @tab_risks.each_with_index do |risk, i| %>
 					<li class='<%="active" if i == 0 %> color-tab'><a href="#color<%=i + 1%>" data-toggle="tab" data-color="<%=risk.hex%>">
 						<% if !@pictograph.icon.blank? %>
-							<%=icon(@pictograph.icon, risk.hex, 15, 7)%>
+							<%=icon(@pictograph.icon, risk.hex, 15, 7, false)%>
 						<% else %>
 							<%=box(risk.hex, 15)%>
 						<% end %>
@@ -38,7 +38,7 @@
 				<% end %>
 				<li class='color-tab'><a href="#color0" data-toggle="tab" data-color="<%=@off_risk.hex%>">
 				<% if !@pictograph.icon.blank? %>
-					<%=icon(@pictograph.icon, @off_risk.hex, 15, 7)%>
+					<%=icon(@pictograph.icon, @off_risk.hex, 15, 7, false)%>
 				<% else %>
 					<%=box(@off_risk.hex, 15)%>
 				<% end %>
@@ -85,7 +85,7 @@
 						<%#=box(@pictograph.risks.first.hex, 45)%>
 				    <% for icon in %w[box oval avatar male female] %>
 				    	<% url = "https://s3.amazonaws.com/icon-array/icons/#{icon}.png" %>
-							<%=icon(url, @pictograph.risks.first.hex, 45, 22) %>
+							<%=image_tag(url, :style => "background-color: #{@pictograph.risks.first.hex}", :height => 45, :width => 22, :class => 'overlay') %>
 						<% end %>
 						<%= f.hidden_field :icon %>
 				  </div>

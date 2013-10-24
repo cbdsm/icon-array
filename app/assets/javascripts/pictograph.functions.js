@@ -24,6 +24,7 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 	debug_log('\ncurRisk: ' + cmpRisk + ' thisRisk: ' + thisRisk);
 	
 	// If this is a thousand unit picto, adjust accordingly
+	unadjRisk = thisRisk;
 	if (thousand()) {
 		curRisk /= 4.0;
 		cmpRisk /= 4.0;
@@ -97,7 +98,7 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 		if (hiTabs.length > 0) {
 			var color = hiTabs.first().find('input.color-field').val();
 			var tabRisk = hiTabs.first().find('input.value-field').val();
-			updateMultiple(thisRisk + Number(tabRisk), color, thisRisk, hiTabs.first());
+			updateMultiple(unadjRisk + Number(tabRisk), color, unadjRisk, hiTabs.first());
 		} else {
 			var color = $('input#pictograph_risks_attributes_0_hex').val();
 		}
@@ -175,8 +176,10 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 			var htCell = $('table.pictograph td.picto-cell[data-color="' + htColor + '"]:last');
 			
 			var ind = $('table.pictograph td.picto-cell').index(htCell);
-			var val = Number(tabRisk) + Number(thisRisk) - diff;
-			updateMultiple(thisRisk + Number(tabRisk), color, val, hiTabs.first());
+			var val1 = Number(tabRisk) + Number(unadjRisk);
+			if (thousand()){ diff *= 4.0 }
+			var val2 = val1 - diff;
+			updateMultiple(val1, color, val2, hiTabs.first());
 		} else {
 			var color = $('input#pictograph_risks_attributes_0_hex').val();
 		}

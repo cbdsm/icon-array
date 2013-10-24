@@ -49,7 +49,7 @@ $(document).ready(function() {
 			 		$('#msie9.browser-warning').show();
 			 	}
 			} else if ($.browser.mozilla) {
-				$('#mozilla.browser-warning').show();
+				// $('#mozilla.browser-warning').show();
 			}
 	  }
 	}
