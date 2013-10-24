@@ -8,15 +8,17 @@ module ApplicationHelper
 		end
   end
   
-  def icon(this_icon, color, height=45, width=nil)
+  def icon(this_icon, color, height=45, width=nil, border=true)
     css_width = width.blank? ? '' : "width: #{width}px; "
 
     out = "<div style='position: relative; #{css_width}height:#{height}px;'>"
     out += content_tag 'div', '', :class => 'overlay', :style => "background:url(#{this_icon});  background-size: cover; -ms-behavior: url(/assets/backgroundsize.min.htc); #{css_width}height:#{height}px; background-color: #{color}"
+    unless border === false
     out += '<div style="width: 2px; position:absolute; left: -1px; bottom: 0px; height: 100%; background-color: white;"></div>
         <div style="width: 2px; position:absolute; right: -1px; bottom: 0px; height: 100%; background-color: white;"></div>
         <div style="width:100%; position:absolute; top: -1px; height: 2px; left: 0px; background-color: white;"></div>
         <div style="width:100%; position:absolute; bottom: -1px; left: 0px; height: 2px; background-color: white;"></div>'.html_safe
+    end
     out += "</div>"
 		return out.html_safe
   end
