@@ -1,8 +1,7 @@
 <% if @pictograph.legend_position == 'below' %>
 	<div id="legend" class="below" style="font-family: '<%=@pictograph.legend_font%>'; font-size: <%=@pictograph.legend_font_size%>px; width: <%=@pictograph.legend_width%>px; margin-left: <%=@pictograph.axis_width * 5 / 3 %>px;">
-		<% @legend_width = @pictograph.legend_width %>
 <% else %>
-	<div id="legend" class="right" style="font-family: '<%=@pictograph.legend_font%>'; font-size: <%=@pictograph.legend_font_size%>px; width: <%=@pictograph.legend_width%>px; margin-left: <%=@pictograph.cell_width * 2%>px;	margin-top: 25px; float: left;">
+	<div id="legend" class="right" style="font-family: '<%=@pictograph.legend_font%>'; font-size: <%=@pictograph.legend_font_size%>px; width: <%=@pictograph.legend_width%>px; margin-left: <%=@pictograph.table_width + (4 * @pictograph.cell_width) + 20 %>px;	padding-top: <%= (@pictograph.thousand? ? @pictograph.thousand_height : @pictograph.cell_height)/ 1.5 %>px;">
 <% end %>
 	<dl id="risk-legend">
 		<% off = @pictograph.risks.shift
@@ -16,7 +15,7 @@
 						<div class="legend-icon" id="test<%=risk.position%>" style="width: <%=@pictograph.cell_width%>px; height: <%=@pictograph.cell_height%>px; background-color: <%=risk.hex%>;" data-color="<%=risk.hex%>"></div>
 					<% end %>
 				</dt>
-				<dd id="frisky<%=risk.position%>" style="width:<%=@pictograph.legend_width - @pictograph.scale_width - 20%>px;">
+				<dd id="frisky<%=risk.position%>" style="width:<%=@pictograph.legend_width - @pictograph.scale_width - 20%>px; min-height: <%=@pictograph.scale_height * 1.25%>px;">
 					<% unless risk.value.blank? %>
 						<span id="#risks_<%=risk.position%>_value" class="risk-val"><%= risk.value == risk.value.round ? risk.value.to_i : risk.value %></span>
 					<% else%>

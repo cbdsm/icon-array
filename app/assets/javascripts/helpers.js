@@ -82,11 +82,11 @@ function change_color(el, color) {
 	}
 	var height = testImg.height();
 
-	el.find('div div:first').css('background-color', color);
+	el.find('div.cell-foreground').css('background-color', color);
 	el.css('background-color', $('input#pictograph_risks_attributes_0_hex').val());
 
 	el.each(function(){
-		$(this).find('div:first').height(height).css('margin-top', '0');
+		$(this).find('div.cell-foreground').height(height);
 	});
 }
 

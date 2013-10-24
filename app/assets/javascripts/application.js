@@ -34,7 +34,7 @@
 $(document).ready(function() {
 	if (debug) {
 		$('td.picto-cell').livequery(function(){
-			$(this).children('div').html($('table.pictograph td.picto-cell').index($(this)));
+			// $(this).children('div').html($('table.pictograph td.picto-cell').index($(this)));
 		});
 	}
 

@@ -103,28 +103,28 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 		}
 
 		if (Math.round(curRisk) != curRisk) {
-			debug_log('decimalizing lower value: ' + el.children('div:first').html());
-			var bgColor = el2.children('div:first').css('background-color');
-			var fgColor = el.children('div:first').css('background-color');
+			debug_log('decimalizing lower value: ' + el.find('div.cell-foreground').html());
+			var bgColor = el2.find('div.cell-foreground').css('background-color');
+			var fgColor = el.find('div.cell-foreground').css('background-color');
 			debug_log("BG color: " + bgColor + ', FG color: ' + fgColor);
 
 			if (fgColor == bgColor) {
-				el.children('div:first').height(height).css('margin-top', 0);
+				el.find('div.cell-foreground').height(height);
 				el.css('background-color', $('input#pictograph_risks_attributes_0_hex').val());
 			} else {
 				var diff = Math.ceil(curRisk) - curRisk;
-				el.children('div:first').height(height * (1.0 - diff)).css('margin-top', height * diff);
-				el.css('background-color', bgColor);
+				el.find('div.cell-foreground').height(height * (1.0 - diff));
+				el.find('div.cell-background').css('background-color', bgColor);
 			}
 		}
 
 		// If we need to adjust the value for a decimal
 		if (Math.round(thisRisk) != thisRisk) {
-			debug_log('decimalizing higher value: ' + el2.children('div:first').html());
+			debug_log('decimalizing higher value: ' + el2.find('div.cell-foreground').html());
 			var diff = Math.ceil(thisRisk) - thisRisk;
-			var bgColor = el2.children('div:first').css('background-color');
-			el2.children('div:first').height(height * (1.0 - diff)).css('margin-top', height * diff);
-			el2.css('background-color', color);
+			var bgColor = el2.find('div.cell-foreground').css('background-color');
+			el2.find('div.cell-foreground').height(height * (1.0 - diff));
+			el2.find('div.cell-background').css('background-color', color);
 		}
 		
 	// We're decreasing
@@ -182,17 +182,17 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 		}
 
 		if (Math.round(curRisk) != curRisk) {
-			debug_log('decimalizing lower value: ' + el.children('div:first').html());
-			el.children('div:first').height(height).css('margin-top', 0);
-			el.css('background-color', $('input#pictograph_risks_attributes_0_hex').val());
+			debug_log('decimalizing lower value: ' + el.find('div.cell-foreground').html());
+			el.find('div.cell-foreground').height(height);
+			el.find('div.cell-background').css('background-color', $('input#pictograph_risks_attributes_0_hex').val());
 		}
 
 		// If we need to adjust the value for a decimal
 		if (Math.round(thisRisk) != thisRisk) {
-			debug_log('decimalizing higher value: ' + el2.children('div:first').html());
+			debug_log('decimalizing higher value: ' + el2.find('div.cell-foreground').html());
 			var diff = Math.ceil(thisRisk) - thisRisk;
-			el2.children('div:first').height(height * (1.0 - diff)).css('margin-top', height * diff);
-			el2.css('background-color', htColor);
+			el2.find('div.cell-foreground').height(height * (1.0 - diff));
+			el2.find('div.cell-background').css('background-color', htColor);
 		}
 
 	}
