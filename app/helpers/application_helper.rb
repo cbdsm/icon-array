@@ -8,55 +8,43 @@ module ApplicationHelper
 		end
   end
   
-  def icon(icon, color, height=45, width=nil)
+  def icon(this_icon, color, height=45, width=nil)
     css_width = width.blank? ? '' : "width: #{width}px; "
-    out = image_tag icon, :style => "#{css_width}height:#{height}px; background-color: #{color}", :class => 'overlay'
-    # out = "<img src='#{url}/images/icons/#{icon_file}' style='#{css_width}height:#{height}px; background-color: #{color}' class='overlay' />"
 
     out = "<div style='position: relative; #{css_width}height:#{height}px;'>"
-    out += content_tag 'div', '', :class => 'overlay', :style => "background:url(#{icon});  background-size: cover; -ms-behavior: url(/assets/backgroundsize.min.htc); #{css_width}height:#{height}px; background-color: #{color}"
-    out += '<div style="width:10%; position:absolute; left: -5%; bottom: 0px; height: 100%; background-color: white;"></div>
-        <div style="width:10%; position:absolute; right: -5%; bottom: 0px; height: 100%; background-color: white;"></div>
-        <div style="width:100%; position:absolute; top: -2%; height: 4%; left: 0px; background-color: white;"></div>
-        <div style="width:100%; position:absolute; bottom: -3%; left: 0px; height: 6%; background-color: white;"></div>'.html_safe
+    out += content_tag 'div', '', :class => 'overlay', :style => "background:url(#{this_icon});  background-size: cover; -ms-behavior: url(/assets/backgroundsize.min.htc); #{css_width}height:#{height}px; background-color: #{color}"
+    out += '<div style="width: 2px; position:absolute; left: -1px; bottom: 0px; height: 100%; background-color: white;"></div>
+        <div style="width: 2px; position:absolute; right: -1px; bottom: 0px; height: 100%; background-color: white;"></div>
+        <div style="width:100%; position:absolute; top: -1px; height: 2px; left: 0px; background-color: white;"></div>
+        <div style="width:100%; position:absolute; bottom: -1px; left: 0px; height: 2px; background-color: white;"></div>'.html_safe
     out += "</div>"
 		return out.html_safe
   end
 
-  def icon_overlay_hack(icon, height=45, width=nil)
+  def icon_overlay(this_icon, height=45, width=nil)
     css_width = width.blank? ? '' : "width: #{width}px; "
-    # out = image_tag icon, :style => "height:#{height}px; margin-top: -#{height}px;", :class => 'picto-cell-icon'
-    out = image_tag icon, :style => "height:#{height}px; width: #{width}px; margin-top: -#{height}px; display:inline-block;", :class => 'picto-cell-icon'
+    out = content_tag 'div', '', :class => 'picto-cell-icon', :style => "background:url(#{this_icon});  background-size: cover; -ms-behavior: url(/assets/backgroundsize.min.htc);height:100%; width: #{width}px; display:inline-block; position: absolute; bottom: 0px;"
+    out += '<div style="width:2px; position:absolute; left: -1px; bottom: 0px; height: 100%; background-color: white;"></div>
+        <div style="width:2px; position:absolute; right: -1px; bottom: 0px; height: 100%; background-color: white;"></div>
+        <div style="width:100%; position:absolute; top: -1px; height: 2px; left: 0px; background-color: white;"></div>
+        <div style="width:100%; position:absolute; bottom: -1px; left: 0px; height: 2px; background-color: white;"></div>'.html_safe
     return out.html_safe
   end
 
-  def icon_overlay(icon, height=45, width=nil)
-    css_width = width.blank? ? '' : "width: #{width}px; "
-    # out = image_tag icon, :style => "height:#{height}px; margin-top: -#{height}px;", :class => 'picto-cell-icon'
-    # out = image_tag icon, :style => "height:#{height}px; width: #{width}px; margin-top: -#{height}px; display:inline-block;", :class => 'picto-cell-icon'
-    out = content_tag 'div', '', :class => 'picto-cell-icon', :style => "background:url(#{icon});  background-size: cover; -ms-behavior: url(/assets/backgroundsize.min.htc);height:100%; width: #{width}px; margin-top: -#{height}px; display:inline-block; float: left;"
-    out += '<div style="width:10%; position:absolute; left: -5%; bottom: 0px; height: 100%; background-color: white;"></div>
-        <div style="width:10%; position:absolute; right: -5%; bottom: 0px; height: 100%; background-color: white;"></div>
-        <div style="width:100%; position:absolute; top: -2%; height: 4%; left: 0px; background-color: white;"></div>
-        <div style="width:100%; position:absolute; bottom: -3%; left: 0px; height: 6%; background-color: white;"></div>'.html_safe
-    return out.html_safe
-  end
-
-  def icon_overlay_thousand_hack(icon, height=48, width=nil, spacing=2)
+  def icon_overlay_thousand_hack(this_icon, height=48, width=nil, spacing=2)
     css_width = width.blank? ? '' : "width: #{width}px; "
     out = ''
-    for i in 1..4
-      # out += image_tag icon, :style => "height:#{height}px; bottom: #{(i * height) + (i * spacing)}px; border-top: solid #ffffff #{spacing}px; position:absolute; top: auto; z-index:9999"
-      out += image_tag icon, :class => 'picto-cell-icon', :style => "height:#{height}px; width: #{width}px; margin-top: -#{(i * height) + (i * spacing)}px; border-top: solid #ffffff #{spacing}px;"
+    for i in 0..3
+      out += image_tag this_icon, :class => 'picto-cell-icon', :style => "height:#{height}px; width: #{width}px; position: absolute; top: #{(i * height) + (i * spacing)}px; border-top: solid #ffffff #{spacing}px;"
     end
     return out.html_safe
   end
 
-  def icon_overlay_thousand(icon, height=48, width=nil, spacing=2)
+  def icon_overlay_thousand(this_icon, height=48, width=nil, spacing=2)
     css_width = width.blank? ? '' : "width: #{width}px; "
-    out = "<div class=\"images\" style=\"float: left; height: #{height}px; margin-top: -#{height}px;\">"
+    out = "<div class=\"images\" style=\"height: #{height}px; position: absolute; bottom: 0px;\">"
     for i in 1..4
-      out += content_tag 'div', ' ', :class => 'thousand picto-cell-icon', :style => "background:url(#{icon});  background-size: cover; -ms-behavior: url(/assets/backgroundsize.min.htc); width: #{width}px; border-top: solid #ffffff #{spacing}px;"
+      out += content_tag 'div', ' ', :class => 'thousand picto-cell-icon', :style => "background:url(#{this_icon});  background-size: cover; -ms-behavior: url(/assets/backgroundsize.min.htc); width: #{width}px; border-top: solid #ffffff #{spacing}px;"
     end
     out += "</div>"
     return out.html_safe

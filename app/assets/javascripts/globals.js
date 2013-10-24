@@ -19,7 +19,7 @@ $(document).ready(function() {
 
 	// globals
 	// This stuff is mostly for embedding/linking
-	debug = false;
+	debug = true;
 	
 	//  host = window.location.hostname;
 	//  port = window.location.port;
