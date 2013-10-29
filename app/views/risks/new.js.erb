@@ -10,9 +10,10 @@ $("form div.color-pane:last").after("<%= escape_javascript render('/risks/new_fo
 
 $('input#risks_<%=i%>_description').val('out of ' + cells + ' people exhibit this property');
 
-var tab_content = $('li.color-tab a:first').html().replace(/background-color\:\s*.+;/, 'background-color: <%=@pictograph.risks[0].hex%>;');
+var tab_content = $('li.color-tab a:first').html();
 
 $('form ul li#new-risk').before("<li class='color-tab'><a href='#color<%=i%>' data-toggle='tab' data-color='<%=@pictograph.risks[0].hex%>'>" + tab_content + "</a></li>");
+$('li.color-tab a:eq(-2) div.overlay').css('background-color', '<%=@pictograph.risks[0].hex%>')
 var tab = $('li#new-risk a').attr('href');
 var new_tab = tab.replace(/tab=\d+/, 'tab=<%=@tab.to_i + 1%>');
 $('li#new-risk a').attr('href', new_tab);

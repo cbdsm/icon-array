@@ -335,7 +335,7 @@ $(document).ready(function() {
 				
 				$('form ul.nav li.active a').attr('data-color', hex);
 				$('form ul.nav li.active a div.box-icon').css('background-color', hex);
-				$('form ul.nav li.active a img').css('background-color', hex);
+				$('form ul.nav li.active a div.overlay').css('background-color', hex);
 		 }
 		});
 	});
@@ -441,7 +441,7 @@ $(document).ready(function() {
 		
 		// Set the tab icon too
 		$('li.color-tab a').html('<img alt="' + alt + '" src="' + img + '" style="height:15px;">');
-		$('li.color-tab a img').each(function(){
+		$('li.color-tab a div.overlay').each(function(){
 			color = $(this).closest('a').attr('data-color');
 			$(this).css('background-color', color);
 		});
