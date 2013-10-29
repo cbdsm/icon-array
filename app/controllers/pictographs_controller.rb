@@ -198,7 +198,7 @@ class PictographsController < ApplicationController
         @kit = IMGKit.new(render_to_string('show', :layout => false), 'crop-w' => @pictograph.export_width)
         @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/application.css'
         @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/print.css'
-        image = @kit.to_jpg
+        image = @kit.to_tif
         send_data(image, :type => "image/tiff", :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.tiff")
         
         # # We have to do all of this with files, since stdin/stdout don't seem to work with wkhtmltoimage
