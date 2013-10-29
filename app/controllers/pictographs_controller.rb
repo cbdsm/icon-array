@@ -162,7 +162,7 @@ class PictographsController < ApplicationController
         end
         # @pictograph.print = true
         @kit = IMGKit.new(render_to_string('show', :layout => false), 'crop-w' => @pictograph.export_width)
-        @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/application.css'
+        # @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/application.css'
         @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/print.css'
         image = @kit.to_jpg
         send_data(image, :type => "image/jpeg", :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.jpg")
@@ -174,7 +174,7 @@ class PictographsController < ApplicationController
         end
         # @pictograph.print = true
         @kit = IMGKit.new(render_to_string('show', :layout => false), {'crop-w' => @pictograph.export_width, 'transparent' => true})
-        @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/application.css'
+        # @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/application.css'
         @kit.stylesheets << Rails.root.to_s + '/app/assets/stylesheets/print.css'
         image = @kit.to_png
         send_data(image, :type => "image/png", :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.png")
@@ -208,7 +208,7 @@ class PictographsController < ApplicationController
         
         bin = ENV['RACK_ENV'] == 'production' ? Rails.root.join('bin', 'wkhtmltoimage-amd64').to_s : 'wkhtmltoimage'       
                 
-        `#{bin} --format tiff --user-style-sheet #{Rails.root.to_s + '/app/assets/stylesheets/application.css'} #{inpath} #{outpath}`
+        `#{bin} --format tiff --user-style-sheet #{Rails.root.to_s + '/app/assets/stylesheets/print.css'} #{inpath} #{outpath}`
 
         send_file outpath, :type => 'image/tiff', :disposition => 'attachment', :filename => "icon-array_#{Time.now.strftime('%d-%m-%Y')}.tiff", :stream => false
         # File.unlink(inpath)
@@ -229,10 +229,28 @@ class PictographsController < ApplicationController
     @p.delete :format
     @p.delete :tab
     @pictograph = Pictograph.new(@p)
-    logger.info @pictograph.inspect
+
+    if params[:print] and (params[:print] == 'true' or params[:print] === true)
+      @pictograph.print = true
+      if @pictograph.icon and !@pictograph.icon.blank?
+        @pictograph.icon.gsub!('png', 'svg')
+      end
+      @pictograph.cell_width = @pictograph.cell_width * 5
+      @pictograph.cell_height = @pictograph.cell_height * 5
+      @pictograph.scale_width = @pictograph.scale_width * 5
+      @pictograph.scale_height = @pictograph.scale_height * 5
+      @pictograph.cell_spacing = @pictograph.cell_spacing * 5
+      @pictograph.axis_font_size = @pictograph.axis_font_size * 5
+      @pictograph.title_font_size = @pictograph.title_font_size * 5
+      @pictograph.legend_font_size = @pictograph.legend_font_size * 5
+      @pictograph.legend_width = @pictograph.legend_width * 5
+      template = 'show.tif.erb'
+    else
+      template = 'show'
+    end
     
     respond_to do |format|
-      format.html { render 'show', :layout => 'embed' }
+      format.html { render template, :layout => 'embed' }
       format.json { render json: @pictograph }
       format.xml  { render :xml => @pictograph }    
     end
