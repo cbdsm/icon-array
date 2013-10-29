@@ -48,7 +48,7 @@
 		        	content = @pictograph.axis_format.gsub('%n', axis_num.to_s)
 		        end
 		        if @pictograph.axis_position == 'left'
-		          rows[current_row].unshift "<td class='picto-axis-label' style='width: #{@pictograph.print ? @pictograph.axis_width + 50 : ''}px;text-align:right;'><div style='font-size: #{@pictograph.axis_font_size}px; line-height: #{@pictograph.axis_line_height}px; margin-top: -#{@pictograph.axis_margin_top}px;'>#{content}</div></td>"
+		          rows[current_row].unshift "<td class='picto-axis-label' style='width: #{@pictograph.print ? @pictograph.axis_width + 50 : ''}px;text-align:right;'><div style='font-size: #{@pictograph.axis_font_size}px; font-family: #{@pictograph.axis_font}; line-height: #{@pictograph.axis_line_height}px; margin-top: -#{@pictograph.axis_margin_top}px;'>#{content}</div></td>"
 		        else
 		          rows[current_row].push "<td class='picto-axis-label' style='#{@pictograph.print ? @pictograph.axis_width + 50 : ''}text-align:left;'><div style='font-size: #{@pictograph.axis_font_size}px; line-height: #{@pictograph.axis_line_height}px; margin-top: -#{@pictograph.axis_margin_top}px;'>#{content}</div></td>"
 		        end
