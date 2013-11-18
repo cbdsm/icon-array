@@ -30,3 +30,13 @@ ul.nav-tabs > li > a {
 .actions ul.dropdown-menu {
 	width: 99px;
 }
+
+.affix {
+  position: fixed;
+}
+
+#about-nav {
+	background-color: white;
+	width: 100%;
+	margin-top: -10px;
+}
