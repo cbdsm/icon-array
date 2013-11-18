@@ -19,6 +19,8 @@
 //= require bootstrap-alert
 //= require bootstrap-modal
 //= require bootstrap-dropdown
+//= require bootstrap-scrollspy
+//= require bootstrap-affix
 //= require jquery.miniColors.min
 //= require jquery.livequery
 //= require jquery.jeditable.min
@@ -502,5 +504,23 @@ $(document).ready(function() {
 		}
 	});
 	
+	// About page scrolling
+  var $root = $('html, body');
+  $('#about-nav a').click(function() {
+  	if ($('#about-nav').hasClass('affix')) {
+  		var offset = 91;
+  	} else {
+  		var offset = 141;
+  	}
+    var href = $.attr(this, 'href');
+    $root.animate({
+        scrollTop: $(href).offset().top - offset
+    }, 500, function () {
+        window.location.hash = href;
+    });
+    return false;
+  });
+  $('body').scrollspy({offset: 50});
+	$('#about-nav').affix();
 	
 });
