@@ -47,7 +47,7 @@
 
 		<% content = "<td id='cell#{i}' style='height: #{@pictograph.thousand_height}px; position:relative; padding:0;  width: #{@pictograph.cell_width}px;' class='picto-cell fill#{risk.position}' data-color='#{risk.hex}'><div class='cell-background' style='position:relative; width: 100%; height: 100%; background-color: #{risks.last.hex};'>" %>
 		<% colors.each_with_index do |color, cindex| %>
-			<% content += "<div id='foreground#{i}-#{cindex}' class='cell-foreground' style='background-color: #{color[:hex]};  height: #{color[:height]}px; width: 100%; position: absolute; bottom: #{color[:offset]}px;'></div>" %>
+			<% content += "<div id='foreground#{i}-#{cindex}' class='cell-foreground color#{cindex}' style='background-color: #{color[:hex]};  height: #{color[:height]}px; width: 100%; position: absolute; bottom: #{color[:offset]}px;'></div>" %>
 		<% end %>
 		<%# content += "<div id='foreground#{i}' class='cell-foreground' style='background-color: #{risk.hex};  height: #{((@pictograph.thousand_height) * @dec) }px; width: 100%; position: absolute; bottom: 0px;'></div>" %>
 		<%# IMGKit doesn't properly support border-box at the moment, so this is a hack %>

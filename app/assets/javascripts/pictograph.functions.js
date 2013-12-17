@@ -125,7 +125,19 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 			var diff = Math.ceil(thisRisk) - thisRisk;
 			var bgColor = el2.find('div.cell-foreground').css('background-color');
 			el2.find('div.cell-foreground').height(height * (1.0 - diff));
-			el2.find('div.cell-background').css('background-color', color);
+			// el2.find('div.cell-background').css('background-color', color);
+
+			console.log("Change of plans!");
+			var total_dec = diff;
+			var k = 1;
+			while(total_dec < 1.0 && k <= hiTabs.length) {
+				var color = hiTabs.eq(1).find('input.color-field').val();
+				var tabRisk = hiTabs.eq(1).find('input.value-field').val();
+				el2.find('div.cell-foreground:last').after('<div class="cell-foreground color' + k + '" style="background-color: ' + color + '; height: 5px; bottom: 24px; position: absolute; width: 100%;">');
+				k++;
+				
+			}
+
 		}
 		
 	// We're decreasing
