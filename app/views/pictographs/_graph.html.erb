@@ -13,26 +13,48 @@
 	%>
 
 	<% risks.each_with_index do |risk, index| %>
-
 		<% val = risk.value.nil? ? @pictograph.off_value : risk.value %>
-
 		<%# every once in a while, we end up back on 0, so we need to add 1 %>
 		<%# val += 1 if @dec < 1.0 and ((val - @dec) % 1.0 == 0.0) %>
+		<%# val += 1 if index == risks.length - 1 and @dec < 1.0 and ((val - @dec) % 1.0 == 0.0) %>
 
 		<%# adjust for decimal value %>
 		<% val -= (1.0 - @dec) %>
 
 		<% dval = val - val.floor %>
-		<% val = val.ceil unless risk.value.nil? %>
+		<% val = val.ceil unless val.nil? %>
+
 		<% for j in 1..val %>
 			<% current_row = @pictograph.rows - ((i - 1) / @pictograph.cols) %>
 			<% rows[current_row] = Array.new if (i - 1) % @pictograph.cols == 0 %>
 
 			<% @dec = (j == val and dval > 0.0) ? dval : 1.0 %>
-			<% bg_color = risks[index + 1].hex if @dec < 1.0 %>
+			<%# bg_color = risks[index + 1].hex if @dec < 1.0 %>
 
-			<% content = "<td id='cell#{i}' style='background-color: white;padding:0;  height: #{@pictograph.cell_height}px; width: #{@pictograph.cell_width}px;' class='picto-cell fill#{risk.position}' data-color='#{risk.hex}'><div class='cell-background' style='position:relative; width: 100%; height: 100%; background-color: #{bg_color};'>" %>
-			<% content += "<div class='cell-foreground' style='background-color: #{risk.hex};  height: #{(@pictograph.cell_height) * @dec}px; position: absolute; bottom: 0px; width: #{@pictograph.cell_width}px;'></div>" %>
+			<%# cycle through remaining colors %>
+			<% offset = 0.0 %>
+			<% colors = [{:hex => risk.hex, :height => @pictograph.cell_height * @dec, :offset => offset}] %>
+			<% total_dec = @dec %>
+			<% k = 1 %>
+			<% while total_dec < 1.0 and index + k < risks.length - 1 %>
+				<% this_dec = risks[index + k].value %>
+				<% colors << {
+						:hex => risks[index + k].hex, 
+						:height => this_dec * @pictograph.cell_height,
+						:offset => colors[k - 1][:offset] + colors[k - 1][:height]
+					 } 
+				%>
+				
+				<% risks.delete_at(index + k) if total_dec + this_dec <= 1.0 %>
+				<% total_dec += this_dec %>
+				<% k += 1 %>
+			<% end %>
+
+			<% content = "<td id='cell#{i}' style='background-color: white;padding:0;  height: #{@pictograph.cell_height}px; width: #{@pictograph.cell_width}px;' class='picto-cell fill#{risk.position}' data-color='#{risk.hex}'><div class='cell-background' style='position:relative; width: 100%; height: 100%; background-color: #{risks.last.hex};'>" %>
+				<% colors.each_with_index do |color, cindex| %>
+					<% content += "<div id='foreground#{i}-#{cindex}' class='cell-foreground' style='background-color: #{color[:hex]};  height: #{color[:height]}px; width: 100%; position: absolute; bottom: #{color[:offset]}px;'></div>" %>
+				<% end %>
+			<%# content += "<div class='cell-foreground' style='background-color: #{risk.hex};  height: #{) * @dec}px; position: absolute; bottom: 0px; width: #{@pictograph.cell_width}px;'></div>" %>
 			<% content += icon_overlay(@pictograph.icon, @pictograph.cell_height, @pictograph.cell_width) if @pictograph.icon? %>
 			<% content += "</div></td>" %>
 			<% rows[current_row] << content %>

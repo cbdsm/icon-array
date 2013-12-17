@@ -155,6 +155,9 @@ table.pictograph td.picto-cell div {
 /*	position: absolute;
 	bottom: 0;*/
 }
+table.pictograph td.picto-cell div.cell-background {
+	overflow: hidden;
+}
 table.pictograph td.picto-cell img {
 	vertical-align: bottom;
 	/*position: absolute;*/
