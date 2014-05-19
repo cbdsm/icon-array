@@ -63,7 +63,7 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 	// reset the inner div height
 	// $('td.picto-cell div').height(height);
 	// $('td.picto-cell div').css('margin-top', '0');
-	
+
 	// We're increasing
 	if (diff > 0) {
 		var color = thisFill;	
@@ -104,6 +104,8 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 		}
 
 		if (Math.round(curRisk) != curRisk) {
+			console.log("Change of plans, mang!");
+
 			debug_log('decimalizing lower value: ' + el.find('div.cell-foreground').html());
 			var bgColor = el2.find('div.cell-foreground').css('background-color');
 			var fgColor = el.find('div.cell-foreground').css('background-color');
@@ -125,24 +127,24 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 			var diff = Math.ceil(thisRisk) - thisRisk;
 			var bgColor = el2.find('div.cell-foreground').css('background-color');
 			el2.find('div.cell-foreground').height(height * (1.0 - diff));
-			// el2.find('div.cell-background').css('background-color', color);
+			el2.find('div.cell-background').css('background-color', color);
 
-			console.log("Change of plans!");
-			var total_dec = diff;
-			var k = 1;
-			while(total_dec < 1.0 && k <= hiTabs.length) {
-				var color = hiTabs.eq(1).find('input.color-field').val();
-				var tabRisk = hiTabs.eq(1).find('input.value-field').val();
-				el2.find('div.cell-foreground:last').after('<div class="cell-foreground color' + k + '" style="background-color: ' + color + '; height: 5px; bottom: 24px; position: absolute; width: 100%;">');
-				k++;
+			// console.log("Change of plans!");
+			// var total_dec = diff;
+			// var k = 1;
+			// while(total_dec < 1.0 && k <= hiTabs.length) {
+			// 	var color = hiTabs.eq(1).find('input.color-field').val();
+			// 	var tabRisk = hiTabs.eq(1).find('input.value-field').val();
+			// 	el2.find('div.cell-foreground:last').after('<div class="cell-foreground color' + k + '" style="background-color: ' + color + '; height: 5px; bottom: 24px; position: absolute; width: 100%;">');
+			// 	k++;
 				
-			}
+			// }
 
 		}
 		
 	// We're decreasing
 	// row2 is the first row here
-	} else {
+	} else if (diff < 0) {
 		// var color = $('input#pictograph_risks_attributes_0_hex').val();
 		var colorTab = thisTab.nextAll('div.color-pane:first');
 		if (colorTab.attr('id') == undefined) {
@@ -210,6 +212,22 @@ var updateMultiple = function(thisRisk, thisFill, passInRisk, passInTab) {
 			el2.find('div.cell-background').css('background-color', htColor);
 		}
 
+	} else { // Edge case that the diff is 0--we're doing tiny fractions in a cell
+		console.log("Change of plans!");
+		// var hiTabs = thisTab.nextAll("div.color-pane:not('.off')");
+		// var total_dec = diff;
+		// var k = 1;
+		// while(total_dec < 1.0 && k <= hiTabs.length) {
+			var color = thisTab.find('input.color-field').val();
+			var tabRisk = thisTab.find('input.value-field').val();
+			var h = tabRisk * height;
+			var b = el.find('div.cell-foreground:last').height();
+			var b1 = el.find('div.cell-foreground:last').position().top;
+			alert(el.attr('id') + ': ' + b + ', ' + b1);
+			el.find('div.cell-foreground:last').after('<div class="cell-foreground color' + '1' + '" style="background-color: ' + color + '; height: ' + h + 'px; bottom: ' + b + 'px; position: absolute; width: 100%;">');
+			// k++;
+			
+		// }
 	}
 	
 	// Set the form val
