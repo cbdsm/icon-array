@@ -8,8 +8,8 @@
 		<h3 style="text-align: <%=@pictograph.title_alignment%>;font-size: <%=@pictograph.title_font_size%>px;font-family: '<%=@pictograph.title_font%>'; width: <%=@pictograph.table_width%>px; margin-left: <%=@pictograph.axis_width + 25%>px;" id="pictograph-title"><%= @pictograph.title %></h3>
 	<% end %>
 
-	<%= render 'graph.html.erb' %>
-	<%= render 'legend.html.erb' %>
+	<%= render :partial => 'graph', :formats => [:html], :handlers => [:erb] %>
+	<%= render :partial => 'legend', :formats => [:html], :handlers => [:erb] %>
 	</div>
 </body>
 </html>
