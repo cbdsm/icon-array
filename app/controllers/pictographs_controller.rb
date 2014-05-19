@@ -204,7 +204,7 @@ class PictographsController < ApplicationController
         # We have to do all of this with files, since stdin/stdout don't seem to work with wkhtmltoimage
         inpath = "#{Rails.root.to_s}/tmp/tiff_#{Time.now.to_i}.html"
         outpath = "#{Rails.root.to_s}/tmp/tiff_#{Time.now.to_i}.tiff"
-        infile = File.open(inpath,'w:ASCII-8BIT') {|file| file << render_to_string('show.tif.erb')}
+        infile = File.open(inpath,'w:ASCII-8BIT') {|file| file << render_to_string(:template => 'pictographs/show', :formats => [:tif], :handlers => [:erb])}
         
         bin = ENV['RACK_ENV'] == 'production' ? Rails.root.join('bin', 'wkhtmltoimage-amd64').to_s : 'wkhtmltoimage'       
                 
