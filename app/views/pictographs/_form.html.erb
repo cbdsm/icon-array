@@ -84,7 +84,7 @@
 				  <div class="field">
 						<%#=box(@pictograph.risks.first.hex, 45)%>
 				    <% for icon in %w[box oval avatar male female] %>
-				    	<% url = "https://s3.amazonaws.com/icon-array/icons/#{icon}.png" %>
+				    	<% url = "//s3.amazonaws.com/icon-array/icons/#{icon}.png" %>
 							<%=image_tag(url, :style => "background-color: #{@pictograph.risks.first.hex}", :height => 45, :width => 22, :class => 'overlay') %>
 						<% end %>
 						<%= f.hidden_field :icon %>
