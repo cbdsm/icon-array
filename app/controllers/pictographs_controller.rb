@@ -41,7 +41,7 @@ class PictographsController < ApplicationController
     if @pictograph.icon and !@pictograph.icon.blank?
       @pictograph.icon.gsub!('svg', 'png')
     elsif @pictograph.icon.nil?
-      @pictograph.icon = 'https://s3.amazonaws.com/icon-array/icons/male.png'
+      @pictograph.icon = '//s3.amazonaws.com/icon-array/icons/male.png'
     end
 
     respond_to do |format|
