@@ -61,8 +61,9 @@ class PictographsController < ApplicationController
   def create
     if params[:commit] == "export for print"
       redirect_to view_pictographs_path(params[:pictograph].merge(:format => :tif))
-    elsif params[:commit] == "export for web" and params[:pictograph][:background_color].blank?
-     redirect_to view_pictographs_path(params[:pictograph].merge(:format => :png))
+    # FIXME: We're using white overlays...so transparent backgrounds don't actually look right, except for squares, which are no longer the default
+    # elsif params[:commit] == "export for web" and params[:pictograph][:background_color].blank?
+    #  redirect_to view_pictographs_path(params[:pictograph].merge(:format => :png))
     elsif params[:commit] == "export for web"
      redirect_to view_pictographs_path(params[:pictograph].merge(:format => :jpg))
     elsif params[:commit] == "preview"
@@ -159,6 +160,7 @@ class PictographsController < ApplicationController
         @export = true
         if @pictograph.icon and !@pictograph.icon.blank?
           @pictograph.icon.gsub!('png', 'svg')
+          @pictograph.icon.gsub!(/^\/\//, 'http://')
         end
         # @pictograph.print = true
         @kit = IMGKit.new(render_to_string('show', :layout => false), 'crop-w' => @pictograph.export_width)
@@ -171,6 +173,7 @@ class PictographsController < ApplicationController
         @export = true
         if @pictograph.icon and !@pictograph.icon.blank?
           @pictograph.icon.gsub!('png', 'svg')
+          @pictograph.icon.gsub!(/^\/\//, 'http://')
         end
         # @pictograph.print = true
         @kit = IMGKit.new(render_to_string('show', :layout => false), {'crop-w' => @pictograph.export_width, 'transparent' => true})
@@ -184,6 +187,7 @@ class PictographsController < ApplicationController
         @pictograph.print = true
         if @pictograph.icon and !@pictograph.icon.blank?
           @pictograph.icon.gsub!('png', 'svg')
+          @pictograph.icon.gsub!(/^\/\//, 'http://')
         end
         @pictograph.cell_width = @pictograph.cell_width * 5
         @pictograph.cell_height = @pictograph.cell_height * 5
