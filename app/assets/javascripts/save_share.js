@@ -91,7 +91,7 @@ $(document).ready(function() {
 	function bit_url(url, element) { 
 		var url=url;
 		var username="ideaoforder"; // bit.ly username
-		var key="ENV['BITLY_KEY']";
+		var key="R_8d6c2265f9e37f9d332547673e8610d6";
 		$.ajax({
 			url:"http://api.bit.ly/v3/shorten",
 			data:{longUrl:url,apiKey:key,login:username},
@@ -106,7 +106,7 @@ $(document).ready(function() {
 	function bit_embed(url, element) { 
 		var url=url;
 		var username="ideaoforder"; // bit.ly username
-		var key="ENV['BITLY_KEY']";
+		var key="R_8d6c2265f9e37f9d332547673e8610d6";
 		$.ajax({
 			url:"http://api.bit.ly/v3/shorten",
 			data:{longUrl:url,apiKey:key,login:username},

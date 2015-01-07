@@ -1,1 +1,0 @@
-BITLY = YAML.load_file(File.join(Rails.root, 'config', 'bitly.yml'))[Rails.env].symbolize_keys
