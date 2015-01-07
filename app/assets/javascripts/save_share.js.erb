@@ -1,4 +1,6 @@
 $(document).ready(function() {
+	var BITLY_USER = "<%=ENV['BITLY_USER']%>";
+	var BITLY_KEY = "<%=ENV['BITLY_KEY']%>";
 
 	// Advanced Tab
 	$('div.navbar ul.nav > li > a').click(function(){
@@ -90,11 +92,9 @@ $(document).ready(function() {
 	//bit_url function
 	function bit_url(url, element) { 
 		var url=url;
-		var username="ideaoforder"; // bit.ly username
-		var key="R_8d6c2265f9e37f9d332547673e8610d6";
 		$.ajax({
 			url:"http://api.bit.ly/v3/shorten",
-			data:{longUrl:url,apiKey:key,login:username},
+			data:{longUrl:url,apiKey:BITLY_KEY,login:BITLY_USER},
 			dataType:"jsonp",
 			success:function(v) {
 				var biturl=v.data.url;
@@ -105,11 +105,9 @@ $(document).ready(function() {
 
 	function bit_embed(url, element) { 
 		var url=url;
-		var username="ideaoforder"; // bit.ly username
-		var key="R_8d6c2265f9e37f9d332547673e8610d6";
 		$.ajax({
 			url:"http://api.bit.ly/v3/shorten",
-			data:{longUrl:url,apiKey:key,login:username},
+			data:{longUrl:url,apiKey:BITLY_KEY,login:BITLY_USER},
 			dataType:"jsonp",
 			success:function(v) {
 				var biturl=v.data.url;

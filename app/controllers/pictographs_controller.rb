@@ -144,7 +144,7 @@ class PictographsController < ApplicationController
         embed_url = bitly_url.gsub('view', 'embed')
         begin
           Bitly.use_api_version_3
-          bitly = Bitly.new("ideaoforder", ENV['BITLY_KEY'])
+          bitly = Bitly.new(ENV['BITLY_USER'], ENV['BITLY_KEY'])
           @short_url = bitly.shorten(bitly_url).short_url
           @short_embed_url = bitly.shorten(embed_url).short_url
         rescue
