@@ -35,5 +35,6 @@ IconArray::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
+  # Logging with Foreman
   $stdout.sync = true
 end
