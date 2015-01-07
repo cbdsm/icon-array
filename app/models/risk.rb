@@ -16,13 +16,19 @@ class Risk < ActiveRecord::Base
                                 :large => "50x90>",
                                 :print => "150x270>"},
                     :storage => :s3,
-                    :s3_credentials => "#{Rails.root.to_s}/config/amazon_s3.yml",
+                    :s3_credentials => {
+                      :access_key_id => ENV['S3_KEY'],
+                      :secret_access_key => ENV['S3_SECRET'],
+                      :bucket => ENV['S3_BUCKET'],
+                      :acl => 'public-read',
+                      :max_file_size => 1073741824
+                    },
                     :path => "icons/:id/:style_:basename.:extension",
                     :default_url => "/images/missing/:class_:style.png"
 
   validates_attachment_size :icon, :less_than => 5.megabytes
   validates_attachment_content_type :icon, :content_type => ['image/jpeg', 'image/png', 'image/gif']
-    # should we also accept SVGs? Probably yes! 
+  # should we also accept SVGs? Probably yes! 
          
   def self.random_hex
     out = '#'
